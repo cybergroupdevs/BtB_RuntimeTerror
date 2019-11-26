@@ -1,7 +1,7 @@
 const { getColumnsAndValues, getSetCondition } = require("./function");
 
 exports.userSignup = (data, addressid, verificationid) => {
-  const reqData = getColumnsAndValues(data)
+  const reqData = getColumnsAndValues(data);
   const columns = reqData.columns + ",AddressDetailId, VerificationDetailId";
   const values = reqData.Values + "," + addressid + "," + verificationid;
   return `insert into Users(${columns}) values(${values})`;
@@ -19,6 +19,11 @@ exports.updateUserDetails = (data, id) => {
   return ` update users set ${setCondition} where id = ${id} `;
 };
 
+exports.updateNGODetails = (data, id) => {
+  const setCondition = getSetCondition(data);
+  return ` update authorities set ${setCondition} where id = ${id} `;
+};
+
 exports.updateAddressDetails = (data, id) => {
   const setCondition = getSetCondition(data);
   return ` update addressdetails set ${setCondition} where id = ${id} `;
@@ -29,9 +34,13 @@ exports.updateVerificationDetails = (data, id) => {
   return ` update VerificationDetails set ${setCondition} where id = ${id} `;
 };
 
-exports.getUserAddressAndVerificationIds = (id) => {
+exports.getUserAddressAndVerificationIds = id => {
   return `select AddressDetailId, VerificationDetailId from users where id = ${id}`;
-}
+};
+
+exports.getNGOAddressAndVerificationIds = id => {
+  return `select AddressDetailId, VerificationDetailId from authorities where id = ${id}`;
+};
 
 // exports.raiseRescueRequest = (data) => {
 //     const reqData = getColumnsAndValues(data);

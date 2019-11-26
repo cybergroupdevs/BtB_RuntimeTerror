@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const {updateDetails} = require("../../controller/user/auth");
+const {updateDetails} = require("../../controller/user/user");
 
-// router.post("/user/updatedetails", updateDetails);
+router.put("/user/updatedetails", updateDetails);
 
 module.exports = router;

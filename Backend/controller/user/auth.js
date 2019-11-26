@@ -1,16 +1,10 @@
 const { runQuery, runSP } = require("../../common/function");
 const Response = require("../../common/response");
 const isEmpty = require("lodash.isempty");
-const {
-  userSignup,
-  updateUserDetails,
-  updateAddressDetails,
-  updateVerificationDetails,
-  getUserAddressAndVerificationIds
-} = require("../../common/queries");
+const { userSignup } = require("../../common/queries");
 
 exports.login = async (req, res) => {
-    res.send('not implemented')
+  res.send("not implemented");
 };
 
 exports.signup = async (req, res) => {
