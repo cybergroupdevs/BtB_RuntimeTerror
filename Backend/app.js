@@ -12,14 +12,22 @@ app.use(function (req, res, next) {
 
 // import route
 const check = require('./routes/check')
-const user = require('./routes/user')
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
+const addressRoutes = require('./routes/address');
+const verificationRoutes = require('./routes/verification');
+const rescueRoutes = require('./routes/rescue');
 
 // middlewares
 app.use(bodyParser.json());
 
 //routes middleware
 app.use('/api', check)
-app.use('/api', user)
+app.use('/api', authRoutes)
+app.use('/api', userRoutes)
+app.use('/api', addressRoutes)
+app.use('/api', verificationRoutes)
+app.use('/api', rescueRoutes)
 
 
 const port = process.env.PORT || 8000
