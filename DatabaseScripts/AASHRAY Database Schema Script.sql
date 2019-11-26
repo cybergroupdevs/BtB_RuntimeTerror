@@ -99,22 +99,6 @@ CREATE TABLE Users (Id int PRIMARY KEY identity(1,1),
 					isVerifiedUser bit NOT NULL,
 					VerifiedBy varchar(50) NULL);
 
---Records of all the help details
-DROP TABLE IF EXISTS HelpDetails;
-CREATE TABLE HelpDetails (Id int PRIMARY KEY identity (1,1),
-							isShelter bit NULL,
-							isClothings bit NULL,
-							isFood bit NULL,
-							isMedicine bit NULL,
-							isAssistance bit NULL, 
-							canAccomodate int NULL,
-							isAccomodating int NULL,
-							AccomodationType varchar(50) NULL,
-							OpenAfterDate Datetime NULL,
-							CloseAfterDate Datetime NULL,
-							AddressDetailId int NULL references dbo.AddressDetails (Id) ON UPDATE CASCADE,
-							);
-
 --Records of all the helps
 DROP TABLE IF EXISTS Helps;
 CREATE TABLE Helps (Id int PRIMARY KEY identity (1,1),
@@ -127,7 +111,16 @@ CREATE TABLE Helps (Id int PRIMARY KEY identity (1,1),
 							isVolunteer bit NULL,
 							isVacant bit NULL,
 							VolunteerType varchar(100) NULL,
-							HelpDetailId int NULL references dbo.HelpDetails (Id));
+							isShelter bit NULL,
+							isClothings bit NULL,
+							isFood bit NULL,
+							isMedicine bit NULL, 
+							canAccomodate int NULL,
+							isAccomodating int NULL,
+							AccomodationType varchar(50) NULL,
+							OpenAfterDate Datetime NULL,
+							CloseAfterDate Datetime NULL,
+							AddressDetailId int NULL references dbo.AddressDetails (Id) ON UPDATE CASCADE);
 
 --Records of all the Authorities
 DROP TABLE IF EXISTS Authorities;
