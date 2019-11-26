@@ -27,6 +27,55 @@ exports.runQuery = async query => {
   }
 };
 
+exports.runMultipleQuery = async query => {
+  try {
+    let pool = await sql.connect(config);
+    if (pool) {
+      try {
+        let i=0,result = [];
+        while (i < query.length) {
+          result[i] = await pool.request().query(query[i]);
+        }
+        return result;
+      } catch (err) {
+        return (result = {
+          message: "Query Error",
+          error: err.originalError
+        });
+      }
+    }
+    pool.close();
+  } catch (err) {
+    return (result = {
+      message: "Connection Error",
+      error: err.originalError
+    });
+  }
+};
+
+exports.runSP = async sp_name => {
+    try {
+      let pool = await sql.connect(config);
+      if (pool) {
+        try {
+          let result = await pool.request().execute(sp_name);
+          return result;
+        } catch (err) {
+          return result = {
+            "message" : "proc_error",
+            "error" : err.message
+          }
+        }
+      }
+      pool.close();
+    } catch (err) {
+      return (result = {
+        message: "Connection Error",
+        error: err.originalError
+      });
+    }
+}
+
 exports.getColumnsAndValues = data => {
     var columns = "",
     Values = "",
@@ -62,6 +111,22 @@ exports.getColumnsAndValues = data => {
     Values: Values
   };
 };
+
+exports.getSetCondition = (data) => {
+  var condition = "",count=0;
+  for(key in data){
+    condition =
+      count !== Object.keys(data).length - 1
+        ? typeof data[key] === "string"
+          ? condition + key + "='" + data[key] + "',"
+          : condition + key + "=" + data[key] + ","
+        : typeof data[key] === "string"
+        ? condition + key + "='" + data[key] + '\''
+        : condition + key + "=" + data[key];
+    count++;
+  }
+  return condition;
+}
 
 const hashedPassword = password => {
   var salt = bcrypt.genSaltSync(10);

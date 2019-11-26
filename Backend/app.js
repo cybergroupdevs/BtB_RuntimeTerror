@@ -13,13 +13,15 @@ app.use(function (req, res, next) {
 // import route
 const userAuthRoutes = require('./routes/User/auth')
 const NGOAuthRoutes = require('./routes/NGO/auth')
+const userRoute = require('./routes/User/user')
 
 // middleware
 app.use(bodyParser.json());
 
 //routes middleware
 app.use('/api', userAuthRoutes)
-app.use("/api", NGOAuthRoutes);
+app.use("/api", NGOAuthRoutes)
+app.use("/api", userRoute);
 
 
 const port = process.env.PORT || 8000

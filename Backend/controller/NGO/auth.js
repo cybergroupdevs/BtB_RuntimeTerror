@@ -14,7 +14,14 @@ exports.signup = async (req, res) => {
   if (isEmpty(req.body)) {
     Response.BadRequest(res, "No data to post");
   } else {
-    const data = await runQuery(NGOSignup(req.body));
+    const result = await runSP("SIGN_UP");
+    const data = await runQuery(
+      NGOSignup(
+        req.body,
+        result.recordset[0].addressid,
+        result.recordset[0].verificationid
+      )
+    );
     if (!data.error) Response.Success(res);
     else Response.InternalServerError(res, data.error, data.message);
   }
