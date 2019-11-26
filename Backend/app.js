@@ -14,6 +14,7 @@ app.use(function (req, res, next) {
 const userAuthRoutes = require('./routes/User/auth')
 const NGOAuthRoutes = require('./routes/NGO/auth')
 const userRoute = require('./routes/User/user')
+const NGORoute = require('./routes/NGO/user')
 
 // middleware
 app.use(bodyParser.json());
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 app.use('/api', userAuthRoutes)
 app.use("/api", NGOAuthRoutes)
 app.use("/api", userRoute);
+app.use("/api", NGORoute);
 
 
 const port = process.env.PORT || 8000

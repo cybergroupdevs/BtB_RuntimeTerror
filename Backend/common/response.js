@@ -3,7 +3,7 @@ class Response{
         res.statusCode = 200;
         const response = {
             "code" : (data || typeof(message) === "object") ? undefined : 200,
-            "errorMessage" : (data && typeof(message) === "object") ? undefined : ((message) ? (typeof(message) === "object") ? undefined : message : "Success"),
+            "Message" : (data && typeof(message) === "object") ? undefined : ((message) ? (typeof(message) === "object") ? undefined : message : "Success"),
             "data" : (typeof(message) === "object") ? message : data
         }
         return res.send(response);

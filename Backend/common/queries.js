@@ -7,7 +7,7 @@ exports.userSignup = (data, addressid, verificationid) => {
   return `insert into Users(${columns}) values(${values})`;
 };
 
-exports.NGOSignup = data => {
+exports.NGOSignup = (data, addressid, verificationid) => {
   const reqData = getColumnsAndValues(data);
   const columns = reqData.columns + ",AddressDetailId, VerificationDetailId";
   const values = reqData.Values + "," + addressid + "," + verificationid;
