@@ -80,7 +80,7 @@ CREATE TABLE Users (Id int PRIMARY KEY identity(1,1),
 					LastName varchar(30) NULL,
 					DOB date NULL,
 					Gender varchar(10) NULL,
-					Email varchar(60) NULL,
+					Email varchar(60) NOT NULL UNIQUE,
 					Phone varchar(15) NULL,
 					AddressDetailId int NULL references dbo.AddressDetails (Id) ON UPDATE CASCADE,
 					VerificationDetailId int NULL references dbo.VerificationDetails (Id) ON UPDATE CASCADE,
@@ -99,22 +99,6 @@ CREATE TABLE Users (Id int PRIMARY KEY identity(1,1),
 					isVerifiedUser bit NOT NULL,
 					VerifiedBy varchar(50) NULL);
 
---Records of all the help details
-DROP TABLE IF EXISTS HelpDetails;
-CREATE TABLE HelpDetails (Id int PRIMARY KEY identity (1,1),
-							isShelter bit NULL,
-							isClothings bit NULL,
-							isFood bit NULL,
-							isMedicine bit NULL,
-							isAssistance bit NULL, 
-							canAccomodate int NULL,
-							isAccomodating int NULL,
-							AccomodationType varchar(50) NULL,
-							OpenAfterDate Datetime NULL,
-							CloseAfterDate Datetime NULL,
-							AddressDetailId int NULL references dbo.AddressDetails (Id) ON UPDATE CASCADE,
-							);
-
 --Records of all the helps
 DROP TABLE IF EXISTS Helps;
 CREATE TABLE Helps (Id int PRIMARY KEY identity (1,1),
@@ -127,7 +111,16 @@ CREATE TABLE Helps (Id int PRIMARY KEY identity (1,1),
 							isVolunteer bit NULL,
 							isVacant bit NULL,
 							VolunteerType varchar(100) NULL,
-							HelpDetailId int NULL references dbo.HelpDetails (Id));
+							isShelter bit NULL,
+							isClothings bit NULL,
+							isFood bit NULL,
+							isMedicine bit NULL, 
+							canAccomodate int NULL,
+							isAccomodating int NULL,
+							AccomodationType varchar(50) NULL,
+							OpenAfterDate Datetime NULL,
+							CloseAfterDate Datetime NULL,
+							AddressDetailId int NULL references dbo.AddressDetails (Id) ON UPDATE CASCADE);
 
 --Records of all the Authorities
 DROP TABLE IF EXISTS Authorities;
@@ -135,7 +128,7 @@ CREATE TABLE Authorities (Id int PRIMARY KEY identity(1,1),
 							UserTypeId int NOT NULL references dbo.UserTypes (Id) ON UPDATE CASCADE,
 							AuthorityName varchar(30) NULL,
 							AuthorityFullAddress nvarchar(500) NULL,
-							Email varchar(60) NULL,
+							Email varchar(60) NOT NULL UNIQUE,
 							Phone1 varchar(15) NOT NULL,
 							Phone2 varchar(15) NULL,
 							Phone3 varchar(15) NULL,

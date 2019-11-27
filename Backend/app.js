@@ -1,5 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+
+// import route
+const userAuthRoutes = require('./routes/User/auth');
+const NGOAuthRoutes = require('./routes/NGO/auth');
+const userRoute = require('./routes/User/user');
+const NGORoute = require('./routes/NGO/user');
+const auth = require('./routes/auth')
+
 // app
 const app = express();
 
@@ -10,29 +18,19 @@ app.use(function (req, res, next) {
     next();
 });
 
-// import route
-const check = require('./routes/check')
-const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/user');
-const addressRoutes = require('./routes/address');
-const verificationRoutes = require('./routes/verification');
-const rescueRoutes = require('./routes/rescue');
-
-// middlewares
+// middleware
 app.use(bodyParser.json());
 
 //routes middleware
-app.use('/api', check)
-app.use('/api', authRoutes)
-app.use('/api', userRoutes)
-app.use('/api', addressRoutes)
-app.use('/api', verificationRoutes)
-app.use('/api', rescueRoutes)
-
+app.use('/api', userAuthRoutes);
+app.use("/api", NGOAuthRoutes);
+app.use("/api", userRoute);
+app.use("/api", NGORoute);
+app.use("/api", auth);
 
 const port = process.env.PORT || 8000
 
 // app starts from here
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`)
+    console.log(`Server is running on port ${port}`);
 })

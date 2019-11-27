@@ -1,51 +1,85 @@
-const {runQuery} = require('../common/function');
-const Response = require('../common/response');
-const isEmpty = require('lodash.isempty');
-const {userSignup} = require('../common/queries');
+const isEmpty = require("lodash.isempty");
+const { runQuery, runSP, checkPassword } = require("../common/function");
+const Response = require("../common/response");
+const {
+  userSignup,
+  NGOSignup,
+  deleteAddressId,
+  deleteverificationid,
+  getUserByEmail
+} = require("../common/queries");
 
 exports.login = async (req, res) => {
-    const data = await runQuery('select * from usertypes');
-    if(data.error) Response.InternalServerError(res, data.error); 
-    else if(data.recordset.length === 0) Response.NotFound(res, "No data"); 
-    else Response.Success(res, data.recordset); 
+  const user = await runQuery(getUserByEmail(req.body.Email));
+  if (user.recordsets[1][0]) {
+    checkPassword(req.body.password, user.recordsets[1][0].Password)
+      ? Response.Success(res, user.recordsets[1][0], "Success")
+      : Response.AccessDenied(res, "Email password don't match");
+  } else if (user.recordsets[0][0]) {
+    checkPassword(req.body.password, user.recordsets[1][0].Password)
+      ? Response.Success(res, user.recordsets[0][0], "Success")
+      : Response.AccessDenied(res, "Email password don't match");
+  } else {
+    Response.NotFound(res, "NO account with that email");
+  }
 };
-exports.signup = async (req, res) => {
-    if(isEmpty(req.body)){ Response.BadRequest(res, "No data to post") }
+
+exports.signupNGO = async (req, res) => {
+  if (isEmpty(req.body)) {
+    Response.BadRequest(res, "No data to post");
+  } else {
+    const result = await runSP("get_NewAddressid_Verificationid");
+    const data = await runQuery(
+      NGOSignup(
+        req.body,
+        result.recordset[0].addressid,
+        result.recordset[0].verificationid
+      )
+    );
+    if (!data.error) Response.Success(res);
     else {
-        const data = await runQuery(userSignup(req.body));
-        if(!data.error) Response.Success(res);
-        else Response.InternalServerError(res, data.error, data.message); 
+      let deleteQuery =
+        deleteAddressId(result.recordset[0].addressid) +
+        deleteverificationid(result.recordset[0].verificationid);
+      let deleteIds = await runQuery(deleteQuery);
+      if (deleteIds.rowsAffected)
+        Response.InternalServerError(res, data.error, data.message);
+      else
+        Response.InternalServerError(
+          res,
+          data.error,
+          "Extra entries goes in Address and verification"
+        );
     }
+  }
 };
-exports.changePassword = async (req, res) => {
-    if(isEmpty(req.body)){ Response.BadRequest(res, "No data to post") }
+
+exports.signupUser = async (req, res) => {
+  if (isEmpty(req.body)) {
+    Response.BadRequest(res, "No data to post");
+  } else {
+    const result = await runSP("get_NewAddressid_Verificationid");
+    const data = await runQuery(
+      userSignup(
+        req.body,
+        result.recordset[0].addressid,
+        result.recordset[0].verificationid
+      )
+    );
+    if (!data.error) Response.Success(res);
     else {
-        const data = await runQuery(userSignup(req.body));
-        if(!data.error) Response.Success(res);
-        else Response.InternalServerError(res, data.error, data.message); 
+      let deleteQuery =
+        deleteAddressId(result.recordset[0].addressid) +
+        deleteverificationid(result.recordset[0].verificationid);
+      let deleteIds = await runQuery(deleteQuery);
+      if (deleteIds.rowsAffected)
+        Response.InternalServerError(res, data.error, data.message);
+      else
+        Response.InternalServerError(
+          res,
+          data.error,
+          "Extra entries goes in Address and verification"
+        );
     }
-};
-exports.forgotPassword = async (req, res) => {
-    if(isEmpty(req.body)){ Response.BadRequest(res, "No data to post") }
-    else {
-        const data = await runQuery(userSignup(req.body));
-        if(!data.error) Response.Success(res);
-        else Response.InternalServerError(res, data.error, data.message); 
-    }
-};
-exports.verifyPhone = async (req, res) => {
-    if(isEmpty(req.body)){ Response.BadRequest(res, "No data to post") }
-    else {
-        const data = await runQuery(userSignup(req.body));
-        if(!data.error) Response.Success(res);
-        else Response.InternalServerError(res, data.error, data.message); 
-    }
-};
-exports.verifyEmail = async (req, res) => {
-    if(isEmpty(req.body)){ Response.BadRequest(res, "No data to post") }
-    else {
-        const data = await runQuery(userSignup(req.body));
-        if(!data.error) Response.Success(res);
-        else Response.InternalServerError(res, data.error, data.message); 
-    }
+  }
 };
