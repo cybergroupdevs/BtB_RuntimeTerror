@@ -2,8 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 // import route
-const userAuthRoutes = require('./routes/User/auth');
-const NGOAuthRoutes = require('./routes/NGO/auth');
 const userRoute = require('./routes/User/user');
 const NGORoute = require('./routes/NGO/user');
 const auth = require('./routes/auth')
@@ -22,8 +20,6 @@ app.use(function (req, res, next) {
 app.use(bodyParser.json());
 
 //routes middleware
-app.use('/api', userAuthRoutes);
-app.use("/api", NGOAuthRoutes);
 app.use("/api", userRoute);
 app.use("/api", NGORoute);
 app.use("/api", auth);

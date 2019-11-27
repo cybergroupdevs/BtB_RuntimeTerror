@@ -5,7 +5,8 @@ const {
   updateUserDetails,
   updateAddressDetails,
   updateVerificationDetails,
-  getUserAddressAndVerificationIds
+  getUserAddressAndVerificationIds,
+  userOfferedHelps
 } = require("../../common/queries");
 
 exports.updateDetails = async (req, res) => {
@@ -35,4 +36,13 @@ exports.updateDetails = async (req, res) => {
       Response.NotFound(res, "No data Updated");
     else Response.Success(res);
   }
+};
+
+exports.offeredhelps = async (req, res) => {
+  let id = req.params.userid;
+  const data = await runQuery(userOfferedHelps(id));
+  if (data.error) Response.InternalServerError(res, data.error);
+  else if (data.recordset.length === 0)
+    Response.NotFound(res, "No help offered yet");
+  else Response.Success(res, data.recordset);
 };

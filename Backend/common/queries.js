@@ -62,6 +62,11 @@ exports.getUserByEmail = (email) => {
           select id, UserTypeId, Password, AddressDetailId, VerificationDetailId from authorities where Email = '${email}'`;
 }
 
+exports.listofferedhelps = `select * from helps`;
+
+exports.userOfferedHelps = id => {
+  return `select * from helps where UserId = ${id}`;
+};
 
 // exports.getRequestList = (data) => {
 //     return `select * from RescueDetails where isActive = 1`;
