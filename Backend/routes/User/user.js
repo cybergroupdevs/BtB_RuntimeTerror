@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { updateDetails, offeredhelps } = require("../../controller/user/user");
 
-router.put("/user/updatedetails", updateDetails);
+router.put("/user/updatedetails/:userid", updateDetails);
 
 router.get("/user/offeredhelps/:userid", offeredhelps);
 
