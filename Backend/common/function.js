@@ -88,7 +88,7 @@ exports.getColumnsAndValues = data => {
       Values =
         count !== Object.keys(data).length - 1
           ? Values + "'" + hashedPassword(data[key]) + "'" + ","
-          : Values + hashedPassword(data[key]);
+          : Values + "'"+hashedPassword(data[key]) + "'";
     } else {
       columns =
         count !== Object.keys(data).length - 1

@@ -2,15 +2,16 @@ const { getColumnsAndValues, getSetCondition } = require("./function");
 
 exports.userSignup = (data, addressid, verificationid) => {
   const reqData = getColumnsAndValues(data);
-  const columns = reqData.columns + ",AddressDetailId, VerificationDetailId";
-  const values = reqData.Values + "," + addressid + "," + verificationid;
+  const columns = reqData.columns + ",AddressDetailId, VerificationDetailId,isActive,isVerifiedUser";
+  const values = reqData.Values + "," + addressid + "," + verificationid + ",1,0";
+  console.log(values)
   return `insert into Users(${columns}) values(${values})`;
 };
 
 exports.NGOSignup = (data, addressid, verificationid) => {
   const reqData = getColumnsAndValues(data);
-  const columns = reqData.columns + ",AddressDetailId, VerificationDetailId";
-  const values = reqData.Values + "," + addressid + "," + verificationid;
+  const columns = reqData.columns + ",AddressDetailId, VerificationDetailId,isActive,isVerifiedUser";
+  const values = reqData.Values + "," + addressid + "," + verificationid + ",1,0";
   return `insert into authorities(${columns}) values(${values})`;
 };
 
