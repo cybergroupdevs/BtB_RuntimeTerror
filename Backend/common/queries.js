@@ -4,7 +4,6 @@ exports.userSignup = (data, addressid, verificationid) => {
   const reqData = getColumnsAndValues(data);
   const columns = reqData.columns + ",AddressDetailId, VerificationDetailId,isActive,isVerifiedUser";
   const values = reqData.Values + "," + addressid + "," + verificationid + ",1,0";
-  console.log(values)
   return `insert into Users(${columns}) values(${values})`;
 };
 
@@ -44,6 +43,14 @@ exports.getNGOAddressAndVerificationIds = id => {
 };
 
 exports.listNGO = `select * from authorities where UserTypeId = 4 and isActive = 1`;
+
+exports.deleteAddressId = (addressid) => {
+  return ` delete from addressdetails where Id=${addressid} `;
+};
+
+exports.deleteverificationid = (verificationid) => {
+  return ` delete from VerificationDetails where Id=${verificationid} `;
+};
 
 // exports.raiseRescueRequest = (data) => {
 //     const reqData = getColumnsAndValues(data);

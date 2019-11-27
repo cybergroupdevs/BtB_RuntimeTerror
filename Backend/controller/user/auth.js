@@ -1,7 +1,11 @@
 const isEmpty = require("lodash.isempty");
 const { runQuery, runSP } = require("../../common/function");
 const Response = require("../../common/response");
-const { userSignup } = require("../../common/queries");
+const {
+  userSignup,
+  deleteAddressId,
+  deleteverificationid
+} = require("../../common/queries");
 
 exports.login = async (req, res) => {
   res.send("not implemented");
@@ -20,6 +24,13 @@ exports.signup = async (req, res) => {
       )
     );
     if (!data.error) Response.Success(res);
-    else Response.InternalServerError(res, data.error, data.message);
+    else {
+      let deleteQuery =
+        deleteAddressId(result.recordset[0].addressid) +
+        deleteverificationid(result.recordset[0].verificationid);
+      let deleteIds = await runQuery(deleteQuery);      
+      if (deleteIds.rowsAffected)  Response.InternalServerError(res, data.error, data.message);
+      else Response.InternalServerError(res, data.error, "Extra entries goes in Address and verfication");
+    }
   }
 };
