@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import './src/screens/LoginScreen.dart';
+import './src/screens/RegisterScreen.dart';
 
-void main() => runApp(MyApp());
+var routes = <String, WidgetBuilder>{
+  "/RegistrationScreen": (BuildContext context) => RegistrationScreen(),
+  "/LoginScreen": (BuildContext context) => LoginScreen(),
+  
+};
 
-class MyApp extends StatelessWidget {
- @override
- Widget build(BuildContext context) {
-   return MaterialApp(
-     title: 'My Flutter App',
-     debugShowCheckedModeBanner: false,
-     home: LoginScreen(),
-   );
- }
-}
+
+void main() => runApp(new MaterialApp(
+    theme: ThemeData(
+      primaryColor: Colors.deepPurple,
+      primarySwatch: Colors.deepPurple,
+      primaryColorDark: Colors.deepPurple
+    ),
+    debugShowCheckedModeBanner: false,
+    home: LoginScreen(),
+    routes: routes
+  )
+);
