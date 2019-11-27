@@ -7,7 +7,7 @@ const {
   updateAddressDetails,
   updateVerificationDetails,
   getNGOAddressAndVerificationIds,
-  listofferedhelps
+  listOfferedHelps
 } = require("../../common/queries");
 
 exports.updateDetails = async (req, res) => {
@@ -51,8 +51,8 @@ exports.listNGO = async (req, res) => {
   else Response.Success(res, data.recordset);
 };
 
-exports.offeredhelps = async (req, res) => {
-  const data = await runQuery(listofferedhelps);
+exports.offeredHelps = async (req, res) => {
+  const data = await runQuery(listOfferedHelps);
   if (data.error) Response.InternalServerError(res, data.error);
   else if (data.recordset.length === 0)
     Response.NotFound(res, "No Private properties");
