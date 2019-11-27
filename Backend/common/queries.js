@@ -1,17 +1,13 @@
 const { getColumnsAndValues, getSetCondition } = require("./function");
 
-exports.userSignup = (data, addressid, verificationid) => {
+exports.userSignup = (data) => {
   const reqData = getColumnsAndValues(data);
-  const columns = reqData.columns + ",AddressDetailId, VerificationDetailId,isActive,isVerifiedUser";
-  const values = reqData.Values + "," + addressid + "," + verificationid + ",1,0";
-  return ` insert into Users(${columns}) values(${values}) `;
+  return ` insert into Users(${reqData.columns}) values(${reqData.Values}) `;
 };
 
-exports.NGOSignup = (data, addressid, verificationid) => {
+exports.NGOSignup = (data) => {
   const reqData = getColumnsAndValues(data);
-  const columns = reqData.columns + ",AddressDetailId, VerificationDetailId,isActive,isVerifiedUser";
-  const values = reqData.Values + "," + addressid + "," + verificationid + ",1,0";
-  return ` insert into authorities(${columns}) values(${values}) `;
+  return ` insert into authorities(${reqData.columns}) values(${reqData.Values}) `;
 };
 
 exports.updateUserDetails = (data, id) => {
@@ -44,25 +40,37 @@ exports.getNGOAddressAndVerificationIds = id => {
 
 exports.listNGO = `select * from authorities where UserTypeId = 4 and isActive = 1`;
 
-exports.deleteAddressId = (addressid) => {
+exports.deleteAddressId = addressid => {
   return ` delete from addressdetails where Id=${addressid} `;
 };
 
-exports.deleteverificationid = (verificationid) => {
+exports.deleteverificationid = verificationid => {
   return ` delete from VerificationDetails where Id=${verificationid} `;
 };
 
-exports.raiseRescueRequest = (data) => {
-    const reqData = getColumnsAndValues(data);
-    return `insert into RescueDetails(${reqData.columns}) values(${reqData.Values})`;
+exports.raiseRescueRequest = data => {
+  const reqData = getColumnsAndValues(data);
+  return `insert into RescueDetails(${reqData.columns}) values(${reqData.Values})`;
 };
 
-exports.getUserByEmail = (email) => {
+exports.getUserByEmail = email => {
   return `select id, UserTypeId, Password, AddressDetailId, VerificationDetailId from Users where Email = '${email}' 
           select id, UserTypeId, Password, AddressDetailId, VerificationDetailId from authorities where Email = '${email}'`;
-}
+};
 
+exports.listOfferedHelps = `select * from helps`;
 
-// exports.getRequestList = (data) => {
-//     return `select * from RescueDetails where isActive = 1`;
-// };
+exports.userOfferedHelps = id => {
+  return `select * from helps where UserId = ${id}`;
+};
+
+exports.insertHelp = data => {
+  const reqData = getColumnsAndValues(data);
+  return `insert into helps(${reqData.columns}) values(${reqData.Values})`;
+};
+
+exports.insertNewAddress = data => {
+  const reqData = getColumnsAndValues(data);
+  return `insert into addressdetails(${reqData.columns}) values(${reqData.Values}) select SCOPE_IDENTITY() as id`;
+};
+

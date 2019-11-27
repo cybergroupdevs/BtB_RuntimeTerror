@@ -10,17 +10,20 @@ const {
 } = require("../common/queries");
 
 exports.login = async (req, res) => {
-  const user = await runQuery(getUserByEmail(req.body.Email));
-  if (user.recordsets[1][0]) {
-    checkPassword(req.body.password, user.recordsets[1][0].Password)
-      ? Response.Success(res, user.recordsets[1][0], "Success")
-      : Response.AccessDenied(res, "Email password don't match");
-  } else if (user.recordsets[0][0]) {
-    checkPassword(req.body.password, user.recordsets[1][0].Password)
-      ? Response.Success(res, user.recordsets[0][0], "Success")
-      : Response.AccessDenied(res, "Email password don't match");
-  } else {
-    Response.NotFound(res, "NO account with that email");
+  if (isEmpty(req.body)) Response.BadRequest(res, "No data found in body");
+  else {
+    const user = await runQuery(getUserByEmail(req.body.Email));
+    if (user.recordsets[1][0]) {
+      checkPassword(req.body.password, user.recordsets[1][0].Password)
+        ? Response.Success(res, user.recordsets[1][0], "Success")
+        : Response.AccessDenied(res, "Email password don't match");
+    } else if (user.recordsets[0][0]) {
+      checkPassword(req.body.password, user.recordsets[1][0].Password)
+        ? Response.Success(res, user.recordsets[0][0], "Success")
+        : Response.AccessDenied(res, "Email password don't match");
+    } else {
+      Response.NotFound(res, "NO account with that email");
+    }
   }
 };
 
@@ -29,13 +32,11 @@ exports.signupNGO = async (req, res) => {
     Response.BadRequest(res, "No data to post");
   } else {
     const result = await runSP("get_NewAddressid_Verificationid");
-    const data = await runQuery(
-      NGOSignup(
-        req.body,
-        result.recordset[0].addressid,
-        result.recordset[0].verificationid
-      )
-    );
+    req.body.AddressDetailId = result.recordset[0].addressid;
+    req.body.VerificationDetailId = result.recordset[0].verificationid;
+    req.body.isActive = 1;
+    req.body.isVerifiedUser = 0;
+    const data = await runQuery(NGOSignup(req.body));
     if (!data.error) Response.Success(res);
     else {
       let deleteQuery =
@@ -47,7 +48,7 @@ exports.signupNGO = async (req, res) => {
       else
         Response.InternalServerError(
           res,
-          data.error,
+          deleteIds.error,
           "Extra entries goes in Address and verification"
         );
     }
@@ -59,13 +60,11 @@ exports.signupUser = async (req, res) => {
     Response.BadRequest(res, "No data to post");
   } else {
     const result = await runSP("get_NewAddressid_Verificationid");
-    const data = await runQuery(
-      userSignup(
-        req.body,
-        result.recordset[0].addressid,
-        result.recordset[0].verificationid
-      )
-    );
+    req.body.AddressDetailId = result.recordset[0].addressid;
+    req.body.VerificationDetailId = result.recordset[0].verificationid;
+    req.body.isActive = 1;
+    req.body.isVerifiedUser = 0;
+    const data = await runQuery(userSignup(req.body));
     if (!data.error) Response.Success(res);
     else {
       let deleteQuery =
@@ -77,7 +76,7 @@ exports.signupUser = async (req, res) => {
       else
         Response.InternalServerError(
           res,
-          data.error,
+          deleteIds.error,
           "Extra entries goes in Address and verification"
         );
     }
