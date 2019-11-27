@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-const { updateDetails } = require("../../controller/NGO/user");
+const { updateDetails, listNGO } = require("../../controller/NGO/user");
 
 router.put("/ngo/updatedetails", updateDetails);
+
+router.get("/ngo/list", listNGO);
 
 module.exports = router;

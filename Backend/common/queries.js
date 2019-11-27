@@ -42,6 +42,8 @@ exports.getNGOAddressAndVerificationIds = id => {
   return `select AddressDetailId, VerificationDetailId from authorities where id = ${id}`;
 };
 
+exports.listNGO = `select * from authorities where UserTypeId = 4 and isActive = 1`;
+
 // exports.raiseRescueRequest = (data) => {
 //     const reqData = getColumnsAndValues(data);
 //     return `insert into RescueDetails(${reqData.columns}) values(${reqData.Values})`;
