@@ -132,3 +132,7 @@ const hashedPassword = password => {
   var hash = bcrypt.hashSync(password, salt);
   return hash;
 };
+
+exports.checkPassword = (password, hash) => {
+  return bcrypt.compareSync(password, hash);
+}

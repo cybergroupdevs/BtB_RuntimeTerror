@@ -6,6 +6,7 @@ const userAuthRoutes = require('./routes/User/auth');
 const NGOAuthRoutes = require('./routes/NGO/auth');
 const userRoute = require('./routes/User/user');
 const NGORoute = require('./routes/NGO/user');
+const auth = require('./routes/auth')
 
 // app
 const app = express();
@@ -25,7 +26,7 @@ app.use('/api', userAuthRoutes);
 app.use("/api", NGOAuthRoutes);
 app.use("/api", userRoute);
 app.use("/api", NGORoute);
-
+app.use("/api", auth);
 
 const port = process.env.PORT || 8000
 

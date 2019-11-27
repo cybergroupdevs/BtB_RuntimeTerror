@@ -4,14 +4,14 @@ exports.userSignup = (data, addressid, verificationid) => {
   const reqData = getColumnsAndValues(data);
   const columns = reqData.columns + ",AddressDetailId, VerificationDetailId,isActive,isVerifiedUser";
   const values = reqData.Values + "," + addressid + "," + verificationid + ",1,0";
-  return `insert into Users(${columns}) values(${values})`;
+  return ` insert into Users(${columns}) values(${values}) `;
 };
 
 exports.NGOSignup = (data, addressid, verificationid) => {
   const reqData = getColumnsAndValues(data);
   const columns = reqData.columns + ",AddressDetailId, VerificationDetailId,isActive,isVerifiedUser";
   const values = reqData.Values + "," + addressid + "," + verificationid + ",1,0";
-  return `insert into authorities(${columns}) values(${values})`;
+  return ` insert into authorities(${columns}) values(${values}) `;
 };
 
 exports.updateUserDetails = (data, id) => {
@@ -52,10 +52,16 @@ exports.deleteverificationid = (verificationid) => {
   return ` delete from VerificationDetails where Id=${verificationid} `;
 };
 
-// exports.raiseRescueRequest = (data) => {
-//     const reqData = getColumnsAndValues(data);
-//     return `insert into RescueDetails(${reqData.columns}) values(${reqData.Values})`;
-// };
+exports.raiseRescueRequest = (data) => {
+    const reqData = getColumnsAndValues(data);
+    return `insert into RescueDetails(${reqData.columns}) values(${reqData.Values})`;
+};
+
+exports.getUserByEmail = (email) => {
+  return `select id, UserTypeId, Password, AddressDetailId, VerificationDetailId from Users where Email = '${email}' 
+          select id, UserTypeId, Password, AddressDetailId, VerificationDetailId from authorities where Email = '${email}'`;
+}
+
 
 // exports.getRequestList = (data) => {
 //     return `select * from RescueDetails where isActive = 1`;
