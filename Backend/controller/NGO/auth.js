@@ -1,6 +1,6 @@
+const isEmpty = require("lodash.isempty");
 const { runQuery, runSP } = require("../../common/function");
 const Response = require("../../common/response");
-const isEmpty = require("lodash.isempty");
 const { NGOSignup } = require("../../common/queries");
 
 exports.login = async (req, res) => {

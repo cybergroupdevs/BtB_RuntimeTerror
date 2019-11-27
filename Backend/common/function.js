@@ -1,7 +1,6 @@
 const sql = require("mssql");
 const bcrypt = require("bcryptjs");
 
-const Response = require("./response");
 const { config } = require("../config/config");
 
 exports.runQuery = async query => {

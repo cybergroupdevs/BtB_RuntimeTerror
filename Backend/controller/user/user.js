@@ -1,6 +1,6 @@
+const isEmpty = require("lodash.isempty");
 const { runQuery } = require("../../common/function");
 const Response = require("../../common/response");
-const isEmpty = require("lodash.isempty");
 const {
   updateUserDetails,
   updateAddressDetails,
