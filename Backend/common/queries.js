@@ -85,3 +85,7 @@ exports.getAddressDetails = id => {
 exports.getVerificationDetails = id => {
   return `select * from VerificationDetails where id = ${id}`;
 };
+
+exports.getNGODetails = id => {
+  return `select * from Authorities where id = ${id}`;
+};

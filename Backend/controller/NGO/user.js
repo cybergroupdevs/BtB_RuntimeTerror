@@ -7,7 +7,10 @@ const {
   updateAddressDetails,
   updateVerificationDetails,
   getNGOAddressAndVerificationIds,
-  listOfferedHelps
+  listOfferedHelps,
+  getNGODetails,
+  getAddressDetails,
+  getVerificationDetails
 } = require("../../common/queries");
 
 exports.updateDetails = async (req, res) => {
@@ -57,4 +60,36 @@ exports.offeredHelps = async (req, res) => {
   else if (data.recordset.length === 0)
     Response.NotFound(res, "No Private properties");
   else Response.Success(res, data.recordset);
+};
+
+exports.profileDetails = async (req, res) => {
+  let id = req.params.userid;
+  const userDetails = await runQuery(getNGODetails(id));
+  if (userDetails.error) Response.InternalServerError(res, userDetails.error);
+  else if (userDetails.recordset.length === 0)
+    Response.NotFound(res, "No NGO Found");
+  else {
+    let addressId = userDetails.recordset[0].AddressDetailId;
+    let verificationId = userDetails.recordset[0].VerificationDetailId;
+    const addressDetails = await runQuery(getAddressDetails(addressId));
+    const verificationDetails = await runQuery(
+      getVerificationDetails(verificationId)
+    );
+    if (addressDetails.error)
+      Response.InternalServerError(res, addressDetails.error);
+    else if (verificationDetails.error)
+      Response.InternalServerError(res, verificationDetails.error);
+    else if (addressDetails.recordset.length === 0)
+      Response.NotFound(res, "No Address Found");
+    else if (verificationDetails.recordset.length === 0)
+      Response.NotFound(res, "No Verification Details Found");
+    else {
+      data = {
+        userDetails: userDetails.recordset[0],
+        addressDetails: addressDetails.recordset[0],
+        verificationDetails: verificationDetails.recordset[0]
+      };
+      Response.Success(res, data);
+    }
+  }
 };
