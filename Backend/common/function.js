@@ -1,7 +1,9 @@
 const sql = require("mssql");
 const bcrypt = require("bcryptjs");
-
+const jwt = require("jsonwebtoken");
+const keys = require("config");
 const { config } = require("../config/config");
+const tokenKey = keys.get("tokenKey");
 
 exports.runQuery = async query => {
   try {
@@ -135,4 +137,8 @@ const hashedPassword = password => {
 
 exports.checkPassword = (password, hash) => {
   return bcrypt.compareSync(password, hash);
+}
+
+exports.getToken = (data) => {
+  return (token = jwt.sign(data, tokenKey));
 }
