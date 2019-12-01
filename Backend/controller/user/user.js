@@ -8,7 +8,10 @@ const {
   getUserAddressAndVerificationIds,
   userOfferedHelps,
   insertHelp,
-  insertNewAddress
+  insertNewAddress,
+  getUserDetails,
+  getAddressDetails,
+  getVerificationDetails
 } = require("../../common/queries");
 
 exports.updateDetails = async (req, res) => {
@@ -51,7 +54,7 @@ exports.updateDetails = async (req, res) => {
   }
 };
 
-exports.offeredHelps = async (req, res) => {
+exports.offeredHelp = async (req, res) => {
   let id = req.params.userid;
   const data = await runQuery(userOfferedHelps(id));
   if (data.error) Response.InternalServerError(res, data.error);
@@ -89,3 +92,28 @@ exports.offeringHelp = async (req, res) => {
     }
   }
 };
+
+exports.profileDetails = async (req, res) => {
+  let id = req.params.userid;
+  const userDetails = await runQuery(getUserDetails(id));
+  if(userDetails.error) Response.InternalServerError(res, userDetails.error);
+  else if(userDetails.recordset.length === 0) Response.NotFound(res, "No User Found")
+  else {
+    let addressId = userDetails.recordset[0].AddressDetailId;
+    let verificationId = userDetails.recordset[0].VerificationDetailId;
+    const addressDetails = await runQuery(getAddressDetails(addressId))
+    const verificationDetails = await runQuery(getVerificationDetails(verificationId))
+    if(addressDetails.error) Response.InternalServerError(res, addressDetails.error)
+    else if(verificationDetails.error) Response.InternalServerError(res, verificationDetails.error)
+    else if(addressDetails.recordset.length === 0) Response.NotFound(res, "No Address Found")
+    else if(verificationDetails.recordset.length === 0) Response.NotFound(res, "No Verification Details Found")
+    else {
+      data = {
+        "userDetails" : userDetails.recordset[0],
+        "addressDetails" : addressDetails.recordset[0],
+        "verificationDetails" : verificationDetails.recordset[0]
+      }
+      Response.Success(res, data)
+    }
+  }
+}

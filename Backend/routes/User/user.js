@@ -1,12 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
-const { updateDetails, offeredHelps, offeringHelp } = require("../../controller/user/user");
+const { updateDetails, offeredHelp, offeringHelp, profileDetails } = require("../../controller/user/user");
 
 router.put("/user/updatedetails/:userid", updateDetails);
 
-router.get("/user/offeredhelps/:userid", offeredHelps);
+router.get("/user/offeredhelp/:userid", offeredHelp);
 
 router.post("/user/offeringhelp/:userid", offeringHelp);
+
+router.get("/user/profiledetails/:userid", profileDetails)
 
 module.exports = router;

@@ -74,3 +74,14 @@ exports.insertNewAddress = data => {
   return `insert into addressdetails(${reqData.columns}) values(${reqData.Values}) select SCOPE_IDENTITY() as id`;
 };
 
+exports.getUserDetails = id => {
+  return `select * from users where id = ${id}`;
+}
+
+exports.getAddressDetails = id => {
+  return `select * from AddressDetails where id = ${id}`;
+};
+
+exports.getVerificationDetails = id => {
+  return `select * from VerificationDetails where id = ${id}`;
+};
