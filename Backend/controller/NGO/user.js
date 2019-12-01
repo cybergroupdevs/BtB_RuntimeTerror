@@ -10,7 +10,8 @@ const {
   listOfferedHelps,
   getNGODetails,
   getAddressDetails,
-  getVerificationDetails
+  getVerificationDetails,
+  verifyUser
 } = require("../../common/queries");
 
 exports.updateDetails = async (req, res) => {
@@ -93,3 +94,19 @@ exports.profileDetails = async (req, res) => {
     }
   }
 };
+
+exports.verifyUser = async (req, res) => {
+  let ngoId = req.params.ngoid;
+  let userId = req.params.userid;
+  const ngoDetails = await runQuery(getNGODetails(ngoId));
+  if (ngoDetails.error) Response.InternalServerError(res, ngoDetails.error);
+  else if (ngoDetails.recordset.length === 0)
+    Response.NotFound(res, "No NGO Found");
+  else {  
+    const verify = await runQuery(verifyUser(userId, ngoDetails.recordset[0].AuthorityName));
+    if (verify.error) Response.InternalServerError(res, verify.error);
+    else if(verify.rowsAffected[0] === 0) Response.NotFound(res, "No user found")
+    else Response.Success(res);
+  }
+  
+}

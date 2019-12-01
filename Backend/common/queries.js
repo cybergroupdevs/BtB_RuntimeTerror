@@ -89,3 +89,11 @@ exports.getVerificationDetails = id => {
 exports.getNGODetails = id => {
   return `select * from Authorities where id = ${id}`;
 };
+
+exports.verifyUser = (userId, ngo) => {
+  return `update Users set isVerifiedUser = 1, VerifiedBy = '${ngo}' where id = ${userId}`;
+}
+
+exports.verifyNGO = (ngoId, user) => {
+  return `update Authorities set isVerifiedUser = 1, VerifiedBy = '${user}' where id = ${ngoId}`;
+};
