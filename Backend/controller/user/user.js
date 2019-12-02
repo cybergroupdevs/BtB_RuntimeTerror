@@ -92,7 +92,11 @@ exports.offeringHelp = async (req, res) => {
           let data = await runQuery(insertHelp(req.body));
           if (!data.error) Response.Success(res, "Success with new Address");
           else Response.InternalServerError(res, data.error);
-        } else Response.NotFound(res, "Can't find the address")
+        } else {
+          let data = await runQuery(insertHelp(req.body));
+          if (!data.error) Response.Success(res);
+          else Response.InternalServerError(res, data.error);
+        }
       }
     }
   } else Response.AccessDenied(res, "CAN'T OFFER HELP USER NOT VERIFIED")
