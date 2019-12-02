@@ -7,11 +7,13 @@ const {
   updateAddressDetails,
   updateVerificationDetails,
   getNGOAddressAndVerificationIds,
-  listOfferedHelps,
+  listPrivateProperties,
+  listGovtShelters,
   getNGODetails,
   getAddressDetails,
   getVerificationDetails,
-  verifyUser
+  verifyUser,
+  insertHelp
 } = require("../../common/queries");
 
 exports.updateDetails = async (req, res) => {
@@ -55,8 +57,16 @@ exports.listNGO = async (req, res) => {
   else Response.Success(res, data.recordset);
 };
 
-exports.offeredHelps = async (req, res) => {
-  const data = await runQuery(listOfferedHelps);
+exports.privateProperties = async (req, res) => {
+  const data = await runQuery(listPrivateProperties);
+  if (data.error) Response.InternalServerError(res, data.error);
+  else if (data.recordset.length === 0)
+    Response.NotFound(res, "No Private properties");
+  else Response.Success(res, data.recordset);
+};
+
+exports.govtShelters = async (req, res) => {
+  const data = await runQuery(listGovtShelters);
   if (data.error) Response.InternalServerError(res, data.error);
   else if (data.recordset.length === 0)
     Response.NotFound(res, "No Private properties");
@@ -108,5 +118,38 @@ exports.verifyUser = async (req, res) => {
     else if(verify.rowsAffected[0] === 0) Response.NotFound(res, "No user found")
     else Response.Success(res);
   }
-  
 }
+
+exports.addGovnShelter = async (req, res) => {
+  let id = req.params.ngoid;
+  const checkUserIsVerified = await runQuery(getNGODetails(id));
+  if (checkUserIsVerified.error)
+    Response.InternalServerError(res, checkUserIsVerified.error);
+  else if (checkUserIsVerified.recordset.length === 0)
+    Response.NotFound(res, "NGO Not Found");
+  else if (checkUserIsVerified.recordset[0].isVerifiedUser) {
+    if (isEmpty(req.body)) Response.BadRequest(res, "No data to register help");
+    else {
+      req.body.UserId = id;
+      req.body.isActive = 1;
+      req.body.AccomodationType = "Government_Shelters";
+      if (req.body.AddressDetailId) {
+        let data = await runQuery(insertHelp(req.body));
+        if (!data.error) Response.Success(res);
+        else Response.InternalServerError(res, data.error);
+      } else {
+        if (req.body.AddressDetail) {
+          req.body.AddressDetail.isActive = 1;
+          req.body.AddressDetail.isAddressVerified = 0;
+          let result = await runQuery(insertNewAddress(req.body.AddressDetail));
+          let id = result.recordset[0].id;
+          delete req.body.AddressDetail;
+          req.body.AddressDetailId = id;
+          let data = await runQuery(insertHelp(req.body));
+          if (!data.error) Response.Success(res, "Success with new Address");
+          else Response.InternalServerError(res, data.error);
+        } else Response.NotFound(res, "Can't find the address");
+      }
+    }
+  } else Response.AccessDenied(res, "CAN'T OFFER HELP NGO NOT VERIFIED");
+};
