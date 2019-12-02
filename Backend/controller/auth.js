@@ -34,8 +34,6 @@ exports.signupNGO = async (req, res) => {
     const result = await runSP("get_NewAddressid_Verificationid");
     req.body.AddressDetailId = result.recordset[0].addressid;
     req.body.VerificationDetailId = result.recordset[0].verificationid;
-    req.body.isActive = 1;
-    req.body.isVerifiedUser = 0;
     const data = await runQuery(NGOSignup(req.body));
     if (!data.error) Response.Success(res);
     else {
@@ -62,8 +60,6 @@ exports.signupUser = async (req, res) => {
     const result = await runSP("get_NewAddressid_Verificationid");
     req.body.AddressDetailId = result.recordset[0].addressid;
     req.body.VerificationDetailId = result.recordset[0].verificationid;
-    req.body.isActive = 1;
-    req.body.isVerifiedUser = 0;
     const data = await runQuery(userSignup(req.body));
     if (!data.error) Response.Success(res);
     else {

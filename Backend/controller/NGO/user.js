@@ -13,7 +13,9 @@ const {
   getAddressDetails,
   getVerificationDetails,
   verifyUser,
-  insertHelp
+  insertHelp,
+  insertNewAddress,
+  deleteNGO
 } = require("../../common/queries");
 
 exports.updateDetails = async (req, res) => {
@@ -153,3 +155,10 @@ exports.addGovnShelter = async (req, res) => {
     }
   } else Response.AccessDenied(res, "CAN'T OFFER HELP NGO NOT VERIFIED");
 };
+
+exports.deleteNGO = async (req, res) => {
+  let email = req.params.email;
+  const data = await runQuery(deleteNGO(email));
+  if (data.error) Response.InternalServerError(res, data.error);
+  else Response.Success(res);
+}
