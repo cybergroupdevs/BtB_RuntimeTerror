@@ -12,7 +12,8 @@ const {
   getUserDetails,
   getAddressDetails,
   getVerificationDetails,
-  verifyNGO
+  verifyNGO,
+  deleteUser
 } = require("../../common/queries");
 
 exports.updateDetails = async (req, res) => {
@@ -83,7 +84,6 @@ exports.offeringHelp = async (req, res) => {
         else Response.InternalServerError(res, data.error);
       } else {
         if (req.body.AddressDetail) {
-          req.body.AddressDetail.isActive = 1;
           req.body.AddressDetail.isAddressVerified = 0;
           let result = await runQuery(insertNewAddress(req.body.AddressDetail));
           let id = result.recordset[0].id;
@@ -92,7 +92,11 @@ exports.offeringHelp = async (req, res) => {
           let data = await runQuery(insertHelp(req.body));
           if (!data.error) Response.Success(res, "Success with new Address");
           else Response.InternalServerError(res, data.error);
-        } else Response.NotFound(res, "Can't find the address")
+        } else {
+          let data = await runQuery(insertHelp(req.body));
+          if (!data.error) Response.Success(res);
+          else Response.InternalServerError(res, data.error);
+        }
       }
     }
   } else Response.AccessDenied(res, "CAN'T OFFER HELP USER NOT VERIFIED")
@@ -150,3 +154,10 @@ exports.verifyNGO = async (req, res) => {
     Response.AccessDenied(res, "User Not Authorized to verify NGO");
   }
 };
+
+exports.deleteUser = async (req, res) => {
+  let email = req.params.email;
+  const data = await runQuery(deleteUser(email))
+  if(data.error) Response.InternalServerError(res, data.error);
+  else Response.Success(res)
+}

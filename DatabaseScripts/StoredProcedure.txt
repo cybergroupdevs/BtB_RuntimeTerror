@@ -1,0 +1,20 @@
+use [AASHRAY]
+Go
+CREATE OR ALTER PROC [get_NewAddressid_Verificationid]
+AS
+BEGIN
+declare @addressid int
+declare @verificationid int
+	Begin
+		insert into AddressDetails(isAddressVerified) values(0)
+		select @addressid = SCOPE_IDENTITY()
+	End
+
+	Begin
+		insert into VerificationDetails(isCertified) values(0)
+		select @verificationid = SCOPE_IDENTITY()
+	End
+	select @addressid as addressid, @verificationid as verificationid
+END
+
+--exec [get_NewAddressid_Verificationid]
