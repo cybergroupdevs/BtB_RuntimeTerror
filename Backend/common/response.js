@@ -28,9 +28,9 @@ class Response{
     };
 
     static AccessDenied(res, message) {
-        res.statusCode = 403
+        res.statusCode = 401
         const response = {
-            "code" : 403,
+            "code" : 401,
             "errorMessage" : (!message)?"Access Denied":message
         }
         return res.send(response);
