@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   View, ImageBackground,
-  Image, TextInput, ValidateDefaultButton,
+  Image, TextInput, ValidateDefaultButton, Button, Alert,
   Text, TouchableOpacity,
 } from 'react-native';
 import styles from "./styles";
@@ -75,8 +75,8 @@ class SigninScreen extends Component {
 
   onLoginHandler = () => {
     const authData = {
-      email: this.state.controls.email.value,
-      password: this.state.controls.password.value
+      email: this.state.email.value,
+      password: this.state.password.value
     };
     //this.props.onLogin(authData);
   };
@@ -121,6 +121,11 @@ class SigninScreen extends Component {
               />
             </View>
           </View>
+          <Button
+          title="Sign In"
+          color="#f194ff"
+          onPress={() => Alert.alert('Button with adjusted color pressed')}
+        />
         </View>   
     );
   }

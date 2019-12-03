@@ -54,14 +54,16 @@ exports.raiseRescueRequest = data => {
 };
 
 exports.getUserByEmail = email => {
-  return `select id, UserTypeId, Password, AddressDetailId, VerificationDetailId from Users where Email = '${email}' 
-          select id, UserTypeId, Password, AddressDetailId, VerificationDetailId from authorities where Email = '${email}'`;
+  return `select id, UserTypeId, Password, AddressDetailId, VerificationDetailId, isVerifiedUser from Users where Email = '${email}' 
+          select id, UserTypeId, Password, AddressDetailId, VerificationDetailId, isVerifiedUser from authorities where Email = '${email}'`;
 };
 
-exports.listOfferedHelps = `select * from helps`;
+exports.listPrivateProperties = `select * from helps where AccomodationType = 'Private'`;
+
+exports.listGovtShelters = `select * from helps where AccomodationType = 'Government_Shelters'`;
 
 exports.userOfferedHelps = id => {
-  return `select * from helps where UserId = ${id}`;
+  return `select * from helps where UserId = ${id} and AccomodationType = 'Private'`;
 };
 
 exports.insertHelp = data => {
@@ -96,4 +98,12 @@ exports.verifyUser = (userId, ngo) => {
 
 exports.verifyNGO = (ngoId, user) => {
   return `update Authorities set isVerifiedUser = 1, VerifiedBy = '${user}' where id = ${ngoId}`;
+};
+
+exports.deleteUser = email => {
+  return `delete from Users where Email = '${email}'`
+};
+
+exports.deleteNGO = email => {
+  return `delete from Authorities where Email = '${email}'`;
 };

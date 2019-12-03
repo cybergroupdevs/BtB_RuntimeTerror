@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import {} from "react-native";
 
-import SigninScreen from "./app/screens/SigninScreen";
+import RequestRescueScreen from "./app/screens/RequestRescueScreen";
+import ProfileScreen from './app/screens/ProfileScreen';
 
 class AppScreen extends React.Component { 
   render() {
     return (
-      <SigninScreen/>
+      <ProfileScreen />
     );
   }
 };

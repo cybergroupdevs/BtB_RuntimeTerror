@@ -10,9 +10,14 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/geolocation": "^2.0.2",
     "react": "16.9.0",
     "react-native": "0.61.5",
-    "react-native-loading-spinner-overlay": "^1.0.1"
+    "react-native-datepicker": "^1.7.2",
+    "react-native-document-picker": "^3.2.4",
+    "react-native-image-picker": "^1.1.0",
+    "react-native-loading-spinner-overlay": "^1.0.1",
+    "react-native-ui-xg": "0.0.6"
   },
   "devDependencies": {
     "@babel/core": "7.7.4",

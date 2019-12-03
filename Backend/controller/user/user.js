@@ -12,7 +12,8 @@ const {
   getUserDetails,
   getAddressDetails,
   getVerificationDetails,
-  verifyNGO
+  verifyNGO,
+  deleteUser
 } = require("../../common/queries");
 
 exports.updateDetails = async (req, res) => {
@@ -65,33 +66,40 @@ exports.offeredHelp = async (req, res) => {
 };
 
 exports.offeringHelp = async (req, res) => {
-  if (isEmpty(req.body)) Response.BadRequest(res, "No data to register help");
-  else {
-    let id = req.params.userid;
-    req.body.UserId = id;
-    req.body.isActive = 1;
-    if (req.body.AddressDetailId) {
-      let data = await runQuery(insertHelp(req.body));
-      if (!data.error) Response.Success(res);
-      else Response.InternalServerError(res, data.error);
-    } else {
-      if (req.body.AddressDetail) {
-        req.body.AddressDetail.isActive = 1;
-        req.body.AddressDetail.isAddressVerified = 0;
-        let result = await runQuery(insertNewAddress(req.body.AddressDetail));
-        let id = result.recordset[0].id;
-        delete req.body.AddressDetail;
-        req.body.AddressDetailId = id;
-        let data = await runQuery(insertHelp(req.body));
-        if (!data.error) Response.Success(res, "Success with new Address");
-        else Response.InternalServerError(res, data.error);
-      } else {
+  let id = req.params.userid;
+  const checkUserIsVerified = await runQuery(getUserDetails(id));
+  if (checkUserIsVerified.error)
+    Response.InternalServerError(res, checkUserIsVerified.error);
+  else if (checkUserIsVerified.recordset.length === 0)
+    Response.NotFound(res, "User Not Found");
+  else if (checkUserIsVerified.recordset[0].isVerifiedUser) {
+    if (isEmpty(req.body)) Response.BadRequest(res, "No data to register help");
+    else {
+      req.body.UserId = id;
+      req.body.isActive = 1;
+      req.body.AccomodationType = 'Private'
+      if (req.body.AddressDetailId) {
         let data = await runQuery(insertHelp(req.body));
         if (!data.error) Response.Success(res);
         else Response.InternalServerError(res, data.error);
+      } else {
+        if (req.body.AddressDetail) {
+          req.body.AddressDetail.isAddressVerified = 0;
+          let result = await runQuery(insertNewAddress(req.body.AddressDetail));
+          let id = result.recordset[0].id;
+          delete req.body.AddressDetail;
+          req.body.AddressDetailId = id;
+          let data = await runQuery(insertHelp(req.body));
+          if (!data.error) Response.Success(res, "Success with new Address");
+          else Response.InternalServerError(res, data.error);
+        } else {
+          let data = await runQuery(insertHelp(req.body));
+          if (!data.error) Response.Success(res);
+          else Response.InternalServerError(res, data.error);
+        }
       }
     }
-  }
+  } else Response.AccessDenied(res, "CAN'T OFFER HELP USER NOT VERIFIED")
 };
 
 exports.profileDetails = async (req, res) => {
@@ -131,14 +139,25 @@ exports.verifyNGO = async (req, res) => {
   let userId = req.params.userid;
   const user = await runQuery(getUserDetails(userId));
   if (user.error) Response.InternalServerError(res, user.error);
-  else if (user.recordset.length === 0) Response.NotFound(res, "User Not Found");
-  else if (user.recordset[0].UserTypeId === 1 ||user.recordset[0].UserTypeId === 2) {
+  else if (user.recordset.length === 0)
+    Response.NotFound(res, "User Not Found");
+  else if (
+    user.recordset[0].UserTypeId === 1 ||
+    user.recordset[0].UserTypeId === 2
+  ) {
     const verify = await runQuery(verifyNGO(ngoId, user.recordset[0].UserName));
     if (verify.error) Response.InternalServerError(res, verify.error);
-    else if(verify.rowsAffected[0] === 0) Response.NotFound(res, "No NGO found")
+    else if (verify.rowsAffected[0] === 0)
+      Response.NotFound(res, "No NGO found");
     else Response.Success(res);
-  }
-  else {
+  } else {
     Response.AccessDenied(res, "User Not Authorized to verify NGO");
   }
 };
+
+exports.deleteUser = async (req, res) => {
+  let email = req.params.email;
+  const data = await runQuery(deleteUser(email))
+  if(data.error) Response.InternalServerError(res, data.error);
+  else Response.Success(res)
+}
