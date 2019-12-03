@@ -2,6 +2,11 @@ import { StyleSheet } from 'react-native';
 import color from '../../res/colors'
 
 const styles = StyleSheet.create({
+  textareaContainer: {
+    height: 180,
+    padding: 5,
+    backgroundColor: '#F5FCFF',
+  },
   bgImage: {
     flex: 1,
     width: "100%",
