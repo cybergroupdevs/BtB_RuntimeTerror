@@ -312,3 +312,24 @@ describe("Verify User Unit Tests", () => {
   });
 
 });
+
+describe("Get List of Un-verified Users", () => {
+  // #1 should return Private properties List
+  it("Should return List of Un-verified Users", done => {
+    // calling get list api
+    chai
+      .request(app)
+      .get("/api/unverifiedusers")
+      .end((err, res) => {
+        // HTTP status should be 200
+        res.status.should.equal(200);
+        // Response should be a array of Govt Shelters
+        for (let i = 0; i < res.body.data.length; i++) {
+          res.body.data[i].isVerifiedUser.should.equal(false);
+        }
+        // Error key should be false.
+        res.error.should.equal(false);
+        done();
+      });
+  });
+});

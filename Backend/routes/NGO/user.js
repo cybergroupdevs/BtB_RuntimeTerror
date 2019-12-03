@@ -9,7 +9,8 @@ const {
   verifyUser,
   addGovnShelter,
   govtShelters,
-  deleteNGO
+  deleteNGO,
+  unVerifiedUsers
 } = require("../../controller/NGO/user");
 
 router.put("/ngo/updatedetails/:userid", updateDetails);
@@ -27,5 +28,7 @@ router.put("/ngo/:ngoid/verify/:userid", verifyUser);
 router.post("/ngo/government/shelters/:ngoid", addGovnShelter);
 
 router.delete("/ngo/:email", deleteNGO);
+
+router.get("/unverifiedusers", unVerifiedUsers);
 
 module.exports = router;

@@ -103,6 +103,8 @@ exports.deleteNGO = email => {
   return `delete from Authorities where Email = '${email}'`;
 };
 
+exports.getUnverifiedUser = `select * from Users where isVerifiedUser = 0`;
+
 // exports.raiseRescueRequest = data => {
 //   const reqData = getColumnsAndValues(data);
 //   return `insert into RescueDetails(${reqData.columns}) values(${reqData.Values})`;

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon app.js",
     "dev": "nodemon app.js",
-    "test": "nyc mocha"
+    "test": "nyc mocha --timeout 100000"
   },
   "author": "Runtime Terror",
   "license": "ISC",
