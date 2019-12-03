@@ -28,32 +28,6 @@ exports.runQuery = async query => {
   }
 };
 
-exports.runMultipleQuery = async query => {
-  try {
-    let pool = await sql.connect(config);
-    if (pool) {
-      try {
-        let i=0,result = [];
-        while (i < query.length) {
-          result[i] = await pool.request().query(query[i]);
-        }
-        return result;
-      } catch (err) {
-        return (result = {
-          message: "Query Error",
-          error: err.originalError
-        });
-      }
-    }
-    pool.close();
-  } catch (err) {
-    return (result = {
-      message: "Connection Error",
-      error: err.originalError
-    });
-  }
-};
-
 exports.runSP = async sp_name => {
     try {
       let pool = await sql.connect(config);

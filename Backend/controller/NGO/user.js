@@ -15,7 +15,8 @@ const {
   verifyUser,
   insertHelp,
   insertNewAddress,
-  deleteNGO
+  deleteNGO,
+  getUnverifiedUser
 } = require("../../common/queries");
 
 exports.updateDetails = async (req, res) => {
@@ -161,4 +162,10 @@ exports.deleteNGO = async (req, res) => {
   const data = await runQuery(deleteNGO(email));
   if (data.error) Response.InternalServerError(res, data.error);
   else Response.Success(res);
+}
+
+exports.unVerifiedUsers = async (req, res) => {
+  const data = await runQuery(getUnverifiedUser)
+  if(data.error) Response.InternalServerError(res, data.error)
+  else Response.Success(res, data.recordset)
 }
