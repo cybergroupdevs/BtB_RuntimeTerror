@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon app.js",
     "dev": "nodemon app.js",
-    "test": "nyc mocha --timeout 100000"
+    "test": "nyc mocha --timeout 10000",
+    "coverage": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha test/*.js"
   },
   "author": "Runtime Terror",
   "license": "ISC",
@@ -22,15 +23,14 @@
     "nodemon": "^1.19.4"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
+    "babel-node": "0.0.1-security",
+    "babel-plugin-istanbul": "^5.2.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "coveralls": "^3.0.9",
+    "cross-env": "^6.0.3",
+    "istanbul": "^0.4.5",
     "mocha": "^6.2.2",
-    "nyc": "^14.1.1",
-    "should": "^13.2.3",
-    "supertest": "^4.0.2"
+    "nyc": "^14.1.1"
   },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
