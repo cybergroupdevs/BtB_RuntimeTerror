@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon app.js",
     "dev": "nodemon app.js",
-    "test": "mocha"
+    "test": "nyc mocha"
   },
   "author": "Runtime Terror",
   "license": "ISC",
@@ -22,9 +22,19 @@
     "nodemon": "^1.19.4"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "coveralls": "^3.0.9",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
     "should": "^13.2.3",
     "supertest": "^4.0.2"
+  },
+  "nyc": {
+    "extends": "@istanbuljs/nyc-config-typescript",
+    "all": true,
+    "check-coverage": true
   }
 }

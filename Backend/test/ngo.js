@@ -1,11 +1,15 @@
-var supertest = require("supertest");
-var should = require("should");
-
-var server = supertest.agent("http://localhost:8000");
-
+const chai = require("chai");
+const chaiHttp = require("chai-http");
+const app = require("../app");
+const { expect } = chai;
+chai.use(chaiHttp);
+chai.should();
 let userData = {
   validId: 1,
-  invalidId: 0
+  invalidId: 0,
+  userId: 6,
+  invalidUser: 0,
+  unauthorizedNGO: 2
 };
 
 describe("Update NGO Details Unit Tests", () => {
@@ -26,10 +30,10 @@ describe("Update NGO Details Unit Tests", () => {
       }
     };
     // calling update detail api
-    server
+    chai
+      .request(app)
       .put("/api/ngo/updatedetails/" + userData.validId)
       .send(data)
-      .expect(200) // THis is HTTP response
       .end((err, res) => {
         // HTTP status should be 200
         res.status.should.equal(200);
@@ -56,10 +60,10 @@ describe("Update NGO Details Unit Tests", () => {
       }
     };
     // calling update detail api
-    server
+    chai
+      .request(app)
       .put("/api/ngo/updatedetails/" + userData.invalidId)
       .send(data)
-      .expect(404) // THis is HTTP response
       .end((err, res) => {
         // HTTP status should be 200
         res.status.should.equal(404);
@@ -74,11 +78,10 @@ describe("Get List of NGOs", () => {
   // #1 should return NGO's List
   it("Should return List of NGOs", done => {
     // calling get list api
-    server
+    chai
+      .request(app)
       .get("/api/ngo/list")
-      .expect(200) // THis is HTTP response
       .end((err, res) => {
-          console.log(typeof res.body.data);
         // HTTP status should be 200
         res.status.should.equal(200);
         // Error key should be false.
@@ -92,15 +95,15 @@ describe("Get List of Government Shelters", () => {
     // #1 should return Govt Shelters List
   it("Should return List of Govt Shelters", done => {
     // calling get list api
-    server
+    chai
+      .request(app)
       .get("/api/government/shelters")
-      .expect(200) // THis is HTTP response
       .end((err, res) => {
         // HTTP status should be 200
         res.status.should.equal(200);
         // Response should be a array of Govt Shelters
-        for(let i=0;i<res.body.data.length;i++){
-            res.body.data[i].AccomodationType.should.equal('Government_Shelters')
+        for (let i = 0; i < res.body.data.length; i++) {
+          res.body.data[i].AccomodationType.should.equal("Government_Shelters");
         }
         // Error key should be false.
         res.error.should.equal(false);
@@ -113,9 +116,9 @@ describe("Get Profile Details of NGO", () => {
   // #1 should return profile detail
   it("Should return profile details containing(userDetails, addressDetails, verificationDetails)", done => {
     // calling get profile api
-    server
+    chai
+      .request(app)
       .get("/api/ngo/profiledetails/" + userData.validId)
-      .expect(200) // THis is HTTP response
       .end((err, res) => {
         // HTTP status should be 200
         res.status.should.equal(200);
@@ -132,9 +135,9 @@ describe("Get Profile Details of NGO", () => {
   // #2 should return Not Found
   it("Should contain message NGO not found", done => {
     // calling get profile api
-    server
+    chai
+      .request(app)
       .get("/api/ngo/profiledetails/" + userData.invalidId)
-      .expect(404) // THis is HTTP response
       .end((err, res) => {
         // HTTP status should be 200
         res.status.should.equal(404);
@@ -149,9 +152,9 @@ describe("Get List of Private properties", () => {
   // #1 should return Private properties List
   it("Should return List of Govt Shelters", done => {
     // calling get list api
-    server
+    chai
+      .request(app)
       .get("/api/private/properties")
-      .expect(200) // THis is HTTP response
       .end((err, res) => {
         // HTTP status should be 200
         res.status.should.equal(200);
@@ -164,4 +167,148 @@ describe("Get List of Private properties", () => {
         done();
       });
   });
+});
+
+describe("Register Government shelters ", () => {
+  // #1 should Register help and return Success
+  it("Should Register Government shelters with same address", done => {
+    let data = {
+      AddressDetailId: 12
+    };
+    // calling register Government shelters api
+    chai
+      .request(app)
+      .post("/api/ngo/government/shelters/" + userData.validId)
+      .send(data)
+      .end((err, res) => {
+        // HTTP status should be 200
+        res.status.should.equal(200);
+        // Error key should be false.
+        res.error.should.equal(false);
+        done();
+      });
+  });
+
+  // #2 should Register Government shelters and return Success
+  it("Should Register Government shelters with different address", done => {
+    let data = {
+      AddressDetail: {
+        HouseBuilding: "50-9",
+        city: "delhi"
+      }
+    };
+    // calling register Government shelters api
+    chai
+      .request(app)
+      .post("/api/ngo/government/shelters/" + userData.validId)
+      .send(data)
+      .end((err, res) => {
+        // HTTP status should be 200
+        res.status.should.equal(200);
+        // Error key should be false.
+        res.error.should.equal(false);
+        done();
+      });
+  });
+
+  // #3 should Register Government shelters and return Success
+  it("Should give message NGO Not Found", done => {
+    let data = {
+      AddressDetail: {
+        HouseBuilding: "50-9",
+        city: "delhi"
+      }
+    };
+    // calling register help api
+    chai
+      .request(app)
+      .post("/api/ngo/government/shelters/" + userData.invalidId)
+      .send(data)
+      .end((err, res) => {
+        // HTTP status should be 404
+        res.status.should.equal(404);
+        // Error key should be false.
+        res.notFound.should.equal(true);
+        done();
+      });
+
+    // #4 should Return Access Denied
+  it("Should Return Access Denied", done => {
+    // calling verify api
+    chai
+      .request(app)
+      .put("/api/ngo/government/shelters/" + userData.unauthorizedNGO)
+      .end((err, res) => {
+        console.log(res);
+        // HTTP status should be 401
+        res.status.should.equal(401);
+        // Error key should be false.
+        res.unauthorized.should.equal(true);
+        done();
+      });
+  });
+  });
+
+  // #4 should return Can't find the address
+  it("Should return Can't find the address", done => {
+    // calling register help api
+    chai
+      .request(app)
+      .post("/api/ngo/government/shelters/" + userData.invalidId)
+      .end((err, res) => {
+        // HTTP status should be 404
+        res.status.should.equal(404);
+        // Error key should be false.
+        res.notFound.should.equal(true);
+        done();
+      });
+  });
+});
+
+describe("Verify User Unit Tests", () => {
+  // #1 should Update details and return Success
+  it("Should Return Success after Verifying User", done => {
+    // calling verify api
+    chai
+      .request(app)
+      .put(`/api/ngo/${userData.validId}/verify/${userData.userId}`)
+      .end((err, res) => {
+        // HTTP status should be 200
+        res.status.should.equal(200);
+        // Error key should be false.
+        res.error.should.equal(false);
+        done();
+      });
+  });
+
+  // #2 should Return User Not Found
+  it("Should Return User Not Found", done => {
+    // calling verify api
+    chai
+      .request(app)
+      .put(`/api/ngo/${userData.validId}/verify/${userData.invalidUser}`)
+      .end((err, res) => {
+        // HTTP status should be 404
+        res.status.should.equal(404);
+        // Error key should be false.
+        res.notFound.should.equal(true);
+        done();
+      });
+  });
+
+  // #3 should Return NGO Not Found
+  it("Should Return NGO Not Found", done => {
+    // calling verify api
+    chai
+      .request(app)
+      .put(`/api/ngo/${userData.invalidId}/verify/${userData.userId}`)
+      .end((err, res) => {
+        // HTTP status should be 404
+        res.status.should.equal(404);
+        // Error key should be false.
+        res.notFound.should.equal(true);
+        done();
+      });
+  });
+
 });

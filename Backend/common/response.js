@@ -22,7 +22,7 @@ class Response{
         res.statusCode = 404
         const response = {
             "code" : 404,
-            "errorMessage" : (!message)?"Not Found":message
+            "errorMessage" : message
         }
         return res.send(response);
     };
@@ -31,7 +31,7 @@ class Response{
         res.statusCode = 401
         const response = {
             "code" : 401,
-            "errorMessage" : (!message)?"Access Denied":message
+            "errorMessage" : message
         }
         return res.send(response);
     };
@@ -40,7 +40,7 @@ class Response{
         res.statusCode = 500
         const response = {
             "code" : 500,
-            "errorMessage" : (!errorMessage)?"something went wrong":errorMessage,
+            "errorMessage" : errorMessage,
             "message" : message
         }
         return res.send(response);

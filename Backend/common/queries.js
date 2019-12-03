@@ -48,11 +48,6 @@ exports.deleteverificationid = verificationid => {
   return ` delete from VerificationDetails where Id=${verificationid} `;
 };
 
-exports.raiseRescueRequest = data => {
-  const reqData = getColumnsAndValues(data);
-  return `insert into RescueDetails(${reqData.columns}) values(${reqData.Values})`;
-};
-
 exports.getUserByEmail = email => {
   return `select id, UserTypeId, Password, AddressDetailId, VerificationDetailId, isVerifiedUser from Users where Email = '${email}' 
           select id, UserTypeId, Password, AddressDetailId, VerificationDetailId, isVerifiedUser from authorities where Email = '${email}'`;
@@ -107,3 +102,8 @@ exports.deleteUser = email => {
 exports.deleteNGO = email => {
   return `delete from Authorities where Email = '${email}'`;
 };
+
+// exports.raiseRescueRequest = data => {
+//   const reqData = getColumnsAndValues(data);
+//   return `insert into RescueDetails(${reqData.columns}) values(${reqData.Values})`;
+// };
