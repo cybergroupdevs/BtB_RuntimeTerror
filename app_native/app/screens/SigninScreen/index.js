@@ -1,76 +1,17 @@
 import React, { Component } from 'react';
-import {
-  View, ImageBackground,
-  Image, TextInput, ValidateDefaultButton, Button, Alert,
-  Text, TouchableOpacity,
-} from 'react-native';
+import {  View, TextInput,Button, Image } from 'react-native';
 import styles from "./styles";
 import strings from '../../res/strings';
-import colors from '../../res/colors';
+import AashrayLogo from "../../assets/icons/AashrayLogo.png";
+
 class SigninScreen extends Component {
-  static get options() {
-    return {
-      topBar: { visible: false, height: 0 }
-    };
-  }
   state = {
-    display: 'none',
-    isloading: false,
-    showPass: true,
-    eyePress: false,
-    controls: {
-      email: {
-        value: "",
-        valid: false,
-        validationRules: {
-          isEmail: true
-        },
-        touched: false
-      },
-      password: {
-        value: "",
-        valid: false,
-        validationRules: {
-          minLength: 6
-        },
-        touched: false
-      }
-    }
+      email: "",
+      password: "",
   }
 
   componentDidMount = async() =>{  
-    var email = await localStorage.getItem('username');
-    this.test = email;
-    var pass = await localStorage.getItem('password');
-    this.setState((prevState) => {
-      return {
-        controls: {
-          ...prevState.controls,
-          email: {
-            ...prevState.controls.email,
-            value: email
-          }
-        }
-      };
-    });
-    if(email)
-    this.updateInputState('email', email)
-  };
-  
-  updateInputState = (key, value) => {
-    this.setState(prevState => {
-      return {
-        controls: {
-          ...prevState.controls,
-          [key]: {
-            ...prevState.controls[key],
-            value: value,
-            valid: validate(value, prevState.controls[key].validationRules),
-            touched: true
-          }
-        }
-      };
-    });
+
   };
 
   onLoginHandler = () => {
@@ -79,52 +20,38 @@ class SigninScreen extends Component {
       password: this.state.password.value
     };
     //this.props.onLogin(authData);
+    console.log(authData)
   };
 
   render() {
     return (
         <View style={styles.Container}>
           <View style={styles.inputContainer}>
-            <View>
+          <Image source={AashrayLogo}/>
                 <TextInput
-                  underlineColorAndroid="transparent"
-                  placeholder={strings.EmailAddress}
-                  value={this.state.controls.email.value}
-                  onChangeText={(val) => this.updateInputState('email', val)}
-                  style={[
-                    styles.input,
-                    !this.state.controls.email.valid
-                      && this.state.controls.email.touched
-                      ? styles.invalidInput : null
-                  ]}
-                  autoCapitalize="none"
-                  autoCorrect={false}
+                  underlineColorAndroid="#428AF8"
+                  selectionColor="#428AF8"
+                  placeholder='Email or Phone'
+                  value={this.state.email.value}
+                  onChangeText={(value) => this.setState({email: value})}
                   keyboardType="email-address"
                   returnKeyType={"next"}
                   onSubmitEditing={() => { this.password.focus(); }}
                 />
-            </View>
-            <View>
               <TextInput
-                underlineColorAndroid="transparent"
-                placeholder={strings.Password}
-                value={this.state.controls.password.value}
-                onChangeText={(val) => { this.updateInputState('password', val) }}
-                style={[
-                  styles.input,
-                  !this.state.controls.password.valid
-                    && this.state.controls.password.touched
-                    ? styles.invalidInput : null
-                ]}
+                underlineColorAndroid="#428AF8"
+                selectionColor="#428AF8"
+                placeholder="Enter password"
+                value={this.state.password.value}
+                onChangeText={(value) => this.setState({password: value})}
                 ref={(input) => { this.password = input; }}
-                secureTextEntry={this.state.showPass}
+                secureTextEntry={true}
               />
-            </View>
           </View>
           <Button
           title="Sign In"
           color="#f194ff"
-          onPress={() => Alert.alert('Button with adjusted color pressed')}
+          onPress={() => this.onLoginHandler()}
         />
         </View>   
     );

@@ -1,102 +1,50 @@
 import React, { Component } from 'react';
-import {
-  View, TextInput, Button, Alert, Picker, CheckBox
-} from 'react-native';
-import Geolocation from '@react-native-community/geolocation';
+import { View, TextInput, Button, Text, Picker, ScrollView } from 'react-native';
+
 import styles from "./styles";
+import Textarea from 'react-native-textarea';
+import RadioForm from 'react-native-simple-radio-button';
+import DatePicker from 'react-native-datepicker'
 
-class RequestRescueScreen extends Component {
-  static get options() {
-    return {
-      topBar: { visible: false, height: 0 }
-    };
-  }
+class OfferHelpScreen extends Component {
   state = {
-    name: "",
+    userId: "",
+    respondantname: "",
+    helpDescription: "",
+    isVolunteer: "",
+    volunteerType: "",
+    isShelter: 0,
+    isClothings: "",
+    isFood: "",
+    isMedicine: "",
+    canAccomodate: "",
+    isAccomodating: "",
+    accomodationType: "",
+    isVacant: "",
+    openAfterDate: "",
+    closeAfterDate: "",
+    email: "",
     phone: "",
-    typeOfHelp: "",
-    issueDescription: "",
-    commTerms: false,
-    currentLongitude: "",
-    currentLatitude: "",
-    geolocation: {
-      latitude: "",
-      longitude: ""
-    }
+    houseBuilding: "",
+    addressLine1: "",
+    addressLine2: "",
+    city: "",
+    state: "",
+    country: "",
+    pinCode: "",
+    landMark: "",
+    latitude: "",
+    longitude: "",
+    agreement: "",
+    radio_props: [
+      { label: 'Yes', value: 1 },
+      { label: 'No', value: 0 }
+    ],
+    radiobuttoncolor: "#50C900"
   };
 
-  componentDidMount = async () => {
-    //Checking for the permission just after component loaded
-   
-   /* if(Platform.OS === 'ios'){
-      this.callLocation(this);
-    }else{
-      async function requestLocationPermission() {
-        try {
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,{
-              'title': 'Location Access Required',
-              'message': 'This App needs to Access your location'
-            }
-          )
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            //To Check, If Permission is granted
-            this.callLocation(val);
-          } else {
-            alert("Permission Denied");
-          }
-        } catch (err) {
-          alert("err",err);
-          console.warn(err)
-        }
-      }
-      requestLocationPermission();
-    }  
-    */
-  };
-  callLocation(val){
-    /*//alert("callLocation Called");
-      Geolocation.getCurrentPosition(
-        //Will give you the current location
-         (position) => {
-            const currentLongitude = JSON.stringify(position.coords.longitude);
-            //getting the Longitude from the location json
-            const currentLatitude = JSON.stringify(position.coords.latitude);
-            //getting the Latitude from the location json
-            this.setState({ currentLongitude:currentLongitude });
-            //Setting state Longitude to re re-render the Longitude Text
-            this.setState({ currentLatitude:currentLatitude });
-            //Setting state Latitude to re re-render the Longitude Text
-         },
-         (error) => alert(error.message),
-         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-      );
-      this.watchID = Geolocation.watchPosition((position) => {
-        //Will give you the location on location change
-          console.log(position);
-          const currentLongitude = JSON.stringify(position.coords.longitude);
-          //getting the Longitude from the location json
-          const currentLatitude = JSON.stringify(position.coords.latitude);
-          //getting the Latitude from the location json
-         this.setState({ currentLongitude:currentLongitude });
-         //Setting state Longitude to re re-render the Longitude Text
-         this.setState({ currentLatitude:currentLatitude });
-         //Setting state Latitude to re re-render the Longitude Text
-      });
-      */
-   }
-  updateInputState = (key, value) => {
-    /*this.setState(prevState => {
-      return {
-        ...prevState[key],
-        value: value
-      };
-    });
-    */
-  };
-
-  onRequestRescueHandler = () => {
-    const rescueRequestData = {
+  onOfferHelpHandler = () => {
+    const HelpData = {
       name: this.state.name.value,
       phone: this.state.phone.value,
       typeOfHelp: this.state.typeOfHelp.value,
@@ -112,55 +60,228 @@ class RequestRescueScreen extends Component {
 
   render() {
     return (
-      <View style={styles.Container}>
-        <View style={styles.inputContainer}>
-        <View>
-            <Picker
-              selectedValue={this.state.typeOfHelp}
-              style={{ height: 50, width: 500 }}
-              onValueChange={(value) => this.updateInputState('typeOfHelp', value)
-              }>
-              <Picker.Item label="Please select the type of help you Need ▼" value="0" />
-              <Picker.Item label="Rescue" value="Rescue" />
-              <Picker.Item label="Food & Water Supply" value="Supply" />
-              <Picker.Item label="Medical Assitance" value="MedicalAssitance" />
-            </Picker>
-          </View>
-          <View>
+      <ScrollView >
+        <View style={styles.Container}>
+          <View style={styles.inputContainer}>
             <TextInput
-              underlineColorAndroid="transparent"
-              placeholder="Full Name"
-              value={this.state.name.value}
-              onChangeText={(value) => this.updateInputState('name', value)}
+              underlineColorAndroid="#428AF8"
+              selectionColor="#428AF8"
+              placeholder="Enter Respondant's Name"
+              value={this.state.respondantname.value}
+              onChangeText={(value) => this.setState({ respondantname: value })}
               returnKeyType={"next"}
             />
-          </View>
-          <View>
             <TextInput
-              underlineColorAndroid="transparent"
-              placeholder="Phone"
+              underlineColorAndroid="#428AF8"
+              selectionColor="#428AF8"
+              placeholder="Enter Your Phone"
               value={this.state.phone.value}
-              onChangeText={(value) => this.updateInputState('phone', value)}
+              keyboardType={'phone-pad'}
+              onChangeText={(value) => this.setState({ phone: value })}
+              returnKeyType={"next"}
+            />
+            <TextInput
+              underlineColorAndroid="#428AF8"
+              selectionColor="#428AF8"
+              placeholder="Enter Email"
+              value={this.state.email.value}
+              keyboardType="email-address"
+              onChangeText={(value) => this.setState({ email: value })}
+              returnKeyType={"next"}
+            />
+            <Textarea
+              style={styles.textareaContainer}
+              selectionColor="#428AF8"
+              maxLength={200}
+              placeholder="Describe the type of help you're offering"
+              value={this.state.helpDescription.value}
+              onChangeText={(value) => this.setState({ helpDescription: value })}
               returnKeyType={"next"}
             />
           </View>
           <View>
-            <TextInput
-              underlineColorAndroid="transparent"
-              placeholder="Describe your issue"
-              value={this.state.issueDescription.value}
-              onChangeText={(value) => this.updateInputState('issueDescription', value)}
-              returnKeyType={"next"}
-            />
+            <View>
+              <Text style={{ padding: 15, fontSize: 15 }}>Includes Food? :</Text>
+              <RadioForm //Radio Button for Food and Water
+                radio_props={this.state.radio_props}
+                initial={1}
+                formHorizontal={true}
+                onPress={(value) => { this.setState({ isFood: value }) }}
+                style={{}}
+              />
+            </View>
+            <View>
+              <Text style={{ padding: 15, fontSize: 15 }}>Includes Medications? :</Text>
+              <RadioForm //Radio Button for Medications and drugs
+                radio_props={this.state.radio_props}
+                initial={1}
+                formHorizontal={true}
+                onPress={(value) => { this.setState({ isMedicine: value }) }}
+                style={{}}
+              />
+            </View>
+            <View>
+              <Text style={{ padding: 15, fontSize: 15 }}>Includes Clothings? :</Text>
+              <RadioForm //Radio Button for Volunteering
+                radio_props={this.state.radio_props}
+                initial={1}
+                formHorizontal={true}
+                onPress={(value) => { this.setState({ isClothings: value }) }}
+                style={{}}
+              />
+            </View>
+            <View>
+              <Text style={{ padding: 15, fontSize: 15 }}>willing to Volunteer? :</Text>
+              <RadioForm //Radio Button for Volunteering
+                radio_props={this.state.radio_props}
+                initial={1}
+                formHorizontal={true}
+                onPress={(value) => { this.setState({ isVolunteer: value }) }}
+                style={{}}
+              />
+              {this.state.isVolunteer == 1 ?
+                <Picker
+                  selectedValue={this.state.volunteerType}
+                  style={{ width: 150 }}
+                  onValueChange={(value) => this.setState({ volunteerType: value })
+                  }>
+                  <Picker.Item label="Emergency Volunteering" value="Emergency Volunteering" />
+                  <Picker.Item label="Social Volunteering" value="Social Volunteering" />
+                  <Picker.Item label="Virtual Volunteering" value="Virtual Volunteering" />
+                  <Picker.Item label="Recruit Volunteering" value="Recruit Volunteering" />
+                </Picker>
+                : null}
+            </View>
+            <View>
+              <Text style={{ padding: 15, fontSize: 15 }}>Includes Shelter? :</Text>
+              <RadioForm //Radio Button for Address
+                radio_props={this.state.radio_props}
+                initial={1}
+                formHorizontal={true}
+                onPress={(value) => { this.setState({ isShelter: value }) }}
+              />
+            </View>
           </View>
-        </View>
-        <Button
-          title="Request Help"
-          color="#f194ff"
+          {this.state.isShelter == 1 ?// show hide address block
+            <View style={styles.inputContainer}>
+              <TextInput
+                underlineColorAndroid="#428AF8"
+                selectionColor="#428AF8"
+                placeholder="House/Building Number"
+                value={this.state.houseBuilding.value}
+                onChangeText={(value) => this.setState({ houseBuilding: value })}
+                returnKeyType={"next"}
+              />
+              <TextInput
+                underlineColorAndroid="#428AF8"
+                selectionColor="#428AF8"
+                placeholder="Address Line 1"
+                value={this.state.addressLine1.value}
+                onChangeText={(value) => this.setState(addressLine1, value)}
+                returnKeyType={"next"}
+              />
+              <TextInput
+                underlineColorAndroid="#428AF8"
+                selectionColor="#428AF8"
+                placeholder="Address Line 2"
+                value={this.state.addressLine2.value}
+                onChangeText={(value) => this.setState({ addressLine2: value })}
+                returnKeyType={"next"}
+              />
+              <TextInput
+                underlineColorAndroid="#428AF8"
+                selectionColor="#428AF8"
+                placeholder="City"
+                value={this.state.city.value}
+                onChangeText={(value) => this.setState({ city: value })}
+                returnKeyType={"next"}
+                secureTextEntry={true}
+              />
+              <TextInput
+                underlineColorAndroid="#428AF8"
+                selectionColor="#428AF8"
+                placeholder="State"
+                value={this.state.state.value}
+                onChangeText={(value) => this.setState({ state: value })}
+                returnKeyType={"next"}
+                secureTextEntry={true}
+              />
+              <TextInput
+                underlineColorAndroid="#428AF8"
+                selectionColor="#428AF8"
+                placeholder="Pincode"
+                value={this.state.pinCode.value}
+                keyboardType={'phone-pad'}
+                onChangeText={(value) => this.setState({ pinCode: value })}
+                returnKeyType={"next"}
+              />
+              <TextInput
+                underlineColorAndroid="#428AF8"
+                selectionColor="#428AF8"
+                placeholder="Landmark"
+                value={this.state.landMark.value}
+                onChangeText={(value) => this.setState({ landMark: value })}
+                returnKeyType={"next"}
+              />
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <DatePicker
+                      style={{ width: 150, paddingBottom: 10, paddingTop: 5 }}
+                      date={this.state.dob}
+                      mode="date"
+                      placeholder="select start date"
+                      format="YYYY-MM-DD"
+                      minDate="1970-01-01"
+                      maxDate="2030-12-31"
+                      confirmBtnText="Confirm"
+                      cancelBtnText="Cancel"
+                      customStyles={{
+                        dateIcon: {
+                          position: 'absolute',
+                          left: 0,
+                          top: 4,
+                          marginLeft: 0
+                        },
+                        dateInput: {
+                          marginLeft: 36
+                        }
+                      }}
+                      onDateChange={(date) => { this.setState({ openAfterDate: date }) }}
+                    />
+                    <DatePicker
+                      style={{ width: 150, paddingBottom: 10, paddingTop: 5 }}
+                      date={this.state.dob}
+                      mode="date"
+                      placeholder="select end date"
+                      format="YYYY-MM-DD"
+                      minDate="1970-01-01"
+                      maxDate="2030-12-31"
+                      confirmBtnText="Confirm"
+                      cancelBtnText="Cancel"
+                      customStyles={{
+                        dateIcon: {
+                          position: 'absolute',
+                          left: 0,
+                          top: 4,
+                          marginLeft: 0
+                        },
+                        dateInput: {
+                          marginLeft: 36
+                        }
+                      }}
+                      onDateChange={(date) => { this.setState({ closeAfterDate: date }) }}
+                    />
+                  </View>
+            </View>
+            :
+            null}
+          <Button
+            title="Offer Help"
+            color="#f194ff"
           //onPress={this.onRequestRescueHandler()          }
-        />
-      </View>
+          />
+        </View>
+      </ScrollView>
     );
   }
 };
-export default (RequestRescueScreen);
+export default (OfferHelpScreen);
