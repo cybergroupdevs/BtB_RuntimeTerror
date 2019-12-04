@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, TextInput, Button, Picker, Text, ScrollView } from 'react-native';
-import DatePicker from 'react-native-datepicker'
+import { View, TextInput, Button, Picker, Text, Image, ScrollView } from 'react-native';
+import DatePicker from 'react-native-datepicker';
+import AashrayLogo from "../../assets/icons/AashrayLogo.png";
 import styles from "./styles";
 
 class SignupScreen extends Component {
@@ -24,10 +25,6 @@ class SignupScreen extends Component {
     fullauthadd: "",
     phone2: "",
     phone3: ""
-  };
-
-  componentDidMount = async () => {
-    //Checking for the permission just after component loaded
   };
 
   onSignupHandler = () => {
@@ -64,49 +61,56 @@ class SignupScreen extends Component {
   render() {
     return (
       <ScrollView >
-        <View style={styles.Container}>
-          <View style={styles.inputContainer}>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-              <Text style={{ padding: 15, fontSize: 15 }}>Signup As :</Text>
+        <View style={styles.MainContainer}>
+          <View>
+            <View style={styles.LogoContainer}>
+              <Image
+                source={AashrayLogo}
+              />
+            </View>
+            <View style={styles.UserSelectionContainer}>
+              <Text style={styles.UserSelectionText}>
+                Signup As :
+              </Text>
               <Picker
                 selectedValue={this.state.usertype}
-                style={{ height: 50, width: 215 }}
+                style={styles.UserSelectionPicker}
                 onValueChange={(value) => this.setState({ usertype: value })
                 }>
                 <Picker.Item label="User" value="User" />
                 <Picker.Item label="Authority" value="Authority" />
               </Picker>
             </View>
-            <View>
+            <View style={styles.UserSpecificContainers}>
               {this.state.usertype == 'User' ?
-                <View>
+                <View style={styles.UserInputWrapper}>
                   <TextInput
-                    underlineColorAndroid="#428AF8"
-                    selectionColor="#428AF8"
+                    underlineColorAndroid="#6F2059"
+                    selectionColor="#6F2059"
                     placeholder="First Name"
                     value={this.state.firstname.value}
                     onChangeText={(value) => this.setState({ firstname: value })}
                     returnKeyType={"next"}
                   />
                   <TextInput
-                    underlineColorAndroid="#428AF8"
-                    selectionColor="#428AF8"
+                    underlineColorAndroid="#6F2059"
+                    selectionColor="#6F2059"
                     placeholder="Middle Name"
                     value={this.state.middlename.value}
                     onChangeText={(value) => this.setState(middlename, value)}
                     returnKeyType={"next"}
                   />
                   <TextInput
-                    underlineColorAndroid="#428AF8"
-                    selectionColor="#428AF8"
+                    underlineColorAndroid="#6F2059"
+                    selectionColor="#6F2059"
                     placeholder="Last Name"
                     value={this.state.lastname.value}
                     onChangeText={(value) => this.setState(lastname, value)}
                     returnKeyType={"next"}
                   />
                   <TextInput
-                    underlineColorAndroid="#428AF8"
-                    selectionColor="#428AF8"
+                    underlineColorAndroid="#6F2059"
+                    selectionColor="#6F2059"
                     placeholder="Phone Number"
                     value={this.state.phone.value}
                     keyboardType={'phone-pad'}
@@ -114,15 +118,15 @@ class SignupScreen extends Component {
                     returnKeyType={"next"}
                   />
                   <TextInput
-                    underlineColorAndroid="#428AF8"
+                    underlineColorAndroid="#6F2059"
                     placeholder="Enter your Email"
                     value={this.state.email.value}
                     onChangeText={(value) => this.setState(email, value)}
                     returnKeyType={"next"}
                   />
                   <TextInput
-                    underlineColorAndroid="#428AF8"
-                    selectionColor="#428AF8"
+                    underlineColorAndroid="#6F2059"
+                    selectionColor="#6F2059"
                     placeholder="Enter your Password"
                     value={this.state.password.value}
                     onChangeText={(value) => this.setState(password, value)}
@@ -130,17 +134,18 @@ class SignupScreen extends Component {
                     secureTextEntry={true}
                   />
                   <TextInput
-                    underlineColorAndroid="#428AF8"
-                    selectionColor="#428AF8"
+                    underlineColorAndroid="#6F2059"
+                    selectionColor="#6F2059"
                     placeholder="Re-enter your Password"
                     value={this.state.retypepass.value}
                     onChangeText={(value) => this.setState(retypepass, value)}
                     returnKeyType={"next"}
                     secureTextEntry={true}
                   />
-                  <View style={{ flex: 1, flexDirection: 'row' }}>
+                  <View style={styles.UserSelectionContainer}>
+                    <View>
                     <DatePicker
-                      style={{ width: 175, paddingBottom: 10, paddingTop: 5 }}
+                      style={styles.DatePickerStyle}
                       date={this.state.dob}
                       mode="date"
                       placeholder="select date of birth"
@@ -162,46 +167,48 @@ class SignupScreen extends Component {
                       }}
                       onDateChange={(date) => { this.setState({ dob: date }) }}
                     />
+                    </View>
+                    <View>
                     <Picker
                       selectedValue={this.state.gender}
-                      style={{ width: 150 }}
                       onValueChange={(value) => this.setState({ gender: value })
                       }>
                       <Picker.Item label="Male" value="male" />
                       <Picker.Item label="Female" value="female" />
                       <Picker.Item label="Other" value="other" />
                     </Picker>
+                    </View>
                   </View>
-                </View> 
+                </View>
                 :
-                <View>
+                <View style={styles.AuthorityInputWrapper}>
                   <TextInput
-                    underlineColorAndroid="#428AF8"
-                    selectionColor="#428AF8"
+                    underlineColorAndroid="#6F2059"
+                    selectionColor="#6F2059"
                     placeholder="Authority's Full Name"
                     value={this.state.fullauthname.value}
                     onChangeText={(value) => this.setState(fullauthname, value)}
                     returnKeyType={"next"}
                   />
                   <TextInput
-                    underlineColorAndroid="#428AF8"
-                    selectionColor="#428AF8"
+                    underlineColorAndroid="#6F2059"
+                    selectionColor="#6F2059"
                     placeholder="Full Address"
                     value={this.state.fullauthadd.value}
                     onChangeText={(value) => this.setState(fullauthadd, value)}
                     returnKeyType={"next"}
                   />
                   <TextInput
-                    underlineColorAndroid="#428AF8"
-                    selectionColor="#428AF8"
+                    underlineColorAndroid="#6F2059"
+                    selectionColor="#6F2059"
                     placeholder="Authority's Official Email"
                     value={this.state.email.value}
                     onChangeText={(value) => this.setState(email, value)}
                     returnKeyType={"next"}
                   />
                   <TextInput
-                    underlineColorAndroid="#428AF8"
-                    selectionColor="#428AF8"
+                    underlineColorAndroid="#6F2059"
+                    selectionColor="#6F2059"
                     placeholder="Enter your Password"
                     value={this.state.password.value}
                     onChangeText={(value) => this.setState(password, value)}
@@ -209,8 +216,8 @@ class SignupScreen extends Component {
                     secureTextEntry={true}
                   />
                   <TextInput
-                    underlineColorAndroid="#428AF8"
-                    selectionColor="#428AF8"
+                    underlineColorAndroid="#6F2059"
+                    selectionColor="#6F2059"
                     placeholder="Re-enter your Password"
                     value={this.state.retypepass.value}
                     onChangeText={(value) => this.setState(retypepass, value)}
@@ -218,8 +225,8 @@ class SignupScreen extends Component {
                     secureTextEntry={true}
                   />
                   <TextInput
-                    underlineColorAndroid="#428AF8"
-                    selectionColor="#428AF8"
+                    underlineColorAndroid="#6F2059"
+                    selectionColor="#6F2059"
                     placeholder="Phone Number"
                     value={this.state.phone.value}
                     keyboardType={'phone-pad'}
@@ -227,8 +234,8 @@ class SignupScreen extends Component {
                     returnKeyType={"next"}
                   />
                   <TextInput
-                    underlineColorAndroid="#428AF8"
-                    selectionColor="#428AF8"
+                    underlineColorAndroid="#6F2059"
+                    selectionColor="#6F2059"
                     placeholder="Add Another Phone"
                     value={this.state.phone2.value}
                     keyboardType={'phone-pad'}
@@ -236,8 +243,8 @@ class SignupScreen extends Component {
                     returnKeyType={"next"}
                   />
                   <TextInput
-                    underlineColorAndroid="#428AF8"
-                    selectionColor="#428AF8"
+                    underlineColorAndroid="#6F2059"
+                    selectionColor="#6F2059"
                     placeholder="Add Another Phone"
                     value={this.state.phone3.value}
                     keyboardType={'phone-pad'}
@@ -247,6 +254,8 @@ class SignupScreen extends Component {
                 </View>
               }
             </View>
+          </View>
+          <View>
             <Button
               title="Sign Up"
               color="#f194ff"
