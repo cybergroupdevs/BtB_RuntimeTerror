@@ -1,3 +1,7 @@
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable comma-dangle */
+/* eslint-disable quotes */
+/* eslint-disable prettier/prettier */
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
@@ -56,14 +60,34 @@ const styles = StyleSheet.create({
     singleFiledContent:{
       padding:10,
       flexDirection:"column"
-    },
+    },          
     filePickerbuttonStyle: {
       flexDirection: 'row',
       backgroundColor: '#DDDDDD',
       padding: 5,
       borderRadius:10
     },
-  
+    ifVerifiedStyle: {
+      alignItems: 'center',
+      paddingTop:20,
+      paddingBottom:20,
+      fontWeight:'bold' ,
+    },
+    verifyButton: {
+      backgroundColor:"green",
+      marginLeft:"30%",
+      marginRight:"30%",
+      marginBottom:"8%",
+      marginTop:"5%",
+      alignItems:"center",
+      borderRadius:10
+    },
+    verifyButtonText: { 
+      color:"white", 
+      fontSize:15,
+      fontWeight:"bold",
+      paddingBottom:8,
+      paddingTop:8}
   });
 
   export default styles;
