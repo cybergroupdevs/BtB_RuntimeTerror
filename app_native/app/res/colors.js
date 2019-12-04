@@ -1,4 +1,6 @@
 const colors = {
+primaryColor: "#A52E84",
+SecondaryColor: "#6F2059",
   danger: "#F44336",
   statusBar: "#3179df",
   topBar: "#3d87f0",
