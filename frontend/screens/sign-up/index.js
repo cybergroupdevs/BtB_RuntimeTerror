@@ -12,7 +12,6 @@ import DatePicker from "react-native-datepicker";
 import AashrayLogo from "../../assets/images/AashrayLogo.png";
 import styles from "./style";
 
-// export default function SignupScreen({ navigation }) {
 class SignupScreen extends Component {
   static navigationOptions = {
     title: "Sign-up"
