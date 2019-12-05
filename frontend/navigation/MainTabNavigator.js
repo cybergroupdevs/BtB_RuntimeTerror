@@ -16,6 +16,10 @@ import ItemsScreen from '../screens/Items';
 import Screen from '../screens/Screen2'
 // import offerHelp from '../screens/offferHelp'
 import offerHelp from "../screens/OfferHelp/OfferHelp";
+import LoginScreen from "../screens/login/index";
+import SignupScreen from "../screens/sign-up/index";
+import ListScreen from "../screens/ListScreen/list";
+import ProfileScreen from "../screens/ProfileScreen";
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -47,7 +51,7 @@ HomeStack.path = '';
 
 const ListStack = createStackNavigator(
   {
-    Links: LinksScreen
+    Links: ListScreen
   },
   config
 );
@@ -84,6 +88,9 @@ HelpStack.path = "";
 
 const ProfileStack = createStackNavigator(
   {
+    Login : LoginScreen,
+    Signup : SignupScreen,
+    Profile : ProfileScreen,
     Settings: SettingsScreen
   },
   config
@@ -113,7 +120,7 @@ const tabNavigator = createBottomTabNavigator(
     tabBarOptions: {
       scrollEnabled: true,
       upperCaseLabel: false,
-      activeTintColor: "#2f95dc",
+      activeTintColor: "#FEEBFA",
       inactiveTintColor: "#ccc",
       showLabel: false,
       style: {
