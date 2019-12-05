@@ -48,20 +48,17 @@ exports.deleteverificationid = verificationid => {
   return ` delete from VerificationDetails where Id=${verificationid} `;
 };
 
-exports.raiseRescueRequest = data => {
-  const reqData = getColumnsAndValues(data);
-  return `insert into RescueDetails(${reqData.columns}) values(${reqData.Values})`;
-};
-
 exports.getUserByEmail = email => {
-  return `select id, UserTypeId, Password, AddressDetailId, VerificationDetailId from Users where Email = '${email}' 
-          select id, UserTypeId, Password, AddressDetailId, VerificationDetailId from authorities where Email = '${email}'`;
+  return `select id, UserTypeId, Password, AddressDetailId, VerificationDetailId, isVerifiedUser from Users where Email = '${email}' 
+          select id, UserTypeId, Password, AddressDetailId, VerificationDetailId, isVerifiedUser from authorities where Email = '${email}'`;
 };
 
-exports.listOfferedHelps = `select * from helps`;
+exports.listPrivateProperties = `select * from helps where AccomodationType = 'Private'`;
+
+exports.listGovtShelters = `select * from helps where AccomodationType = 'Government_Shelters'`;
 
 exports.userOfferedHelps = id => {
-  return `select * from helps where UserId = ${id}`;
+  return `select * from helps where UserId = ${id} and AccomodationType = 'Private'`;
 };
 
 exports.insertHelp = data => {
@@ -74,3 +71,41 @@ exports.insertNewAddress = data => {
   return `insert into addressdetails(${reqData.columns}) values(${reqData.Values}) select SCOPE_IDENTITY() as id`;
 };
 
+exports.getUserDetails = id => {
+  return `select * from users where id = ${id}`;
+}
+
+exports.getAddressDetails = id => {
+  return `select * from AddressDetails where id = ${id}`;
+};
+
+exports.getVerificationDetails = id => {
+  return `select * from VerificationDetails where id = ${id}`;
+};
+
+exports.getNGODetails = id => {
+  return `select * from Authorities where id = ${id}`;
+};
+
+exports.verifyUser = (userId, ngo) => {
+  return `update Users set isVerifiedUser = 1, VerifiedBy = '${ngo}' where id = ${userId}`;
+}
+
+exports.verifyNGO = (ngoId, user) => {
+  return `update Authorities set isVerifiedUser = 1, VerifiedBy = '${user}' where id = ${ngoId}`;
+};
+
+exports.deleteUser = email => {
+  return `delete from Users where Email = '${email}'`
+};
+
+exports.deleteNGO = email => {
+  return `delete from Authorities where Email = '${email}'`;
+};
+
+exports.getUnverifiedUser = `select * from Users where isVerifiedUser = 0`;
+
+// exports.raiseRescueRequest = data => {
+//   const reqData = getColumnsAndValues(data);
+//   return `insert into RescueDetails(${reqData.columns}) values(${reqData.Values})`;
+// };

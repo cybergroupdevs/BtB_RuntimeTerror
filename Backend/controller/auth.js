@@ -1,5 +1,5 @@
 const isEmpty = require("lodash.isempty");
-const { runQuery, runSP, checkPassword } = require("../common/function");
+const { runQuery, runSP, checkPassword, getToken } = require("../common/function");
 const Response = require("../common/response");
 const {
   userSignup,
@@ -13,13 +13,14 @@ exports.login = async (req, res) => {
   if (isEmpty(req.body)) Response.BadRequest(res, "No data found in body");
   else {
     const user = await runQuery(getUserByEmail(req.body.Email));
+    // res.send(user)
     if (user.recordsets[1][0]) {
       checkPassword(req.body.password, user.recordsets[1][0].Password)
-        ? Response.Success(res, user.recordsets[1][0], "Success")
+        ? Response.Success(res, {"Token": getToken(user.recordsets[1][0])})
         : Response.AccessDenied(res, "Email password don't match");
     } else if (user.recordsets[0][0]) {
-      checkPassword(req.body.password, user.recordsets[1][0].Password)
-        ? Response.Success(res, user.recordsets[0][0], "Success")
+      checkPassword(req.body.password, user.recordsets[0][0].Password)
+        ? Response.Success(res, { Token: getToken(user.recordsets[0][0]) })
         : Response.AccessDenied(res, "Email password don't match");
     } else {
       Response.NotFound(res, "NO account with that email");
@@ -29,13 +30,11 @@ exports.login = async (req, res) => {
 
 exports.signupNGO = async (req, res) => {
   if (isEmpty(req.body)) {
-    Response.BadRequest(res, "No data to post");
+    Response.BadRequest(res);
   } else {
     const result = await runSP("get_NewAddressid_Verificationid");
     req.body.AddressDetailId = result.recordset[0].addressid;
     req.body.VerificationDetailId = result.recordset[0].verificationid;
-    req.body.isActive = 1;
-    req.body.isVerifiedUser = 0;
     const data = await runQuery(NGOSignup(req.body));
     if (!data.error) Response.Success(res);
     else {
@@ -62,8 +61,6 @@ exports.signupUser = async (req, res) => {
     const result = await runSP("get_NewAddressid_Verificationid");
     req.body.AddressDetailId = result.recordset[0].addressid;
     req.body.VerificationDetailId = result.recordset[0].verificationid;
-    req.body.isActive = 1;
-    req.body.isVerifiedUser = 0;
     const data = await runQuery(userSignup(req.body));
     if (!data.error) Response.Success(res);
     else {

@@ -22,16 +22,16 @@ class Response{
         res.statusCode = 404
         const response = {
             "code" : 404,
-            "errorMessage" : (!message)?"Not Found":message
+            "errorMessage" : message
         }
         return res.send(response);
     };
 
     static AccessDenied(res, message) {
-        res.statusCode = 403
+        res.statusCode = 401
         const response = {
-            "code" : 403,
-            "errorMessage" : (!message)?"Access Denied":message
+            "code" : 401,
+            "errorMessage" : message
         }
         return res.send(response);
     };
@@ -40,7 +40,7 @@ class Response{
         res.statusCode = 500
         const response = {
             "code" : 500,
-            "errorMessage" : (!errorMessage)?"something went wrong":errorMessage,
+            "errorMessage" : errorMessage,
             "message" : message
         }
         return res.send(response);

@@ -28,7 +28,7 @@ CREATE TABLE RescueDetails (Id int PRIMARY KEY IDENTITY(1,1),
 							MapLocation varchar(255) NULL,
 							SuccessPercentage int NULL,
 							isCompleted bit NULL,
-							isActive bit NOT NULL);
+							isActive bit NOT NULL DEFAULT 1);
 
 --Holds the Address data
 DROP TABLE IF EXISTS AddressDetails;
@@ -46,8 +46,8 @@ CREATE TABLE AddressDetails (Id int Primary key identity (1,1),
 							 Latitude float(15) NULL,
 							 Longitude float(15) NULL,
 							 MapLocation nvarchar(500) NULL,
-							 isAddressVerified bit NOT NULL,
-							 isActive bit NOT NULL);
+							 isAddressVerified bit DEFAULT 0,
+							 isActive bit DEFAULT 1);
 
 --Holds the verification data
 DROP TABLE IF EXISTS VerificationDetails;
@@ -68,13 +68,13 @@ CREATE TABLE VerificationDetails (Id int Primary key identity (1,1),
 								  isCertifiedBy1 varchar(50) NULL,
 								  isCertifiedBy2 varchar(50) NULL,
 								  isCertifiedBy3 varchar(50) NULL,
-								  isActive bit NOT NULL);
+								  isActive bit DEFAULT 1);
 								  
 --Users Table (Holds user table)
 DROP TABLE IF EXISTS Users;
 CREATE TABLE Users (Id int PRIMARY KEY identity(1,1),
 					UserTypeId int NOT NULL references dbo.UserTypes (Id) ON UPDATE CASCADE,
-					UserName varchar(30) NULL,
+					UserName varchar(30) NOT NULL,
 					FirstName varchar(30) NOT NULL,
 					MiddleName varchar(30) NULL,
 					LastName varchar(30) NULL,
@@ -93,10 +93,10 @@ CREATE TABLE Users (Id int PRIMARY KEY identity(1,1),
 					ThirdPartyId nvarchar(500) NULL,
 					isOrgPart bit NULL,
 					OrgName varchar (50) NULL,
-					isActive bit NOT NULL,
+					isActive bit NOT NULL DEFAULT 1,
 					isEmailVerified bit NULL,
 					isPhoneVerified bit NULL,
-					isVerifiedUser bit NOT NULL,
+					isVerifiedUser bit NOT NULL DEFAULT 0,
 					VerifiedBy varchar(50) NULL);
 
 --Records of all the helps
@@ -105,7 +105,6 @@ CREATE TABLE Helps (Id int PRIMARY KEY identity (1,1),
 							UserId int NOT NULL,
 							isActive bit NOT NULL,
 							HelpDescription nvarchar(500) NULL,
-							IsVerified bit NULL,
 							OpenDate datetime NULL,
 							CloseDate datetime NULL,
 							isVolunteer bit NULL,
@@ -145,6 +144,6 @@ CREATE TABLE Authorities (Id int PRIMARY KEY identity(1,1),
 							SecurityQuestion2Answer varchar(50) NULL,
 							isAuthByThirdParty bit NULL,
 							ThirdPartyId nvarchar(500) NULL,
-							isActive bit NOT NULL,
-							isVerifiedUser bit NULL,
+							isActive bit NOT NULL DEFAULT 1,
+							isVerifiedUser bit NULL DEFAULT 0,
 							VerifiedBy varchar(50) NULL);

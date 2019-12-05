@@ -1,7 +1,9 @@
 const sql = require("mssql");
 const bcrypt = require("bcryptjs");
-
+const jwt = require("jsonwebtoken");
+const keys = require("config");
 const { config } = require("../config/config");
+const tokenKey = keys.get("tokenKey");
 
 exports.runQuery = async query => {
   try {
@@ -9,32 +11,6 @@ exports.runQuery = async query => {
     if (pool) {
       try {
         let result = await pool.request().query(query);
-        return result;
-      } catch (err) {
-        return (result = {
-          message: "Query Error",
-          error: err.originalError
-        });
-      }
-    }
-    pool.close();
-  } catch (err) {
-    return (result = {
-      message: "Connection Error",
-      error: err.originalError
-    });
-  }
-};
-
-exports.runMultipleQuery = async query => {
-  try {
-    let pool = await sql.connect(config);
-    if (pool) {
-      try {
-        let i=0,result = [];
-        while (i < query.length) {
-          result[i] = await pool.request().query(query[i]);
-        }
         return result;
       } catch (err) {
         return (result = {
@@ -135,4 +111,8 @@ const hashedPassword = password => {
 
 exports.checkPassword = (password, hash) => {
   return bcrypt.compareSync(password, hash);
+}
+
+exports.getToken = (data) => {
+  return (token = jwt.sign(data, tokenKey));
 }
