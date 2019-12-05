@@ -1,87 +1,52 @@
 import { StyleSheet } from "react-native";
-// import color from "../../res/colors";
 
 const styles = StyleSheet.create({
-  textareaContainer: {
-    height: 180,
-    padding: 5,
-    backgroundColor: "#F5FCFF"
-  },
-  bgImage: {
-    flex: 1,
+  MainContainer: {
     width: "100%",
     height: "100%",
-    backgroundColor: 'black'
+    alignItems: "center",
+    marginBottom: "20%"
   },
-  Container: {
+  SubContainer1: {
+    marginTop: "10%",
+    width: "80%"
+  },
+  textareaContainer: {
+    height: 180,
+    backgroundColor: "#F5FCFF",
+    fontSize: 14
+  },
+  SubContainer2: {
+    marginTop: "5%",
+    width: "80%"
+  },
+  RadioButtonContainer: {
     flex: 1,
+    flexDirection: "row",
     width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 100
+    justifyContent: "space-between"
   },
-  logoContainer: {
-    alignItems: "center",
-    marginTop: 103
+  RadioButton: {
+    width: "40%"
   },
-  logoImage: {
-    width: 190,
-    height: 180
+  LabelText: {
+    maxWidth: "60%",
+    padding: 15,
+    fontSize: 15
   },
-  inputContainer: {
-    width: "75%",
-    marginTop: 25
+  SubContainer3: {
+    marginTop: "2%",
+    width: "80%"
   },
-  input: {
-    width: "100%",
-    height: 50,
-    borderWidth: 1,
-    paddingLeft: 20,
-    backgroundColor: "#eee",
-    borderColor: "#bbb",
-    borderRadius: 50,
-    marginTop: 8,
-    marginBottom: 8
+  ButtonContainer: {
+    marginTop: "5%",
+    marginBottom: "2%",
+    minWidth: "50%",
+    maxWidth: "50%"
   },
-  invalidInput: {
-    backgroundColor: "#f9c0c0",
-    borderColor: "red"
-  },
-  forgotText: {
-    color: "#ffffff",
-    padding: 5,
-    marginTop: 5,
-    fontSize: 13
-  },
-  touchIdText: {
-    color: "#039be5",
-    textDecorationLine: "underline",
-    fontSize: 13
-  },
-  button: {
-    width: "100%",
-    height: 50,
-    borderRadius: 50,
-    padding: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 15,
-    borderWidth: 1
-  },
-
-  spinnerTextStyle: {
-    color: "#FFF"
-  },
-  forgotText: {
-    color: "white",
-    padding: 5,
-    marginTop: 5,
-    fontSize: 13
-  },
-  eyeButton: {
-    position: "absolute",
-    top: 20,
-    right: 17
+  DatePickerContainer: {
+    flex: 1,
+    flexDirection: "row"
   }
 });
 

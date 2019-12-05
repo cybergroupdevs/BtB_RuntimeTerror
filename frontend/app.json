@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Testing",
+    "name": "Aashray",
     "slug": "Home",
     "privacy": "public",
     "sdkVersion": "35.0.0",
@@ -11,7 +11,7 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/AashrayLogo.png",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",

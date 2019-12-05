@@ -10,12 +10,11 @@ import { Ionicons } from "@expo/vector-icons";
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
-import ItemsScreen from '../screens/Items';
-import Screen from '../screens/Screen2'
-// import offerHelp from '../screens/offferHelp'
 import offerHelp from "../screens/OfferHelp/OfferHelp";
+import LoginScreen from "../screens/login/index";
+import SignupScreen from "../screens/sign-up/index";
+import ListScreen from "../screens/ListScreen/list";
+import ProfileScreen from "../screens/ProfileScreen/index";
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -47,7 +46,7 @@ HomeStack.path = '';
 
 const ListStack = createStackNavigator(
   {
-    Links: LinksScreen
+    List: ListScreen
   },
   config
 );
@@ -63,9 +62,7 @@ ListStack.path = "";
 
 const HelpStack = createStackNavigator(
   {
-    Settings: offerHelp,
-    Item: ItemsScreen,
-    NewScreen: Screen,
+    Settings: offerHelp
   },
   config
 );
@@ -84,7 +81,9 @@ HelpStack.path = "";
 
 const ProfileStack = createStackNavigator(
   {
-    Settings: SettingsScreen
+    Login : LoginScreen,
+    Signup : SignupScreen,
+    Profile : ProfileScreen
   },
   config
 );
@@ -113,7 +112,7 @@ const tabNavigator = createBottomTabNavigator(
     tabBarOptions: {
       scrollEnabled: true,
       upperCaseLabel: false,
-      activeTintColor: "#2f95dc",
+      activeTintColor: "#FEEBFA",
       inactiveTintColor: "#ccc",
       showLabel: false,
       style: {

@@ -37,9 +37,11 @@ export default function TabBarIcon(props) {
         name={props.name}
         size={props.focused ? 35 : 25}
         style={{ marginBottom: -3 }}
-        color={props.focused ? Colors.tabIconSelected : Colors.tabIconDefault}
+        color={props.focused ? "#6F2059" : Colors.tabIconDefault}
       />
-      {props.focused ? <Text style={{color: Colors.tabIconSelected}}>{getLabelName(props.name)}</Text> : null}
+      {props.focused ? (
+        <Text style={{ color: "#6F2059" }}>{getLabelName(props.name)}</Text>
+      ) : null}
     </View>
   );
 }
