@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     maxWidth: "30%"
   },
   LogoImage: {
-    marginTop: "15%"
+    marginTop: "5%",
   },
   InputContainer: {
     minWidth: "80%",

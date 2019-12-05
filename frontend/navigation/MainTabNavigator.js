@@ -10,16 +10,11 @@ import { Ionicons } from "@expo/vector-icons";
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
-import ItemsScreen from '../screens/Items';
-import Screen from '../screens/Screen2'
-// import offerHelp from '../screens/offferHelp'
 import offerHelp from "../screens/OfferHelp/OfferHelp";
 import LoginScreen from "../screens/login/index";
 import SignupScreen from "../screens/sign-up/index";
 import ListScreen from "../screens/ListScreen/list";
-import ProfileScreen from "../screens/ProfileScreen";
+import ProfileScreen from "../screens/ProfileScreen/index";
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -51,7 +46,7 @@ HomeStack.path = '';
 
 const ListStack = createStackNavigator(
   {
-    Links: ListScreen
+    List: ListScreen
   },
   config
 );
@@ -67,9 +62,7 @@ ListStack.path = "";
 
 const HelpStack = createStackNavigator(
   {
-    Settings: offerHelp,
-    Item: ItemsScreen,
-    NewScreen: Screen,
+    Settings: offerHelp
   },
   config
 );
@@ -90,8 +83,7 @@ const ProfileStack = createStackNavigator(
   {
     Login : LoginScreen,
     Signup : SignupScreen,
-    Profile : ProfileScreen,
-    Settings: SettingsScreen
+    Profile : ProfileScreen
   },
   config
 );

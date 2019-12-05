@@ -29,6 +29,7 @@ export default function SigninScreen({navigation}) {
           selectionColor="#6F2059"
           placeholder="Email or Phone"
           value={this.state.email.value}
+          style={{ fontSize: 24, paddingBottom: 10, paddingTop: 13 }}
           onChangeText={value => this.setState({ email: value })}
           keyboardType="email-address"
           returnKeyType={"next"}
@@ -41,6 +42,7 @@ export default function SigninScreen({navigation}) {
           selectionColor="#428AF8"
           placeholder="Enter password"
           value={this.state.password.value}
+          style={{ fontSize: 24, paddingBottom: 10, paddingTop: 13 }}
           onChangeText={value => this.setState({ password: value })}
           ref={input => {
             this.password = input;
@@ -56,8 +58,26 @@ export default function SigninScreen({navigation}) {
         />
       </View>
       <View style={styles.TextContainer}>
-        <Text onPress={() => navigation.navigate("Profile")}>Forgot Password?</Text>
-        <Text onPress={() => navigation.navigate("Signup")}>Register Here</Text>
+        <Text
+          onPress={() => navigation.navigate("Profile")}
+          style={{
+            fontSize: 16,
+            color: "blue",
+            textDecorationLine: "underline"
+          }}
+        >
+          Forgot Password?
+        </Text>
+        <Text
+          onPress={() => navigation.navigate("Signup")}
+          style={{
+            fontSize: 16,
+            color: "blue",
+            textDecorationLine: "underline"
+          }}
+        >
+          Register Here
+        </Text>
       </View>
     </View>
   );
