@@ -1,10 +1,13 @@
+/* eslint-disable semi */
+/* eslint-disable no-sequences */
+/* eslint-disable comma-dangle */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable quotes */
 /* eslint-disable no-alert */
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {View, ScrollView, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, ScrollView, Text, Image,  TextInput , TouchableOpacity} from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
 import styles  from './style';
 
@@ -13,8 +16,55 @@ class ProfileScreen extends React.Component {
    state = {
       userType:'NGO',
       isVerified: false,
-   }
+      isPersonalDetailEdit: false,
+      isAddressDeyalsEdit: false,
+      isEditButtonPersonlHide: false,
+      isEditButtonAddressHide: false,
+      personalDetailsUser:{
+         FullName: '',
+         Gender: '',
+         D_O_B: '',
+         Phone: '',
+      },
+      personalDetailNGO: {
+         AuthorityName: '',
+         Phone1: '',
+         Phone2: '',
+         Phone3: '',
+      },
+      Email_ID: '',
+      AddressDetails: {
+         houseNo_BuildingName: '',
+         FullAddress: '',
+         city: '',
+         pincode: '',
+      }
+   };
 
+   componentDidMount = () => {
+      this.setState({
+         Email_ID: 'keshavbansal19960506@gmail.com',
+         personalDetailsUser:{
+            FullName: 'Deepak kumar bansal',
+            Gender: 'Male',
+            D_O_B: '21 December 2019',
+            Phone: '9634349532',
+         },
+         personalDetailNGO: {
+            AuthorityName: 'Cyber Group India Private Limited',
+            Phone1: '9634349532',
+            Phone2: '9634349532',
+            Phone3: '9634349532',
+         },
+         AddressDetails: {
+            houseNo_BuildingName: 'B-9, Pinnacle Buisness Park',
+            FullAddress: '2nd Floor, Pinnacle Park / Block B, Sector 3/ Noida, Uttar Pradesh / India',
+            city: 'VishakaPatnam',
+            pincode: '250002',
+         }
+      })
+   }
+  
     async selectFile() {
         try {
           const res = await DocumentPicker.pick({
@@ -33,8 +83,10 @@ class ProfileScreen extends React.Component {
             throw err;
           }
         }
-      }
+      };
+     
   render() {
+   console.log(this.state.personalDetailNGO.AuthorityName);
       return (
         <ScrollView style={styles.container}>
           <View style={styles.logoContainer}>
@@ -44,31 +96,86 @@ class ProfileScreen extends React.Component {
                 />
           </View>
           <View style = {styles.subContainer}>
+         {/* Personal Details section start */}
              <View style = {styles.headerTextContainer}>
                  <Text style = {styles.headerTextStyle}>Personal Details</Text>
+                 {
+                    this.state.isEditButtonPersonlHide 
+                    ? null
+                    :
+                     <TouchableOpacity onPress = {()=>{this.setState({isPersonalDetailEdit:true,isEditButtonPersonlHide:true})}}>
+                        <View style = {styles.editButtonStyle}>
+                          <Text style = {styles.editButtonTextStyle}>Edit</Text>
+                       </View>
+                     </TouchableOpacity>
+                 }
+                 
              </View>
              {
                 this.state.userType === 'NGO'
                 ?
                 <View>
                    <View style = {styles.content}>
-                      <View style = {{maxWidth:"90%"}}>  
+                      <View style = {{width:"90%"}}>  
                          <Text style = {styles.fieldsTextStyle}>Authority Name : </Text>
-                         <Text style = {styles.fieldsTextStyle}>Cyber Group India Private Limited</Text>
+                         {
+                            this.state.isPersonalDetailEdit 
+                             ? 
+                              <TextInput
+                                 underlineColorAndroid="transparent"
+                                 defaultValue = {this.state.personalDetailNGO.AuthorityName}
+                                 style = {styles.editTextInputStyle}
+                                 onChangeText = {(val)=> this.setState({personalDetailNGO:{AuthorityName:val}})}
+                              />
+                             : <Text style = {styles.fieldsTextStyle}>{this.state.personalDetailNGO.AuthorityName}</Text>
+                         } 
                       </View>
                    </View>
                    <View style = {styles.content}>
                      <View style = {styles.subContent1}>
                         <Text style = {styles.fieldsTextStyle}>Phone1 : </Text>
-                        <Text style = {styles.fieldsTextStyle}>9634349532 </Text>
+                        {
+                            this.state.isPersonalDetailEdit 
+                             ? 
+                              <TextInput
+                                 underlineColorAndroid="transparent"
+                                 defaultValue = {this.state.personalDetailNGO.Phone1}
+                                 style = {styles.editTextInputStyle}
+                                 keyboardType = "number-pad"
+                                 onChangeText = {(val)=> this.setState({personalDetailNGO:{Phone1:val}})}
+                              />
+                        :  <Text style = {styles.fieldsTextStyle}>{this.state.personalDetailNGO.Phone1}</Text>
+                         } 
                      </View>
                      <View style = {styles.subContent1}>
                         <Text style = {styles.fieldsTextStyle}>Phone2 : </Text>
-                        <Text style = {styles.fieldsTextStyle}>9634349532 </Text>
+                        {
+                            this.state.isPersonalDetailEdit 
+                             ? 
+                              <TextInput
+                                 underlineColorAndroid="transparent"
+                                 defaultValue = {this.state.personalDetailNGO.Phone2}
+                                 style = {styles.editTextInputStyle}
+                                 keyboardType = "number-pad"
+                                 onChangeText = {(val)=> this.setState({personalDetailNGO:{Phone2:val}})}
+                              />
+                             :  <Text style = {styles.fieldsTextStyle}>{this.state.personalDetailNGO.Phone2}</Text>
+                         } 
                      </View>
                      <View style = {styles.subContent2}>
-                       <Text style = {styles.fieldsTextStyle}>Phone3: </Text>
-                       <Text style = {styles.fieldsTextStyle}>9634349532</Text>
+                       <Text style = {styles.fieldsTextStyle}>Phone3 : </Text>
+                       {
+                            this.state.isPersonalDetailEdit 
+                             ? 
+                              <TextInput
+                                 underlineColorAndroid="transparent"
+                                 defaultValue = {this.state.personalDetailNGO.Phone3}
+                                 style = {styles.editTextInputStyle}
+                                 keyboardType = "number-pad"
+                                 onChangeText = {(val)=> this.setState({personalDetailNGO:{Phone3:val}})}
+                              />
+                             :  <Text style = {styles.fieldsTextStyle}>{this.state.personalDetailNGO.Phone3}</Text>
+                         } 
                      </View>
                    </View>
                  </View>
@@ -77,54 +184,207 @@ class ProfileScreen extends React.Component {
                    <View style = {styles.content}>
                       <View style = {styles.subContent1}>  
                          <Text style = {styles.fieldsTextStyle}>Full Name : </Text>
-                         <Text style = {styles.fieldsTextStyle}>Deepak kumar bansal</Text>
+                         {
+                            this.state.isPersonalDetailEdit 
+                             ? 
+                              <TextInput
+                                 underlineColorAndroid="transparent"
+                                 defaultValue = {this.state.personalDetailsUser.FullName}
+                                 style = {styles.editTextInputStyle}
+                                 onChangeText = {(val)=> this.setState({personalDetailsUser:{FullName:val}})}
+                              />
+                         : <Text style = {styles.fieldsTextStyle}>{this.state.personalDetailsUser.FullName}</Text>
+                         }  
                       </View>
                       <View style = {[{paddingRight:31},styles.subContent2]}>
-                         <Text style = {styles.fieldsTextStyle}>Gender: </Text>
-                         <Text style = {styles.fieldsTextStyle}>Male</Text>
+                         <Text style = {styles.fieldsTextStyle}>Gender : </Text>
+                         {
+                            this.state.isPersonalDetailEdit 
+                             ? 
+                              <TextInput
+                                 underlineColorAndroid="transparent"
+                                 defaultValue = {this.state.personalDetailsUser.Gender}
+                                 style = {styles.editTextInputStyle}
+                                 onChangeText = {(val)=> this.setState({personalDetailsUser:{Gender:val}})}
+                              />
+                             :  <Text style = {styles.fieldsTextStyle}>{this.state.personalDetailsUser.Gender}</Text>
+                         }  
+                        
                       </View>
                   </View>
                   <View style = {styles.content}>
                     <View style = {styles.subContent1}>
                         <Text style = {styles.fieldsTextStyle}>D.O.B : </Text>
-                        <Text style = {styles.fieldsTextStyle}>21 November 2019 </Text>
+                        {
+                            this.state.isPersonalDetailEdit 
+                             ? 
+                              <TextInput
+                                 underlineColorAndroid="transparent"
+                                 defaultValue = {this.state.personalDetailsUser.D_O_B}
+                                 style = {styles.editTextInputStyle}
+                                 onChangeText = {(val)=> this.setState({personalDetailsUser:{D_O_B:val}})}
+                              />
+                             :  <Text style = {styles.fieldsTextStyle}>{this.state.personalDetailsUser.D_O_B}</Text>
+                         }  
+                        
                    </View>
                      <View style = {styles.subContent2}>
-                        <Text style = {styles.fieldsTextStyle}>Phone: </Text>
-                        <Text style = {styles.fieldsTextStyle}>9634349532</Text>
+                        <Text style = {styles.fieldsTextStyle}>Phone : </Text>
+                        {
+                            this.state.isPersonalDetailEdit 
+                             ? 
+                              <TextInput
+                                 underlineColorAndroid="transparent"
+                                 defaultValue = {this.state.personalDetailsUser.Phone}
+                                 style = {styles.editTextInputStyle}
+                                 keyboardType = "number-pad"
+                                 onChangeText = {(val)=> this.setState({personalDetailsUser:{Phone:val}})}
+                              />
+                             :  <Text style = {styles.fieldsTextStyle}>{this.state.personalDetailsUser.Phone}</Text>
+                         }  
+                        
                      </View>
                    </View>
                 </View>
              }
              
              <View style = {styles.singleFiledContent}>
-                  <Text style = {styles.fieldsTextStyle}>Email ID: </Text>
-                   <Text style = {styles.fieldsTextStyle}>keshavbansal19960506@gmail.com</Text>
+                  <Text style = {styles.fieldsTextStyle}>Email ID : </Text>
+                  {
+                            this.state.isPersonalDetailEdit 
+                             ? 
+                              <TextInput
+                                 underlineColorAndroid="transparent"
+                                 defaultValue = {this.state.Email_ID}
+                                 style = {styles.editTextInputStyle}
+                                 keyboardType = "email-address"
+                                 onChangeText = {(val)=> this.setState({Email_ID: val})}
+                              />
+                             : <Text style = {styles.fieldsTextStyle}>{this.state.Email_ID}</Text>
+                     } 
              </View>
+             {
+                this.state.isPersonalDetailEdit
+                ?
+                <View style = {styles.content}>
+                   <TouchableOpacity onPress = {()=>{this.setState({isPersonalDetailEdit:false,isEditButtonPersonlHide:false})}}>
+                      <View style = {[{backgroundColor:"red"},styles.concelUpdateButton]}>
+                         <Text style = {styles.cancelUpdateButtonText}>Cancel</Text>
+                      </View>
+                   </TouchableOpacity>
+                   <TouchableOpacity>
+                      <View style = {[{backgroundColor:"orange"},styles.concelUpdateButton]}>
+                         <Text style = {styles.cancelUpdateButtonText}>Update</Text>
+                      </View>
+                   </TouchableOpacity>
+                </View>
+                : null
+             }
+            
           </View>
+          {/* Personal Details section End */}
+
+    {/* Address Details section start */}
           <View style = {styles.subContainer}>
              <View style = {styles.headerTextContainer}>
                 <Text style = {styles.headerTextStyle}>Address Details</Text>
+                {
+                    this.state.isEditButtonAddressHide 
+                    ? null
+                    :
+                     <TouchableOpacity onPress = {()=>{this.setState({isAddressDeyalsEdit:true,isEditButtonAddressHide:true})}}>
+                        <View style = {styles.editButtonStyle}>
+                          <Text style = {styles.editButtonTextStyle}>Edit</Text>
+                       </View>
+                     </TouchableOpacity>
+                 }
              </View>
              <View style = {styles.singleFiledContent}>
-                  <Text style = {styles.fieldsTextStyle}>House No., Building Name: </Text>
-                   <Text style = {styles.fieldsTextStyle}>B-9, Pinnacle Buisness Park</Text>
+                  <Text style = {styles.fieldsTextStyle}>House No., Building Name : </Text>
+                  {
+                            this.state.isAddressDeyalsEdit 
+                             ? 
+                              <TextInput
+                                 underlineColorAndroid="transparent"
+                                 defaultValue = {this.state.AddressDetails.houseNo_BuildingName}
+                                 style = {styles.editTextInputStyle}
+                                 onChangeText = {(val)=> this.setState({AddressDetails:{houseNo_BuildingName:val}})}
+                              />
+                  : <Text style = {styles.fieldsTextStyle}>{this.state.AddressDetails.houseNo_BuildingName}</Text>
+                     } 
+                   
              </View>
              <View style = {styles.singleFiledContent}>
-                  <Text style = {styles.fieldsTextStyle}>Full Address: </Text>
-                   <Text style = {styles.fieldsTextStyle}>2nd Floor, Pinnacle Park / Block B, Sector 3/ Noida, Uttar Pradesh / India </Text>
+                  <Text style = {styles.fieldsTextStyle}>Full Address : </Text>
+                  {
+                            this.state.isAddressDeyalsEdit 
+                             ? 
+                              <TextInput
+                                 underlineColorAndroid="transparent"
+                                 defaultValue = {this.state.AddressDetails.FullAddress}
+                                 style = {styles.editTextInputStyle}
+                                 multiline = {true}
+                                 onChangeText = {(val)=> this.setState({AddressDetails:{FullAddress:val}})}
+                              />
+                             : <Text style = {styles.fieldsTextStyle}>{this.state.AddressDetails.FullAddress}</Text>
+                     } 
+                   
              </View>
              <View style = {styles.content}>
                 <View style = {styles.subContent1}>
                   <Text style = {styles.fieldsTextStyle}>City : </Text>
-                  <Text style = {styles.fieldsTextStyle}>VishakaPatnam</Text>
+                  {
+                            this.state.isAddressDeyalsEdit 
+                             ? 
+                              <TextInput
+                                 underlineColorAndroid="transparent"
+                                 defaultValue = {this.state.AddressDetails.city}
+                                 style = {styles.editTextInputStyle}
+                                 onChangeText = {(val)=> this.setState({AddressDetails:{city:val}})}
+                              />
+                             : <Text style = {styles.fieldsTextStyle}>{this.state.AddressDetails.city}</Text>
+                     } 
+                   
+                  
                 </View>
                 <View style = {styles.subContent2}>
                    <Text style = {styles.fieldsTextStyle}>Pincode :  </Text>
-                   <Text style = {styles.fieldsTextStyle}>250002</Text>
+                   {
+                            this.state.isAddressDeyalsEdit 
+                             ? 
+                              <TextInput
+                                 underlineColorAndroid="transparent"
+                                 defaultValue = {this.state.AddressDetails.pincode}
+                                 style = {styles.editTextInputStyle}
+                                 keyboardType = "number-pad"
+                                 onChangeText = {(val)=> this.setState({AddressDetails:{pincode:val}})}
+                              />
+                             :  <Text style = {styles.fieldsTextStyle}>{this.state.AddressDetails.pincode}</Text>
+                     } 
+                  
                 </View>
              </View>
+             {
+                this.state.isEditButtonAddressHide
+                ?
+                <View style = {styles.content}>
+                   <TouchableOpacity onPress = {()=>{this.setState({isAddressDeyalsEdit:false,isEditButtonAddressHide:false})}}>
+                      <View style = {[{backgroundColor:"red"},styles.concelUpdateButton]}>
+                         <Text style = {styles.cancelUpdateButtonText}>Cancel</Text>
+                      </View>
+                   </TouchableOpacity>
+                   <TouchableOpacity>
+                      <View style = {[{backgroundColor:"orange"},styles.concelUpdateButton]}>
+                         <Text style = {styles.cancelUpdateButtonText}>Update</Text>
+                      </View>
+                   </TouchableOpacity>
+                </View>
+                : null
+             }
           </View>
+    {/* Address Details section End */}
+
+           {/* Verification Details section start */}
           <View style = {[{marginBottom:"5%"},styles.subContainer]}>
              <View style = {styles.headerTextContainer}>
                 <Text style = {styles.headerTextStyle}>Verification Details</Text>
@@ -173,8 +433,9 @@ class ProfileScreen extends React.Component {
                  
              }
             
-          </View>
-       </ScrollView>
+        </View>
+         {/* Verification Details section end */}
+    </ScrollView>
       );
 
   }

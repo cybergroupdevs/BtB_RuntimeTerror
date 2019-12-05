@@ -1,3 +1,4 @@
+/* eslint-disable eol-last */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable comma-dangle */
 /* eslint-disable quotes */
@@ -30,9 +31,11 @@ const styles = StyleSheet.create({
     },
     headerTextContainer:{
         backgroundColor:"#6F2059",
+        flexDirection:"row",
+        justifyContent:"space-between",
+        alignItems:"center",
         width:"100%",
         borderBottomRightRadius:12,
-        justifyContent:"center",
         padding:5
     },
     headerTextStyle:{
@@ -87,7 +90,44 @@ const styles = StyleSheet.create({
       fontSize:15,
       fontWeight:"bold",
       paddingBottom:8,
-      paddingTop:8}
+      paddingTop:8
+    },
+    concelUpdateButton:{
+      alignItems:"center", 
+      borderRadius:10
+    },
+  
+    cancelUpdateButtonText:{
+      fontSize:15,
+      color:"white",
+      paddingBottom:12,
+      paddingTop:8,
+      paddingLeft:15,
+      paddingRight:15,
+      fontWeight:"bold"
+    },
+    editTextInputStyle:{
+      backgroundColor:"white",
+      width:"100%",
+      borderRadius:10,
+      fontSize:18,
+      marginTop:10
+    },
+    editButtonStyle:{
+      backgroundColor:"orange",
+      marginRight:8,
+      alignItems:"center", 
+      borderRadius:10
+    },
+    editButtonTextStyle:{
+      paddingBottom:6,
+      paddingLeft:12,
+      paddingRight:12,
+      paddingTop:6,
+      color:"white",
+      fontSize:16,
+      fontWeight:"bold"
+    }
   });
 
   export default styles;
