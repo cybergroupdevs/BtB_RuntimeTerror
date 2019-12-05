@@ -44,16 +44,6 @@ class OfferHelpScreen extends Component {
   };
 
   onOfferHelpHandler = () => {
-    const HelpData = {
-      name: this.state.name.value,
-      phone: this.state.phone.value,
-      typeOfHelp: this.state.typeOfHelp.value,
-      issueDescription: this.state.issueDescription.value,
-      commTerms: this.state.commTerms.value,
-      latitude: this.state.geolocation.latitude.value,
-      longitude: this.state.geolocation.longitude.value,
-      geolocation: this.state.geolocation
-    };
     //call the api
     //Alert.alert('your Request has been noticed, Help is on it\'s way');
   };
@@ -61,46 +51,49 @@ class OfferHelpScreen extends Component {
   render() {
     return (
       <ScrollView >
-        <View style={styles.Container}>
-          <View style={styles.inputContainer}>
-            <TextInput
-              underlineColorAndroid="#428AF8"
-              selectionColor="#428AF8"
-              placeholder="Enter Respondant's Name"
-              value={this.state.respondantname.value}
-              onChangeText={(value) => this.setState({ respondantname: value })}
-              returnKeyType={"next"}
-            />
-            <TextInput
-              underlineColorAndroid="#428AF8"
-              selectionColor="#428AF8"
-              placeholder="Enter Your Phone"
-              value={this.state.phone.value}
-              keyboardType={'phone-pad'}
-              onChangeText={(value) => this.setState({ phone: value })}
-              returnKeyType={"next"}
-            />
-            <TextInput
-              underlineColorAndroid="#428AF8"
-              selectionColor="#428AF8"
-              placeholder="Enter Email"
-              value={this.state.email.value}
-              keyboardType="email-address"
-              onChangeText={(value) => this.setState({ email: value })}
-              returnKeyType={"next"}
-            />
-            <Textarea
-              style={styles.textareaContainer}
-              selectionColor="#428AF8"
-              maxLength={200}
-              placeholder="Describe the type of help you're offering"
-              value={this.state.helpDescription.value}
-              onChangeText={(value) => this.setState({ helpDescription: value })}
-              returnKeyType={"next"}
-            />
+        <View style={styles.MainContainer}>
+          <View style={styles.SubContainer1}>
+            <View style={styles.UserInputContainer}>
+              <TextInput
+                underlineColorAndroid="#6F2059"
+                selectionColor="#6F2059"
+                placeholder="Enter Respondant's Name"
+                value={this.state.respondantname.value}
+                onChangeText={(value) => this.setState({ respondantname: value })}
+                returnKeyType={"next"}
+              />
+              <TextInput
+                underlineColorAndroid="#6F2059"
+                selectionColor="#6F2059"
+                placeholder="Enter Your Phone"
+                value={this.state.phone.value}
+                keyboardType={'phone-pad'}
+                onChangeText={(value) => this.setState({ phone: value })}
+                returnKeyType={"next"}
+              />
+              <TextInput
+                underlineColorAndroid="#6F2059"
+                selectionColor="#6F2059"
+                placeholder="Enter Email"
+                value={this.state.email.value}
+                keyboardType="email-address"
+                onChangeText={(value) => this.setState({ email: value })}
+                returnKeyType={"next"}
+              />
+              <Textarea
+                style={styles.textareaContainer}
+                underlineColorAndroid="#6F2059"
+                selectionColor="#6F2059"
+                maxLength={200}
+                placeholder="Describe the type of help you're offering"
+                value={this.state.helpDescription.value}
+                onChangeText={(value) => this.setState({ helpDescription: value })}
+                returnKeyType={"next"}
+              />
+            </View>
           </View>
-          <View>
-            <View>
+          <View  style={styles.SubContainer2}>
+            <View style={styles.RadioButtonContainer}>
               <Text style={{ padding: 15, fontSize: 15 }}>Includes Food? :</Text>
               <RadioForm //Radio Button for Food and Water
                 radio_props={this.state.radio_props}
@@ -110,7 +103,7 @@ class OfferHelpScreen extends Component {
                 style={{}}
               />
             </View>
-            <View>
+            <View style={styles.RadioButtonContainer}>
               <Text style={{ padding: 15, fontSize: 15 }}>Includes Medications? :</Text>
               <RadioForm //Radio Button for Medications and drugs
                 radio_props={this.state.radio_props}
@@ -120,7 +113,7 @@ class OfferHelpScreen extends Component {
                 style={{}}
               />
             </View>
-            <View>
+            <View style={styles.RadioButtonContainer}>
               <Text style={{ padding: 15, fontSize: 15 }}>Includes Clothings? :</Text>
               <RadioForm //Radio Button for Volunteering
                 radio_props={this.state.radio_props}
@@ -130,7 +123,7 @@ class OfferHelpScreen extends Component {
                 style={{}}
               />
             </View>
-            <View>
+            <View style={styles.RadioButtonContainer}>
               <Text style={{ padding: 15, fontSize: 15 }}>willing to Volunteer? :</Text>
               <RadioForm //Radio Button for Volunteering
                 radio_props={this.state.radio_props}
@@ -152,7 +145,7 @@ class OfferHelpScreen extends Component {
                 </Picker>
                 : null}
             </View>
-            <View>
+            <View style={styles.RadioButtonContainer}>
               <Text style={{ padding: 15, fontSize: 15 }}>Includes Shelter? :</Text>
               <RadioForm //Radio Button for Address
                 radio_props={this.state.radio_props}
@@ -223,54 +216,54 @@ class OfferHelpScreen extends Component {
                 onChangeText={(value) => this.setState({ landMark: value })}
                 returnKeyType={"next"}
               />
-                <View style={{ flex: 1, flexDirection: 'row' }}>
-                    <DatePicker
-                      style={{ width: 150, paddingBottom: 10, paddingTop: 5 }}
-                      date={this.state.dob}
-                      mode="date"
-                      placeholder="select start date"
-                      format="YYYY-MM-DD"
-                      minDate="1970-01-01"
-                      maxDate="2030-12-31"
-                      confirmBtnText="Confirm"
-                      cancelBtnText="Cancel"
-                      customStyles={{
-                        dateIcon: {
-                          position: 'absolute',
-                          left: 0,
-                          top: 4,
-                          marginLeft: 0
-                        },
-                        dateInput: {
-                          marginLeft: 36
-                        }
-                      }}
-                      onDateChange={(date) => { this.setState({ openAfterDate: date }) }}
-                    />
-                    <DatePicker
-                      style={{ width: 150, paddingBottom: 10, paddingTop: 5 }}
-                      date={this.state.dob}
-                      mode="date"
-                      placeholder="select end date"
-                      format="YYYY-MM-DD"
-                      minDate="1970-01-01"
-                      maxDate="2030-12-31"
-                      confirmBtnText="Confirm"
-                      cancelBtnText="Cancel"
-                      customStyles={{
-                        dateIcon: {
-                          position: 'absolute',
-                          left: 0,
-                          top: 4,
-                          marginLeft: 0
-                        },
-                        dateInput: {
-                          marginLeft: 36
-                        }
-                      }}
-                      onDateChange={(date) => { this.setState({ closeAfterDate: date }) }}
-                    />
-                  </View>
+              <View style={{ flex: 1, flexDirection: 'row' }}>
+                <DatePicker
+                  style={{ width: 150, paddingBottom: 10, paddingTop: 5 }}
+                  date={this.state.dob}
+                  mode="date"
+                  placeholder="select start date"
+                  format="YYYY-MM-DD"
+                  minDate="1970-01-01"
+                  maxDate="2030-12-31"
+                  confirmBtnText="Confirm"
+                  cancelBtnText="Cancel"
+                  customStyles={{
+                    dateIcon: {
+                      position: 'absolute',
+                      left: 0,
+                      top: 4,
+                      marginLeft: 0
+                    },
+                    dateInput: {
+                      marginLeft: 36
+                    }
+                  }}
+                  onDateChange={(date) => { this.setState({ openAfterDate: date }) }}
+                />
+                <DatePicker
+                  style={{ width: 150, paddingBottom: 10, paddingTop: 5 }}
+                  date={this.state.dob}
+                  mode="date"
+                  placeholder="select end date"
+                  format="YYYY-MM-DD"
+                  minDate="1970-01-01"
+                  maxDate="2030-12-31"
+                  confirmBtnText="Confirm"
+                  cancelBtnText="Cancel"
+                  customStyles={{
+                    dateIcon: {
+                      position: 'absolute',
+                      left: 0,
+                      top: 4,
+                      marginLeft: 0
+                    },
+                    dateInput: {
+                      marginLeft: 36
+                    }
+                  }}
+                  onDateChange={(date) => { this.setState({ closeAfterDate: date }) }}
+                />
+              </View>
             </View>
             :
             null}

@@ -5,40 +5,51 @@ const styles = StyleSheet.create({
     width: "100%",
     height: '100%',
     alignItems: "center",
-    justifyContent:"center"
+    justifyContent: "center",
+    marginBottom: "20%"
+  },
+  SubContainer: {
+    marginBottom: "10%"
   },
   LogoContainer: {
     maxWidth: "80%",
     minWidth: "80%",
     alignItems: "center"
   },
+  UserSpecificContainers: {
+
+  },
   UserSelectionContainer: {
     flex: 1,
     flexDirection: 'row',
     minWidth: '80%',
-    maxWidth: '80%'
+    maxWidth: '80%',
+    marginBottom: 10,
   },
   UserSelectionText: {
-    paddingTop: 15,
+    marginTop: 15,
     fontSize: 16,
-    width: '50%',
-    minHeight:'60%',
-    maxHeight:'60%'
+    width: '60%',
   },
   UserSelectionPicker: {
-    width: '50%'
+    width: '40%'
+  },
+  UserInputWrapper: {
+    //backgroundColor:'maroon'
   },
   GenderSelectionContainer: {
     flex: 1,
     flexDirection: 'row',
-    minWidth: '80%',
-    maxWidth: '80%'
+    marginTop: 10,
+    justifyContent: "space-between"
+  },
+  AuthorityInputWrapper: {
+    backgroundColor: 'blue'
   },
   ButtonContainer: {
-    marginTop: '5%',
     marginBottom: '5%',
-    minWidth: '30%',
-    maxWidth: '30%',
+    minWidth: '50%',
+    maxWidth: '50%',
   },
 });
 
