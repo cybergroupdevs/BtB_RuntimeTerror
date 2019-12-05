@@ -62,7 +62,7 @@ class SignupScreen extends Component {
     return (
       <ScrollView >
         <View style={styles.MainContainer}>
-          <View>
+          <View style={styles.SubContainer}>
             <View style={styles.LogoContainer}>
               <Image
                 source={AashrayLogo}
@@ -70,7 +70,7 @@ class SignupScreen extends Component {
             </View>
             <View style={styles.UserSelectionContainer}>
               <Text style={styles.UserSelectionText}>
-                Signup As :
+                Signup As :     {this.state.usertype}
               </Text>
               <Picker
                 selectedValue={this.state.usertype}
@@ -142,13 +142,11 @@ class SignupScreen extends Component {
                     returnKeyType={"next"}
                     secureTextEntry={true}
                   />
-                  <View style={styles.UserSelectionContainer}>
-                    <View>
+                  <View style={styles.GenderSelectionContainer}>
                     <DatePicker
-                      style={styles.DatePickerStyle}
                       date={this.state.dob}
                       mode="date"
-                      placeholder="select date of birth"
+                      placeholder="DOB"
                       format="YYYY-MM-DD"
                       minDate="1970-01-01"
                       maxDate="2030-12-31"
@@ -167,17 +165,15 @@ class SignupScreen extends Component {
                       }}
                       onDateChange={(date) => { this.setState({ dob: date }) }}
                     />
-                    </View>
-                    <View>
                     <Picker
                       selectedValue={this.state.gender}
+                      style={{width:'40%'}}
                       onValueChange={(value) => this.setState({ gender: value })
                       }>
                       <Picker.Item label="Male" value="male" />
                       <Picker.Item label="Female" value="female" />
                       <Picker.Item label="Other" value="other" />
                     </Picker>
-                    </View>
                   </View>
                 </View>
                 :
@@ -255,10 +251,10 @@ class SignupScreen extends Component {
               }
             </View>
           </View>
-          <View>
+          <View style={styles.ButtonContainer}>
             <Button
               title="Sign Up"
-              color="#f194ff"
+              color="#A52E84"
             //onPress={this.onRequestRescueHandler()          }
             />
           </View>
