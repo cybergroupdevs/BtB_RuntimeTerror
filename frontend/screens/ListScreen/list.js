@@ -17,7 +17,7 @@ import List from "../../components/List/index";
 
 class ListScreen extends Component {
   static navigationOptions = {
-    title: "List"
+    title: "Helps Nearby"
   };
   state = {
     NGOUri: require("../../assets/images/home.jpg"),

@@ -268,7 +268,7 @@ class SignupScreen extends Component {
             <Button
               title="Sign Up"
               color="#A52E84"
-            //onPress={this.onRequestRescueHandler()          }
+              onPress={() => {this.props.navigation.navigate("Profile");}}
             />
           </View>
         </View>
