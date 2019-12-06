@@ -31,6 +31,11 @@ class ListScreen extends Component {
     { name: "NGO 4", distance: "--away" },
     { name: "NGO 5", distance: "--away" }
   ];
+
+  navigateToDetailPage = (data) => {
+    this.props.navigation.navigate("ListDetail", data);
+  }
+
   render() {
     return (
       <View>
@@ -60,6 +65,7 @@ class ListScreen extends Component {
                       imageUri={this.state.NGOUri}
                       name={item.name}
                       distance={item.distance}
+                      listDetail = {this.navigateToDetailPage}
                     />
                   );
                 })}

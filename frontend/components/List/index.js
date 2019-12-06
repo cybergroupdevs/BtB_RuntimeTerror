@@ -18,22 +18,48 @@ import {
   Icon,
   Image,
   TextInput,
-  render
+  render,
+  TouchableOpacity
 } from "react-native";
 // import App from '../App';
 
 // class Lists{
 // const List: () => React$Node = () => {
 class List extends Component {
+
+  // static nav
+  data = {
+    categoryName: "Category",
+    imageUri: require("../../assets/images/home.jpg"),
+    name: "NGO 1",
+    email: "abc@xyz",
+    phoneNumber: "9999999",
+    address: "address",
+    city: "city",
+    pinCode: "9998784",
+    state: "delhi",
+    country: "india"
+  };
+
+  // <ListDetails categoryName="Category"
+  // imageUri={require('./assets/home.jpg')}
+  // name="NGO Name" phoneNumber="+91-123456788"
+  //  email="abc@xyz" address="address 1" city="City" pinCode="Pin Code"
+  //  state="State" country="Country"></ListDetails>
+
   render() {
     return (
-      <View
+      <TouchableOpacity
         style={{
           height: 130,
           width: 130,
           marginLeft: 20,
           borderWidth: 1,
           borderColor: "#dddddd"
+        }}
+        onPress={() => {
+          console.log("working");
+          this.props.listDetail(this.data)
         }}
       >
         <View style={{ flex: 2 }}>
@@ -50,7 +76,7 @@ class List extends Component {
             {this.props.distance}
           </Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }
