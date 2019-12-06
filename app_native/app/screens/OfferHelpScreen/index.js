@@ -112,7 +112,7 @@ class OfferHelpScreen extends Component {
             </View>
             <View style={styles.RadioButtonContainer}>
               <Text style={styles.LabelText}>Includes Clothings? :</Text>
-              <RadioForm //Radio Button for Volunteering
+              <RadioForm //Radio Button for clothings
                 radio_props={this.state.radio_props}
                 initial={1}
                 formHorizontal={true}

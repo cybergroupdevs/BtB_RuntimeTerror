@@ -5,37 +5,30 @@ const styles = StyleSheet.create({
     width: "100%",
     height: '100%',
     alignItems: "center",
-    justifyContent: "center",
-    marginBottom: "20%"
-  },
-  SubContainer: {
-    marginBottom: "10%"
+    justifyContent: "center"
   },
   LogoContainer: {
     maxWidth: "80%",
     minWidth: "80%",
     alignItems: "center"
   },
-  UserSpecificContainers: {
-
-  },
-  UserSelectionContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    minWidth: '80%',
-    maxWidth: '80%',
-    marginBottom: 10,
-  },
   UserSelectionText: {
     marginTop: 15,
     fontSize: 16,
     width: '60%',
   },
+  UserSelectionContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    width: '80%',
+    justifyContent: "space-between"
+  },
   UserSelectionPicker: {
     width: '40%'
   },
   UserInputWrapper: {
-    //backgroundColor:'maroon'
+    minWidth: '80%',
+    maxWidth: '80%'
   },
   GenderSelectionContainer: {
     flex: 1,
@@ -44,12 +37,20 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   AuthorityInputWrapper: {
-    backgroundColor: 'blue'
+    minWidth: '80%',
+    maxWidth: '80%'
   },
   ButtonContainer: {
-    marginBottom: '5%',
-    minWidth: '50%',
-    maxWidth: '50%',
+    marginTop: '5%',
+    marginBottom: '8%',
+    minWidth: '30%',
+    maxWidth: '30%',
+    backgroundColor:'#A52E84'
+  }, 
+  LabelText:{
+    maxWidth: '60%',
+     padding: 15, 
+     fontSize: 15
   },
 });
 
