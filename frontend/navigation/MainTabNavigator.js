@@ -15,6 +15,7 @@ import LoginScreen from "../screens/login/index";
 import SignupScreen from "../screens/sign-up/index";
 import ListScreen from "../screens/ListScreen/list";
 import ProfileScreen from "../screens/ProfileScreen/index";
+import ListDetail from "../components/ListDetails/index"
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -46,7 +47,8 @@ HomeStack.path = '';
 
 const ListStack = createStackNavigator(
   {
-    List: ListScreen
+    List: ListScreen,
+    ListDetail: ListDetail
   },
   config
 );
