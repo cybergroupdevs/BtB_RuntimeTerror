@@ -49,8 +49,7 @@ const styles = StyleSheet.create({
   }, 
   LabelText:{
     maxWidth: '60%',
-     padding: 15, 
-     fontSize: 15
+   
   },
 });
 
