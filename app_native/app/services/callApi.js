@@ -1,8 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import localStorage from '../utils/storage';
-import { goToAuth } from '../modules/actions/navigation';
 import { LEAVE_REQUEST, GET_LEAVE_TYPES, HOLIDAY, GET_APPROVALS, GET_BALANCE, EMPLOYEE_GET } from '../constants';
-
 
 const STATUS_CODE_SUCCESS = 200;
 const STATUS_CODE_UNAUTHORIZED = 401;
@@ -15,7 +13,8 @@ const header = async () => {
         'Authorization': "Bearer " + token.slice(1, -1),
         'Content-Type': "application/json"
     };
-}
+};
+
 export default header;
 
 export const getAsync = async (URL) => {
@@ -130,7 +129,8 @@ const takeToLogin = async () => {
     goToAuth();
 };
 
-const handleResponse = async (apiResponse) => {
+const handleResponse = 
+async (apiResponse) => {
     if (apiResponse.status !== STATUS_CODE_SUCCESS) {
         if (apiResponse.status === STATUS_CODE_UNAUTHORIZED) {
             throw new UnAuthorizedError(apiResponse);

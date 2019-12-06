@@ -62,17 +62,16 @@ class SignupScreen extends Component {
     return (
       <ScrollView >
         <View style={styles.MainContainer}>
-          <View style={styles.SubContainer}>
-            <View style={styles.LogoContainer}>
-              <Image
-                source={AashrayLogo}
-              />
-            </View>
-            <View style={styles.UserSelectionContainer}>
-              <Text style={styles.UserSelectionText}>
-                Signup As :     {this.state.usertype}
+          <View style={styles.LogoContainer}>
+            <Image
+              source={AashrayLogo}
+            />
+          </View>
+          <View style={styles.UserSelectionContainer}>
+              <Text style={styles.LabelText}>
+                Signup As : {this.state.usertype}
               </Text>
-              <Picker
+              <Picker 
                 selectedValue={this.state.usertype}
                 style={styles.UserSelectionPicker}
                 onValueChange={(value) => this.setState({ usertype: value })
@@ -81,7 +80,7 @@ class SignupScreen extends Component {
                 <Picker.Item label="Authority" value="Authority" />
               </Picker>
             </View>
-            <View style={styles.UserSpecificContainers}>
+          <View style={styles.UserDetailContainer}>
               {this.state.usertype == 'User' ?
                 <View style={styles.UserInputWrapper}>
                   <TextInput
@@ -167,7 +166,7 @@ class SignupScreen extends Component {
                     />
                     <Picker
                       selectedValue={this.state.gender}
-                      style={{width:'40%'}}
+                      style={{ width: '40%' }}
                       onValueChange={(value) => this.setState({ gender: value })
                       }>
                       <Picker.Item label="Male" value="male" />
@@ -249,7 +248,6 @@ class SignupScreen extends Component {
                   />
                 </View>
               }
-            </View>
           </View>
           <View style={styles.ButtonContainer}>
             <Button
