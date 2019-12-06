@@ -68,12 +68,12 @@ class SignupScreen extends Component {
             />
           </View>
           <View style={styles.UserSelectionContainer}>
-              <Text style={styles.LabelText}>
+              <Text style={[styles.LabelText,{ fontSize: 18, paddingBottom: 8, paddingTop: 13} ]}>
                 Signup As : {this.state.usertype}
               </Text>
               <Picker 
                 selectedValue={this.state.usertype}
-                style={styles.UserSelectionPicker}
+                style={[styles.UserSelectionPicker ]}
                 onValueChange={(value) => this.setState({ usertype: value })
                 }>
                 <Picker.Item label="User" value="User" />
@@ -86,6 +86,7 @@ class SignupScreen extends Component {
                   <TextInput
                     underlineColorAndroid="#6F2059"
                     selectionColor="#6F2059"
+                    style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="First Name"
                     value={this.state.firstname.value}
                     onChangeText={(value) => this.setState({ firstname: value })}
@@ -94,6 +95,7 @@ class SignupScreen extends Component {
                   <TextInput
                     underlineColorAndroid="#6F2059"
                     selectionColor="#6F2059"
+                    style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Middle Name"
                     value={this.state.middlename.value}
                     onChangeText={(value) => this.setState(middlename, value)}
@@ -102,6 +104,7 @@ class SignupScreen extends Component {
                   <TextInput
                     underlineColorAndroid="#6F2059"
                     selectionColor="#6F2059"
+                    style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Last Name"
                     value={this.state.lastname.value}
                     onChangeText={(value) => this.setState(lastname, value)}
@@ -110,6 +113,7 @@ class SignupScreen extends Component {
                   <TextInput
                     underlineColorAndroid="#6F2059"
                     selectionColor="#6F2059"
+                    style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Phone Number"
                     value={this.state.phone.value}
                     keyboardType={'phone-pad'}
@@ -119,6 +123,7 @@ class SignupScreen extends Component {
                   <TextInput
                     underlineColorAndroid="#6F2059"
                     placeholder="Enter your Email"
+                    style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     value={this.state.email.value}
                     onChangeText={(value) => this.setState(email, value)}
                     returnKeyType={"next"}
@@ -126,6 +131,7 @@ class SignupScreen extends Component {
                   <TextInput
                     underlineColorAndroid="#6F2059"
                     selectionColor="#6F2059"
+                    style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Enter your Password"
                     value={this.state.password.value}
                     onChangeText={(value) => this.setState(password, value)}
@@ -135,6 +141,7 @@ class SignupScreen extends Component {
                   <TextInput
                     underlineColorAndroid="#6F2059"
                     selectionColor="#6F2059"
+                    style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Re-enter your Password"
                     value={this.state.retypepass.value}
                     onChangeText={(value) => this.setState(retypepass, value)}
@@ -180,6 +187,7 @@ class SignupScreen extends Component {
                   <TextInput
                     underlineColorAndroid="#6F2059"
                     selectionColor="#6F2059"
+                    style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Authority's Full Name"
                     value={this.state.fullauthname.value}
                     onChangeText={(value) => this.setState(fullauthname, value)}
@@ -188,6 +196,7 @@ class SignupScreen extends Component {
                   <TextInput
                     underlineColorAndroid="#6F2059"
                     selectionColor="#6F2059"
+                    style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Full Address"
                     value={this.state.fullauthadd.value}
                     onChangeText={(value) => this.setState(fullauthadd, value)}
@@ -196,6 +205,7 @@ class SignupScreen extends Component {
                   <TextInput
                     underlineColorAndroid="#6F2059"
                     selectionColor="#6F2059"
+                    style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Authority's Official Email"
                     value={this.state.email.value}
                     onChangeText={(value) => this.setState(email, value)}
@@ -204,6 +214,7 @@ class SignupScreen extends Component {
                   <TextInput
                     underlineColorAndroid="#6F2059"
                     selectionColor="#6F2059"
+                    style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Enter your Password"
                     value={this.state.password.value}
                     onChangeText={(value) => this.setState(password, value)}
@@ -213,6 +224,7 @@ class SignupScreen extends Component {
                   <TextInput
                     underlineColorAndroid="#6F2059"
                     selectionColor="#6F2059"
+                    style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Re-enter your Password"
                     value={this.state.retypepass.value}
                     onChangeText={(value) => this.setState(retypepass, value)}
@@ -222,6 +234,7 @@ class SignupScreen extends Component {
                   <TextInput
                     underlineColorAndroid="#6F2059"
                     selectionColor="#6F2059"
+                    style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Phone Number"
                     value={this.state.phone.value}
                     keyboardType={'phone-pad'}
@@ -231,6 +244,7 @@ class SignupScreen extends Component {
                   <TextInput
                     underlineColorAndroid="#6F2059"
                     selectionColor="#6F2059"
+                    style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Add Another Phone"
                     value={this.state.phone2.value}
                     keyboardType={'phone-pad'}
@@ -240,6 +254,7 @@ class SignupScreen extends Component {
                   <TextInput
                     underlineColorAndroid="#6F2059"
                     selectionColor="#6F2059"
+                    style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Add Another Phone"
                     value={this.state.phone3.value}
                     keyboardType={'phone-pad'}
