@@ -25,113 +25,93 @@ import {
 // import { Colors } from "react-native/Libraries/NewAppScreen";
 
 export default class ListDetails extends Component {
-     
   render() {
-      // {console.log("Params : "+this.props.navigation.state.params)}
-      // {
-      //   console.log("state : " + this.props.navigation.state);
-      // }
-      const { navigation } = this.props;
+    // {console.log("Params : "+this.props.navigation.state.params)}
+    // {
+    //   console.log("state : " + this.props.navigation.state);
+    // }
+    const { navigation } = this.props;
     return (
-      <SafeAreaView style={styles.parentContainer}>
-        <View style={{ backgroundColor: "purple" }}>
-          <Text style={styles.textContainer}> {navigation.state.params.categoryName} </Text>
-        </View>
-
-        <View
-          style={{
-            padding: 20,
-            justifyContent: "space-between",
-            flexDirection: "row"
-          }}
-        >
-          <View
-            style={{
-              height: 130,
-              width: 130,
-              marginLeft: 10,
-              borderWidth: 1,
-              borderColor: "#dddddd"
-            }}
-          >
-            <Image
-              source={navigation.state.params.imageUri}
-              style={{
-                flex: 1,
-                height: null,
-                width: null,
-                resizeMode: "cover"
-              }}
-            />
+      <ScrollView style={styles.parentContainer}>
+        <View style={styles.mainContainer}>
+          <View style={styles.subContainer1}>
+            <Text style={styles.textContainer}>
+              {" "}
+              {navigation.state.params.categoryName}{" "}
+            </Text>
           </View>
-          <View>
-            <Button
-              style={styles.phoneNumber}
-              title={navigation.state.params.phoneNumber}
-            ></Button>
-            <Button
-              style={styles.phoneNumber}
-              title={navigation.state.params.phoneNumber}
-            ></Button>
-            <Button
-              style={styles.phoneNumber}
-              title={navigation.state.params.phoneNumber}
-            ></Button>
+          <View style={styles.subContainer2}>
+            <View style={styles.imageContainer}>
+              <Image
+                source={navigation.state.params.imageUri}
+                style={styles.image}
+              />
+            </View>
+            <View>
+              <View style={styles.callButton}>
+                <Button
+                  title={navigation.state.params.phoneNumber}
+                  color="white"
+                  overrides={true}
+                  theme="dark"
+                ></Button>
+              </View>
+              <View style={styles.callButton}>
+                <Button
+                  title={navigation.state.params.phoneNumber}
+                  color="white"
+                >
+                  <Text style={{ color: "#ff0000" }}></Text>
+                </Button>
+              </View>
+              <View style={styles.callButton}>
+                <Button
+                  title={navigation.state.params.phoneNumber}
+                  color="white"
+                ></Button>
+              </View>
+            </View>
           </View>
-        </View>
-
-        <View>
-          <Text
-            style={{
-              paddingLeft: 25,
-              paddingTop: 10,
-              fontSize: 25,
-              fontWeight: "bold",
-              textAlignVertical: "center"
-            }}
-          >
-            {navigation.state.params.name}
-          </Text>
-          <View>
-            <Text style={{ paddingLeft: 25, paddingTop: 10, fontSize: 17 }}>
+          <View style={styles.subContainer3}>
+            <Text style={styles.Name}>{navigation.state.params.name}</Text>
+          </View>
+          <View style={styles.subContainer4}>
+            <Text style={styles.textLabel}>
               {navigation.state.params.email}
             </Text>
-            <Text style={{ paddingLeft: 25, paddingTop: 10, fontSize: 17 }}>
+            <Text style={styles.textLabel}>
               {navigation.state.params.address}
             </Text>
-            <Text style={{ paddingLeft: 25, paddingTop: 10, fontSize: 17 }}>
-              {navigation.state.params.city}
-            </Text>
-            <Text style={{ paddingLeft: 25, paddingTop: 10, fontSize: 17 }}>
+            <Text style={styles.textLabel}>{navigation.state.params.city}</Text>
+            <Text style={styles.textLabel}>
               {navigation.state.params.pinCode}
             </Text>
-            <Text style={{ paddingLeft: 25, paddingTop: 10, fontSize: 17 }}>
+            <Text style={styles.textLabel}>
               {navigation.state.params.state}
             </Text>
-            <Text style={{ paddingLeft: 25, paddingTop: 10, fontSize: 17 }}>
+            <Text style={styles.textLabel}>
               {navigation.state.params.country}
             </Text>
           </View>
+          <View style={styles.buttonContainer}>
+            <View style={styles.button}>
+              <Button title="Send Message" color="purple" />
+            </View>
+            <View style={styles.button}>
+              <Button title="Seek Help" color="purple" />
+            </View>
+          </View>
         </View>
-
-        <View
-          style={{
-            padding: 20,
-            justifyContent: "space-between",
-            flexDirection: "row"
-          }}
-        >
-          <TouchableHighlight onPress={this._onPressButton}>
-            <Button title="Seek Help" style={{ backgroundColor: "purple" }} />
-          </TouchableHighlight>
-          <Button title="Send Message" style={styles.button} />
-        </View>
-      </SafeAreaView>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  parentContainer: {
+    width: "100%",
+    height: "100%"
+  },
   textContainer: {
     fontSize: 25,
     paddingHorizontal: 20,
@@ -140,26 +120,51 @@ const styles = StyleSheet.create({
     height: 45,
     textAlignVertical: "center"
   },
-  parentContainer: { backgroundColor: "white" },
-  imageContainer: {},
-  button: {
-    backgroundColor: "purple",
-    color: "white",
-    fontSize: 20,
-    // color:"#f194ff",
-    // hover:true,
-    //    'hover':{color:'grey'},
-    textAlign: "center",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "40%",
-    height: "40",
-    position: "absolute",
-    bottom: 0
+  subContainer1: {
+    backgroundColor: "purple"
   },
-  phoneNumber: {
-    backgroundColor: "white",
-    color: "black",
-    fontWeight: "200"
+  textLabel: {
+    paddingLeft: 25,
+    paddingTop: 10,
+    fontSize: 17
+  },
+  callButton: {},
+  Name: {
+    paddingLeft: 25,
+    paddingTop: 10,
+    fontSize: 25,
+    fontWeight: "bold"
+  },
+  buttonContainer: {
+    flex: 1,
+    justifyContent: "space-around",
+    flexDirection: "row"
+  },
+  button: {
+    width: "40%",
+    height: "20%"
+  },
+
+  imageContainer: {
+    height: 130,
+    width: 130,
+    marginLeft: 10,
+    borderWidth: 1,
+    borderColor: "#dddddd"
+  },
+  subContainer3: {},
+  subContainer4: {
+    marginBottom: "30%"
+  },
+  image: {
+    flex: 1,
+    height: null,
+    width: null,
+    resizeMode: "cover"
+  },
+  subContainer2: {
+    padding: 20,
+    justifyContent: "space-between",
+    flexDirection: "row"
   }
 });
