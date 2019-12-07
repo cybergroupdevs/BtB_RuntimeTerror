@@ -1,20 +1,40 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Introduction
+In a country like India the provision and performance of gov. shelters and NGO camps in certain cases has been hindered by poorly located settings, camp-related social issues, expenses, overcrowding, poor services, delays, etc.
+AASHRAY focuses on bringing the victims, NGOs, Government Shelters, Rescue Teams and Private Property owners under one roof through AASHRAY
+AASHRAY will provide a platform for housing to the victims all over India by giving them shelter, food and basic healthcare by linking various NGOs, Government Shelters, Rescue Teams and Volunteers who offer their property as shelter.
 
 # Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
 1.	Installation process
+
 2.	Software dependencies
-3.	Latest releases
+
 4.	API references
 
+
 # Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+TODO: Describe and show how to build your code and run the tests.
 
 # Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+TODO: Explain how other users and developers can contribute to make your code better.
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
+
+## Authors
+
+* **Deepak Bansal**
+* **Pallavi Verma**
+* **Ravi Kant Sharma**
+* **Rishabh Singhal**
+* **Shruti Bhati**
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+* Hat tip to anyone whose code was used
+* Inspiration
+* etc
