@@ -10,20 +10,20 @@ const {
   deleteUser,
   raiseRescueRequest
 } = require("../../controller/user/user");
-const { authUser, authAdmin, currentUer } = require("../../middleware/auth");
+const { authUser, authAdmin, currentUser } = require("../../middleware/auth");
 
-router.put("/user/updatedetails/:userid", currentUer, updateDetails);
+router.put("/user/updatedetails/:userid", currentUser, updateDetails);
 
-router.get("/user/offeredhelp/:userid", currentUer, offeredHelp);
+router.get("/user/offeredhelp/:userid", currentUser, offeredHelp);
 
-router.post("/user/offeringhelp/:userid", currentUer, offeringHelp);
+router.post("/user/offeringhelp/:userid", currentUser, offeringHelp);
 
-router.get("/user/profiledetails/:userid", currentUer, profileDetails);
+router.get("/user/profiledetails/:userid", currentUser, profileDetails);
 
 router.put("/user/:userid/verify/:ngoid", authAdmin, verifyNGO);
 
-router.post("/raise/rescue/request", raiseRescueRequest);
+router.post("/rescue/request", raiseRescueRequest);
 
-router.delete("/user/:email", currentUer, deleteUser);
+router.delete("/user/:email", currentUser, deleteUser);
 
 module.exports = router;
