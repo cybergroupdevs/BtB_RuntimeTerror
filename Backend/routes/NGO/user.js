@@ -10,25 +10,29 @@ const {
   addGovnShelter,
   govtShelters,
   deleteNGO,
-  unVerifiedUsers
+  unVerifiedUsers,
+  rescueRequestList
 } = require("../../controller/NGO/user");
+const { authNGO, currentNGO } = require("../../middleware/auth");
 
-router.put("/ngo/updatedetails/:userid", updateDetails);
+router.put("/ngo/updatedetails/:userid", currentNGO, updateDetails);
 
 router.get("/ngo/list", listNGO);
 
 router.get("/government/shelters", govtShelters);
 
-router.get("/private/properties", privateProperties);
+router.get("/private/properties", authNGO, privateProperties);
 
-router.get("/ngo/profiledetails/:userid", profileDetails);
+router.get("/ngo/profiledetails/:userid", currentNGO, profileDetails);
 
-router.put("/ngo/:ngoid/verify/:userid", verifyUser);
+router.put("/ngo/:ngoid/verify/:userid", authNGO, verifyUser);
 
 router.post("/ngo/government/shelters/:ngoid", addGovnShelter);
 
-router.delete("/ngo/:email", deleteNGO);
+router.delete("/ngo/:email", currentNGO, deleteNGO);
 
-router.get("/unverifiedusers", unVerifiedUsers);
+router.get("/unverifiedusers", authNGO, unVerifiedUsers);
+
+router.get("/rescue/requests", rescueRequestList)
 
 module.exports = router;

@@ -116,3 +116,14 @@ exports.checkPassword = (password, hash) => {
 exports.getToken = (data) => {
   return (token = jwt.sign(data, tokenKey));
 }
+
+exports.verifyToken = (token) => {
+  try{
+    var result = jwt.verify(token, tokenKey)
+    return result;
+  } catch(err) {
+    return (result = {
+      error: "Invalid Token"
+    });
+  }
+}

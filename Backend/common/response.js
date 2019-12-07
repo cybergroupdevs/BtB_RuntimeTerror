@@ -10,7 +10,7 @@ class Response{
     };
 
     static BadRequest(res, message) {
-        res.statusCode = 400
+        res.statusCode = 400;
         const response = {
             "code" : 400,
             "errorMessage" : (!message)?"Bad Request":message
