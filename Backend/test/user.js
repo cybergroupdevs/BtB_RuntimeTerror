@@ -350,6 +350,37 @@ describe("Verify NGO Unit Tests", () => {
         done();
       });
   });
+
+    // #5 should Return No Header
+  it("Should Return Access Denied NO header", done => {
+    // calling verify api
+    chai
+      .request(app)
+      .put(`/api/user/${userData.unauthorizedUser}/verify/${userData.ngoId}`)
+      .end((err, res) => {
+        // HTTP status should be 401
+        res.status.should.equal(401);
+        // Error key should be false.
+        res.unauthorized.should.equal(true);
+        done();
+      });
+  });
+
+    // #6 should Return Invalid token
+  it("Should Return Invalid token", done => {
+    // calling verify api
+    chai
+      .request(app)
+      .put(`/api/user/${userData.unauthorizedUser}/verify/${userData.ngoId}`)
+      .set({ Authorization: "invalid token" })
+      .end((err, res) => {
+        // HTTP status should be 400
+        res.status.should.equal(400);
+        // Error key should be false.
+        res.badRequest.should.equal(true);
+        done();
+      });
+  });
 });
 
 describe("Register Rescue Requests", () => {

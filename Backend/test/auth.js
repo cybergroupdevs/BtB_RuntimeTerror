@@ -255,11 +255,11 @@ describe("Delete Unit Tests USER", () => {
   });
 
     // #3 should return Not Authorized (User)
-  it("Should Return Success after deleting user", done => {
+  it("Should Return Not Authorized (User)", done => {
     // calling delete api
     chai
       .request(app)
-      .delete("/api/user/" + "wrong_email")
+      .delete("/api/user/" + "wrong_")
       .set({ Authorization: userToken })
       .end((err, res) => {
         // HTTP status should be 401
@@ -271,7 +271,7 @@ describe("Delete Unit Tests USER", () => {
   });
 
   // #4 should return Not Authorized (NGO)
-  it("Should Return Success after deleting NGO", done => {
+  it("Should Return Not Authorized (NGO)", done => {
     // calling delete NGO api
     chai
       .request(app)
@@ -282,6 +282,68 @@ describe("Delete Unit Tests USER", () => {
         res.status.should.equal(401);
         // Error key should be false.
         res.unauthorized.should.equal(true);
+        done();
+      });
+  });
+
+      // #5 should return Token Not Found (USER)
+  it("Should ReturnToken Not Found (USER)", done => {
+    // calling delete api
+    chai
+      .request(app)
+      .delete("/api/user/" + "USER@TEST.COM")
+      .end((err, res) => {
+        // HTTP status should be 401
+        res.status.should.equal(401);
+        // Error key should be false.
+        res.unauthorized.should.equal(true);
+        done();
+      });
+  });
+
+  // #6 should return Not Token found (NGO)
+  it("Should Return Token Not Found (NGO)", done => {
+    // calling delete NGO api
+    chai
+      .request(app)
+      .delete("/api/ngo/" + "NGO@TEST.COM")
+      .end((err, res) => {
+        // HTTP status should be 200
+        res.status.should.equal(401);
+        // Error key should be false.
+        res.unauthorized.should.equal(true);
+        done();
+      });
+  });
+
+        // #7 should return Invalid token
+  it("Should Return Token Not Found (USER)", done => {
+    // calling delete api
+    chai
+      .request(app)
+      .delete("/api/user/" + "USER@TEST.COM")
+      .set({ Authorization: "invalid token" })
+      .end((err, res) => {
+        // HTTP status should be 400
+        res.status.should.equal(400);
+        // Error key should be false.
+        res.badRequest.should.equal(true);
+        done();
+      });
+  });
+
+  // #8 should return Invalid token
+  it("Should Return Token Not Found (NGO)", done => {
+    // calling delete NGO api
+    chai
+      .request(app)
+      .delete("/api/ngo/" + "NGO@TEST.COM")
+      .set({ Authorization: "invalid token" })
+      .end((err, res) => {
+        // HTTP status should be 400
+        res.status.should.equal(400);
+        // Error key should be false.
+        res.badRequest.should.equal(true);
         done();
       });
   });

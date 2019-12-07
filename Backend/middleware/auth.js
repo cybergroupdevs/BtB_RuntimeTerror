@@ -7,7 +7,8 @@ exports.authNGO = async (req, res, next) => {
   else {
     const token = req.header("Authorization").replace("Bearer ", "");
     const data = verifyToken(token);
-    if (data.UserTypeId == 4) next();
+    if(data.error) Response.BadRequest(res, data.error)
+    else if (data.UserTypeId == 4) next();
     else Response.AccessDenied(res, "Not Authorized");
   }
 };
@@ -18,7 +19,8 @@ exports.authAdmin = async (req, res, next) => {
   else {
     const token = req.header("Authorization").replace("Bearer ", "");
     const data = verifyToken(token);
-    if (data.UserTypeId == 2) next();
+    if (data.error) Response.BadRequest(res, data.error);
+    else if (data.UserTypeId == 2) next();
     else Response.AccessDenied(res, "Not Authorized");
   }
 };
@@ -29,14 +31,15 @@ exports.currentNGO = async (req, res, next) => {
   else {
     const token = req.header("Authorization").replace("Bearer ", "");
     const data = verifyToken(token);
-    if (req.params.userid) {
+    if (data.error) Response.BadRequest(res, data.error);
+    else if (req.params.userid) {
       if (data.id == req.params.userid) next();
       else Response.AccessDenied(res, "Not  Authorized");
     }
     else if (req.params.email) {
       if (data.Email == req.params.email) next();
       else Response.AccessDenied(res, "Not  Authorized");
-    } else Response.AccessDenied(res, "Not Authorized");
+    }
   }
 };
 
@@ -46,13 +49,14 @@ exports.currentUser = async (req, res, next) => {
   else {
     const token = req.header("Authorization").replace("Bearer ", "");
     const data = verifyToken(token);
-    if (req.params.userid) {
+    if (data.error) Response.BadRequest(res, data.error);
+    else if (req.params.userid) {
       if (data.id == req.params.userid) next();
-      else Response.AccessDenied(res, "Not  Authorized");
+      else Response.AccessDenied(res, "Not Authorized");
     }
     else if (req.params.email) {
-      if (data.email == req.params.Email) next();
-      else Response.AccessDenied(res, "Not  Authorized");
-    } else Response.AccessDenied(res, "Not Authorized");
+      if (data.Email === req.params.email) next();
+      else Response.AccessDenied(res, "Not Authorized");
+    }
   }
 };

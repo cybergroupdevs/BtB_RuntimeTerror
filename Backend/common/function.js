@@ -118,5 +118,12 @@ exports.getToken = (data) => {
 }
 
 exports.verifyToken = (token) => {
-  return (decodedToken = jwt.verify(token, tokenKey));
+  try{
+    var result = jwt.verify(token, tokenKey)
+    return result;
+  } catch(err) {
+    return (result = {
+      error: "Invalid Token"
+    });
+  }
 }
