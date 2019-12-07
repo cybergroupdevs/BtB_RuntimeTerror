@@ -13,7 +13,8 @@ const {
   getAddressDetails,
   getVerificationDetails,
   verifyNGO,
-  deleteUser
+  deleteUser,
+  raiseRescueRequest
 } = require("../../common/queries");
 
 exports.updateDetails = async (req, res) => {
@@ -159,5 +160,12 @@ exports.deleteUser = async (req, res) => {
   let email = req.params.email;
   const data = await runQuery(deleteUser(email))
   if(data.error) Response.InternalServerError(res, data.error);
+  else Response.Success(res)
+}
+
+exports.raiseRescueRequest = async (req, res) => {
+  req.body.isActive = 1;
+  const data = await runQuery(raiseRescueRequest(req.body))
+  if(data.error) Response.InternalServerError(res, data.error)
   else Response.Success(res)
 }

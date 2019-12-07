@@ -16,7 +16,8 @@ const {
   insertHelp,
   insertNewAddress,
   deleteNGO,
-  getUnverifiedUser
+  getUnverifiedUser,
+  rescueRequestList
 } = require("../../common/queries");
 
 exports.updateDetails = async (req, res) => {
@@ -169,3 +170,11 @@ exports.unVerifiedUsers = async (req, res) => {
   if(data.error) Response.InternalServerError(res, data.error)
   else Response.Success(res, data.recordset)
 }
+
+exports.rescueRequestList = async (req, res) => {
+  const data = await runQuery(rescueRequestList)
+  if (data.error) Response.InternalServerError(res, data.error);
+  else if (data.recordset.length === 0)
+    Response.NotFound(res, "No Rescue Requests");
+  else Response.Success(res, data.recordset);
+};

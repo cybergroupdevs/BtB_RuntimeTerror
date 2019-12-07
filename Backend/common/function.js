@@ -116,3 +116,7 @@ exports.checkPassword = (password, hash) => {
 exports.getToken = (data) => {
   return (token = jwt.sign(data, tokenKey));
 }
+
+exports.verifyToken = (token) => {
+  return (decodedToken = jwt.verify(token, tokenKey));
+}
