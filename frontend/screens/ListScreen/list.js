@@ -21,6 +21,7 @@ class ListScreen extends Component {
   };
   state = {
     NGOUri: require("../../assets/images/home.jpg"),
+    RescueRequestsUri: require("../../assets/images/home.jpg"),
     GovtShelterUri: require("../../assets/images/home.jpg"),
     PrivatePropertyUri: require("../../assets/images/home.jpg")
   };
@@ -97,6 +98,36 @@ class ListScreen extends Component {
                 <List
                   imageUri={this.state.NGOUri}
                   name="NGO Name"
+                  distance=" -- away"
+                />
+              </ScrollView>
+            </View>
+          </View>
+          <View style={styles.parentContainer}>
+            <Text style={styles.textContainer}> Government Shelters </Text>
+            <View style={{ height: 130, marginTop: 20 }}>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                <List
+                  imageUri={this.state.RescueRequestsUri}
+                  name="Victim Name"
+                  distance=" -- away"
+                />
+                <List
+                  imageUri={this.state.RescueRequestsUri}
+                  name="Victim Name"
+                  distance=" -- away"
+                />
+                <List
+                  imageUri={this.state.RescueRequestsUri}
+                  name="Victim Name"
+                  distance=" -- away"
+                />
+                <List
+                  imageUri={this.state.RescueRequestsUri}
+                  name="Victim Name"
                   distance=" -- away"
                 />
               </ScrollView>

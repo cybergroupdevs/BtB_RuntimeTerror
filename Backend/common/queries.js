@@ -49,8 +49,8 @@ exports.deleteverificationid = verificationid => {
 };
 
 exports.getUserByEmail = email => {
-  return `select id, UserTypeId, Password, AddressDetailId, VerificationDetailId, isVerifiedUser from Users where Email = '${email}' 
-          select id, UserTypeId, Password, AddressDetailId, VerificationDetailId, isVerifiedUser from authorities where Email = '${email}'`;
+  return `select id, UserTypeId, Password, Email, AddressDetailId, VerificationDetailId, isVerifiedUser from Users where Email = '${email}' 
+          select id, UserTypeId, Password, Email, AddressDetailId, VerificationDetailId, isVerifiedUser from authorities where Email = '${email}'`;
 };
 
 exports.listPrivateProperties = `select * from helps where AccomodationType = 'Private'`;
@@ -105,7 +105,9 @@ exports.deleteNGO = email => {
 
 exports.getUnverifiedUser = `select * from Users where isVerifiedUser = 0`;
 
-// exports.raiseRescueRequest = data => {
-//   const reqData = getColumnsAndValues(data);
-//   return `insert into RescueDetails(${reqData.columns}) values(${reqData.Values})`;
-// };
+exports.raiseRescueRequest = data => {
+  const reqData = getColumnsAndValues(data);
+  return `insert into RescueDetails(${reqData.columns}) values(${reqData.Values})`;
+};
+
+exports.rescueRequestList = `select * from RescueDetails where isActive = 1`;

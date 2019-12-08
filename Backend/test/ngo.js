@@ -4,13 +4,80 @@ const app = require("../app");
 const { expect } = chai;
 chai.use(chaiHttp);
 chai.should();
+var userToken;
 let userData = {
-  validId: 1,
+  validId: 4,
   invalidId: 0,
   userId: 6,
   invalidUser: 0,
   unauthorizedNGO: 2
 };
+
+describe("Login Unit Tests NGO", () => {
+  // #1 should Login and return token
+  it("Should Return Success (NGO) with Token", done => {
+    let data = {
+      Email: "singhal@",
+      password: "abc"
+    };
+    // calling Login api
+    chai
+      .request(app)
+      .post("/api/login")
+      .send(data)
+      .end((err, res) => {
+        userToken = res.body.data.Token;
+        // response should contain token
+        res.body.data.should.have.property("Token");
+        // HTTP status should be 200
+        res.should.have.status(200);
+        // Error key should be false.
+        res.error.should.equal(false);
+        done();
+      });
+  });
+
+  // #2 should return Code 401 (Access Denied)
+  it("Should Return message Email password don't match (NGO)", done => {
+    let data = {
+      Email: "singhal@",
+      password: "wrong_password"
+    };
+    // calling Login api
+    chai
+      .request(app)
+      .post("/api/login")
+      .send(data)
+      .end((err, res) => {
+        // response should contain errorMessage
+        res.body.should.have.property("errorMessage");
+        res.body.errorMessage.should.equal("Email password don't match");
+        // HTTP status should be 200
+        res.status.should.equal(401);
+        done();
+      });
+  });
+
+    // #3 should return Code 404
+  it("Should Return NOT  Found", done => {
+    let data = {
+      Email: "wrong_email",
+      password: "wrong_password"
+    };
+    // calling Login api
+    chai
+      .request(app)
+      .post("/api/login")
+      .send(data)
+      .end((err, res) => {
+        // response should contain errorMessage
+        res.status.should.equal(404);
+        // HTTP status should be 200
+        res.notFound.should.equal(true);
+        done();
+      });
+  });
+});
 
 describe("Update NGO Details Unit Tests", () => {
   // #1 should Upadte details and return Success
@@ -34,6 +101,7 @@ describe("Update NGO Details Unit Tests", () => {
       .request(app)
       .put("/api/ngo/updatedetails/" + userData.validId)
       .send(data)
+      .set({ Authorization: userToken })
       .end((err, res) => {
         // HTTP status should be 200
         res.status.should.equal(200);
@@ -44,7 +112,7 @@ describe("Update NGO Details Unit Tests", () => {
   });
 
   // #2 should return message 'No NGO found to update'
-  it("Should Return message NGO Not Found", done => {
+  it("Should Return message NGO Not Authorized", done => {
     let data = {
       userdetails: {
         AuthorityName: "user_",
@@ -64,11 +132,12 @@ describe("Update NGO Details Unit Tests", () => {
       .request(app)
       .put("/api/ngo/updatedetails/" + userData.invalidId)
       .send(data)
+      .set({ Authorization: userToken })
       .end((err, res) => {
         // HTTP status should be 200
-        res.status.should.equal(404);
+        res.status.should.equal(401);
         // Error key should be false.
-        res.notFound.should.equal(true);
+        res.unauthorized.should.equal(true);
         done();
       });
   });
@@ -119,6 +188,7 @@ describe("Get Profile Details of NGO", () => {
     chai
       .request(app)
       .get("/api/ngo/profiledetails/" + userData.validId)
+      .set({ Authorization: userToken })
       .end((err, res) => {
         // HTTP status should be 200
         res.status.should.equal(200);
@@ -138,11 +208,12 @@ describe("Get Profile Details of NGO", () => {
     chai
       .request(app)
       .get("/api/ngo/profiledetails/" + userData.invalidId)
+      .set({ Authorization: userToken })
       .end((err, res) => {
-        // HTTP status should be 200
-        res.status.should.equal(404);
+        // HTTP status should be 401
+        res.status.should.equal(401);
         // Not found should be true.
-        res.notFound.should.equal(true);
+        res.unauthorized.should.equal(true);
         done();
       });
   });
@@ -155,6 +226,7 @@ describe("Get List of Private properties", () => {
     chai
       .request(app)
       .get("/api/private/properties")
+      .set({ Authorization: userToken })
       .end((err, res) => {
         // HTTP status should be 200
         res.status.should.equal(200);
@@ -164,6 +236,21 @@ describe("Get List of Private properties", () => {
         }
         // Error key should be false.
         res.error.should.equal(false);
+        done();
+      });
+  });
+
+  // #1 should return Private properties List
+  it("Should return No header found", done => {
+    // calling get list api
+    chai
+      .request(app)
+      .get("/api/private/properties")
+      .end((err, res) => {
+        // HTTP status should be 401
+        res.status.should.equal(401);
+        // Error key should be false.
+        res.unauthorized.should.equal(true);
         done();
       });
   });
@@ -272,6 +359,7 @@ describe("Verify User Unit Tests", () => {
     chai
       .request(app)
       .put(`/api/ngo/${userData.validId}/verify/${userData.userId}`)
+      .set({ Authorization: userToken })
       .end((err, res) => {
         // HTTP status should be 200
         res.status.should.equal(200);
@@ -287,6 +375,7 @@ describe("Verify User Unit Tests", () => {
     chai
       .request(app)
       .put(`/api/ngo/${userData.validId}/verify/${userData.invalidUser}`)
+      .set({ Authorization: userToken })
       .end((err, res) => {
         // HTTP status should be 404
         res.status.should.equal(404);
@@ -302,6 +391,7 @@ describe("Verify User Unit Tests", () => {
     chai
       .request(app)
       .put(`/api/ngo/${userData.invalidId}/verify/${userData.userId}`)
+      .set({ Authorization: userToken })
       .end((err, res) => {
         // HTTP status should be 404
         res.status.should.equal(404);
@@ -320,6 +410,7 @@ describe("Get List of Un-verified Users", () => {
     chai
       .request(app)
       .get("/api/unverifiedusers")
+      .set({ Authorization: userToken })
       .end((err, res) => {
         // HTTP status should be 200
         res.status.should.equal(200);
@@ -327,6 +418,23 @@ describe("Get List of Un-verified Users", () => {
         for (let i = 0; i < res.body.data.length; i++) {
           res.body.data[i].isVerifiedUser.should.equal(false);
         }
+        // Error key should be false.
+        res.error.should.equal(false);
+        done();
+      });
+  });
+});
+
+describe("Get List of Rescue Requests", () => {
+  // #1 should return Rescue Requests
+  it("Should return List of Rescue Requests", done => {
+    // calling get list api
+    chai
+      .request(app)
+      .get("/api/rescue/requests")
+      .end((err, res) => {
+        // HTTP status should be 200
+        res.status.should.equal(200);
         // Error key should be false.
         res.error.should.equal(false);
         done();
