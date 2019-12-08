@@ -5,21 +5,48 @@ AASHRAY will provide a platform for housing to the victims all over India by giv
 
 # Getting Started
 1.	Installation process
+  Cross-platform App
+  Android + IOS
+  Same code base
+
+Permissions to Install the app:
+  Location
+  Contacts
+  Camera
+  Microphone
 
 2.	Software dependencies
-
-4.	API references
-
+  Node JS Runtime Environment
+  Python SDK
+  Java SDK
+  Emulator
+  Android studio
+  NPM
 
 # Build and Test
-TODO: Describe and show how to build your code and run the tests.
+  Backend:
+  Frontend: Go to Root Folder of app > CMD > react-native run-android
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better.
+#Project Structure
+The following is a description of the folders in this project, and how they are used. Our Application Stack is React- Native, SQL Server and Node JS:
 
-## Versioning
+Application Source React-native, SQL Server and Node JS Files:
+  app_native :
+    assests: Application Assests
+    component:
+    res:
+    screens:
+    utils:
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
+  Backend:
+
+  DatabaseScripts: SQL scripts to setup database on local
+    AASHRAY Database Schema Script
+    UserTypes Insert Script
+
+  Documentation:
+    AASHRAY Documentation
+    Btb_2019_Aashray PPT
 
 ## Authors
 
@@ -29,12 +56,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 * **Rishabh Singhal**
 * **Shruti Bhati**
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* react-native documentation used
+* It is a non profit buissness idea
