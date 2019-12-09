@@ -81,7 +81,7 @@ class ProfileScreen extends React.Component {
       this.setState({userType: (decodedtOken.UserTypeId === 4 ? 'NGO' : 'user')})
       if(this.state.userType === 'NGO'){
          const apiRes = await this.apiCallGet(baseURL+ngoProfile+decodedtOken.id,token);
-         console.log("res",apiRes)
+        //  console.log("res",apiRes)
          this.setState({
           personalDetailNGO: {
             AuthorityName: apiRes.data.userDetails.AuthorityName,
@@ -101,7 +101,7 @@ class ProfileScreen extends React.Component {
       }
       else{
         const apiRes = await this.apiCallGet(baseURL+userProfile+decodedtOken.id,token);
-        console.log(apiRes);
+        // console.log(apiRes);
         this.setState({
           personalDetailsUser: {
             FullName: apiRes.data.userDetails.FirstName+' '+apiRes.data.userDetails.MiddleName+' '+apiRes.data.userDetails.LastName,

@@ -72,9 +72,9 @@ class List extends Component {
           <Text style={{ paddingLeft: 25, paddingTop: 10 }}>
             {this.props.name}
           </Text>
-          <Text style={{ paddingLeft: 25, paddingBottom: 10 }}>
+          {/* <Text style={{ paddingLeft: 25, paddingBottom: 10 }}>
             {this.props.distance}
-          </Text>
+          </Text> */}
         </View>
       </TouchableOpacity>
     );

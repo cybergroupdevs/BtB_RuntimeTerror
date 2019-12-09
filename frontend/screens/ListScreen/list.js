@@ -14,6 +14,13 @@ import {
   TouchableOpacity
 } from "react-native";
 import List from "../../components/List/index";
+import {
+  baseURL,
+  listNGOs,
+  listGovtShelters,
+  listPrivateProperties
+} from "../../constants/apiRoutes";
+import { getData, getDecodedToken } from "../utils/locaStorage";
 
 class ListScreen extends Component {
   static navigationOptions = {
@@ -23,8 +30,49 @@ class ListScreen extends Component {
     NGOUri: require("../../assets/images/home.jpg"),
     RescueRequestsUri: require("../../assets/images/home.jpg"),
     GovtShelterUri: require("../../assets/images/home.jpg"),
-    PrivatePropertyUri: require("../../assets/images/home.jpg")
+    PrivatePropertyUri: require("../../assets/images/home.jpg"),
+    listNGO: "",
+    listGovtShelter: "",
+    listPrivateProperties: "",
+    showPrivateProperties: false
   };
+
+  apiCallGet = async (url, token) => {
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json"
+      }
+    });
+    return res.json();
+  };
+
+  componentDidMount = async () => {
+    var privateProperties="";
+    const token = await getData("token");
+    console.log(token);
+    if (typeof token !== "undefined") {
+      privateProperties = await this.apiCallGet(baseURL + listPrivateProperties, token);
+      if(!privateProperties.errorMessage){
+        this.setState({
+          listPrivateProperties: privateProperties
+        })
+      }
+    } else{
+      privateProperties = ""
+    }
+    const decodedtOken = getDecodedToken(token);
+    const NGO = await this.apiCallGet(baseURL + listNGOs);
+    const govtShelters = await this.apiCallGet(baseURL + listGovtShelters);
+
+    this.setState({
+      listNGO: NGO,
+      listGovtShelter: govtShelters,
+      // listPrivateProperties: privateProperties
+    });
+  };
+
   arr = [
     { name: "NGO 1", distance: "--away" },
     { name: "NGO 2", distance: "--away" },
@@ -33,25 +81,29 @@ class ListScreen extends Component {
     { name: "NGO 5", distance: "--away" }
   ];
 
-  navigateToDetailPage = (data) => {
+  navigateToDetailPage = data => {
     this.props.navigation.navigate("ListDetail", data);
-  }
+  };
 
   render() {
+    {
+      console.log("state =  " + this.state.listPrivateProperties);
+    }
+    {
+      console.log("check =  " + typeof this.state.listPrivateProperties);
+    }
     return (
       <View>
-        <View>
-          {/* <Icon name= "search" size={20} style={{ marginRight: 10 }} /> */}
+        {/* <View>
           <TextInput
             underlineColorAndroid="transparent"
             placeholder="Search"
             placeholderTextColor="grey"
             style={{ flex: 1, fontWeight: "700", backgroundColor: "white" }}
           />
-        </View>
+        </View> */}
 
         <ScrollView>
-          {/* <Button title='Details' onPress></Button> */}
           <View style={styles.parentContainer}>
             <Text style={styles.textContainer}> NGO(s)</Text>
             <View style={{ height: 130, marginTop: 20 }}>
@@ -59,17 +111,21 @@ class ListScreen extends Component {
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
               >
-                {this.arr.map((item, index) => {
-                  return (
-                    <List
-                      key={index}
-                      imageUri={this.state.NGOUri}
-                      name={item.name}
-                      distance={item.distance}
-                      listDetail = {this.navigateToDetailPage}
-                    />
-                  );
-                })}
+                {typeof this.state.listNGO === "object" ? (
+                  this.state.listNGO.data.map((item, index) => {
+                    return (
+                      <List
+                        key={index}
+                        imageUri={this.state.NGOUri}
+                        name={item.AuthorityName}
+                        distance={item.Id}
+                        listDetail={this.navigateToDetailPage}
+                      />
+                    );
+                  })
+                ) : (
+                  <Text style={styles.defaultText}> No NGOs Found </Text>
+                )}
               </ScrollView>
             </View>
           </View>
@@ -80,86 +136,48 @@ class ListScreen extends Component {
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
               >
-                <List
-                  imageUri={this.state.NGOUri}
-                  name="NGO Name"
-                  distance=" -- away"
-                />
-                <List
-                  imageUri={this.state.NGOUri}
-                  name="NGO Name"
-                  distance=" -- away"
-                />
-                <List
-                  imageUri={this.state.NGOUri}
-                  name="NGO Name"
-                  distance=" -- away"
-                />
-                <List
-                  imageUri={this.state.NGOUri}
-                  name="NGO Name"
-                  distance=" -- away"
-                />
+                {typeof this.state.listGovtShelter === "object" ? (
+                  this.state.listGovtShelter.data.map((item, index) => {
+                    return (
+                      <List
+                        key={index}
+                        imageUri={this.state.NGOUri}
+                        name={item.AccomodationType}
+                        distance={item.Id}
+                        listDetail={this.navigateToDetailPage}
+                      />
+                    );
+                  })
+                ) : (
+                  <Text style={styles.defaultText}>No Shelters Found</Text>
+                )}
               </ScrollView>
             </View>
           </View>
-          <View style={styles.parentContainer}>
-            <Text style={styles.textContainer}> Government Shelters </Text>
-            <View style={{ height: 130, marginTop: 20 }}>
-              <ScrollView
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-              >
-                <List
-                  imageUri={this.state.RescueRequestsUri}
-                  name="Victim Name"
-                  distance=" -- away"
-                />
-                <List
-                  imageUri={this.state.RescueRequestsUri}
-                  name="Victim Name"
-                  distance=" -- away"
-                />
-                <List
-                  imageUri={this.state.RescueRequestsUri}
-                  name="Victim Name"
-                  distance=" -- away"
-                />
-                <List
-                  imageUri={this.state.RescueRequestsUri}
-                  name="Victim Name"
-                  distance=" -- away"
-                />
-              </ScrollView>
-            </View>
-          </View>
-          <View style={styles.parentContainer}>
+          <View style={[styles.parentContainer, (this.state.showPrivateProperties) ? {display: 'block'} : {display : 'none'}]}>
             <Text style={styles.textContainer}> Private Properties </Text>
             <View style={{ height: 130, marginTop: 20 }}>
               <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
               >
-                <List
-                  imageUri={this.state.NGOUri}
-                  name="NGO Name"
-                  distance=" -- away"
-                />
-                <List
-                  imageUri={this.state.NGOUri}
-                  name="NGO Name"
-                  distance=" -- away"
-                />
-                <List
-                  imageUri={this.state.NGOUri}
-                  name="NGO Name"
-                  distance=" -- away"
-                />
-                <List
-                  imageUri={this.state.NGOUri}
-                  name="NGO Name"
-                  distance=" -- away"
-                />
+                {typeof this.state.listPrivateProperties === "object" ? (
+                  this.state.listPrivateProperties.data.map((item, index) => {
+                    return (
+                      <List
+                        key={index}
+                        imageUri={this.state.NGOUri}
+                        name={item.AccomodationType}
+                        distance={item.Id}
+                        listDetail={this.navigateToDetailPage}
+                      />
+                    );
+                  })
+                ) : (
+                  <Text style={styles.defaultText}>
+                    No Private properties Found
+                  </Text>
+                )}
               </ScrollView>
             </View>
           </View>
@@ -175,10 +193,19 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     paddingHorizontal: 20
   },
-  parentContainer: { 
-    backgroundColor: "white", 
-    paddingTop: 20, 
-    flex: 1 
+  parentContainer: {
+    backgroundColor: "white",
+    paddingTop: 20,
+    flex: 1
+  },
+  defaultText: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: 25,
+    color: "red",
+    paddingTop: 20,
+    paddingLeft: 50
   }
 });
 
