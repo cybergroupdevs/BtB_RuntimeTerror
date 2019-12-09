@@ -56,7 +56,7 @@ exports.getColumnsAndValues = data => {
     Values = "",
     count = 0;
   for (key in data) {
-    if (key === "password") {
+    if (key === "Password") {
       columns =
         count !== Object.keys(data).length - 1
           ? columns + key + ","
