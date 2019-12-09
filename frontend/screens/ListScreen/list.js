@@ -67,8 +67,8 @@ class ListScreen extends Component {
     const govtShelters = await this.apiCallGet(baseURL + listGovtShelters);
 
     this.setState({
-      listNGO: NGO,
-      listGovtShelter: govtShelters,
+      listNGO: NGO.errorMessage ? "" : NGO,
+      listGovtShelter: govtShelters.errorMessage ? "" : govtShelters
       // listPrivateProperties: privateProperties
     });
   };
@@ -116,9 +116,11 @@ class ListScreen extends Component {
                     return (
                       <List
                         key={index}
+                        category={"NGO"}
                         imageUri={this.state.NGOUri}
                         name={item.AuthorityName}
                         distance={item.Id}
+                        data={item}
                         listDetail={this.navigateToDetailPage}
                       />
                     );
@@ -141,9 +143,11 @@ class ListScreen extends Component {
                     return (
                       <List
                         key={index}
+                        category={"Government Shelters"}
                         imageUri={this.state.NGOUri}
                         name={item.AccomodationType}
                         distance={item.Id}
+                        data={item}
                         listDetail={this.navigateToDetailPage}
                       />
                     );
@@ -167,8 +171,10 @@ class ListScreen extends Component {
                       <List
                         key={index}
                         imageUri={this.state.NGOUri}
+                        category={"Private Properties"}
                         name={item.AccomodationType}
                         distance={item.Id}
+                        data={item}
                         listDetail={this.navigateToDetailPage}
                       />
                     );

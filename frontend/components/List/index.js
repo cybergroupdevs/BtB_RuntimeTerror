@@ -58,8 +58,10 @@ class List extends Component {
           borderColor: "#dddddd"
         }}
         onPress={() => {
+          this.props.data.category = this.props.category
+          this.props.data.imageUri = this.props.imageUri
           console.log("working");
-          this.props.listDetail(this.data)
+          this.props.listDetail(this.props.data)
         }}
       >
         <View style={{ flex: 2 }}>

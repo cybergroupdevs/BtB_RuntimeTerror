@@ -25,85 +25,100 @@ import {
 // import { Colors } from "react-native/Libraries/NewAppScreen";
 
 export default class ListDetails extends Component {
+  // state = {
+  //   categoryName: "Category",
+  //   imageUri: require("../../assets/images/home.jpg"),
+  //   name: "NGO 1",
+  //   email: "abc@xyz",
+  //   phoneNumber: "9999999",
+  //   address: "address",
+  //   city: "city",
+  //   pinCode: "9998784",
+  //   state: "delhi",
+  //   country: "india"
+  // }
+
+  state = this.props.navigation.state.params;
+  // state.imageUri = require("../../assets/images/home.jpg")
+
   render() {
-    // {console.log("Params : "+this.props.navigation.state.params)}
+    {
+      console.log(this.props.navigation.state.params);
+    }
     // {
     //   console.log("state : " + this.props.navigation.state);
     // }
     const { navigation } = this.props;
-    return (
-      <ScrollView style={styles.parentContainer}>
-        <View style={styles.mainContainer}>
-          <View style={styles.subContainer1}>
-            <Text style={styles.textContainer}>
-              {" "}
-              {navigation.state.params.categoryName}{" "}
-            </Text>
+
+    NGO = (
+      <View style={styles.mainContainer}>
+        <View style={styles.subContainer1}>
+          <Text style={styles.textContainer}> {this.state.category} </Text>
+        </View>
+        <View style={styles.subContainer2}>
+          <View style={styles.imageContainer}>
+            <Image source={this.state.imageUri} style={styles.image} />
           </View>
-          <View style={styles.subContainer2}>
-            <View style={styles.imageContainer}>
-              <Image
-                source={navigation.state.params.imageUri}
-                style={styles.image}
-              />
+          <View>
+            <View style={styles.callButton}>
+              <Button
+                title={this.state.Phone1 ? this.state.Phone1.toString() : ""}
+                color="white"
+                overrides={true}
+                theme="dark"
+              ></Button>
             </View>
-            <View>
-              <View style={styles.callButton}>
-                <Button
-                  title={navigation.state.params.phoneNumber}
-                  color="white"
-                  overrides={true}
-                  theme="dark"
-                ></Button>
-              </View>
-              <View style={styles.callButton}>
-                <Button
-                  title={navigation.state.params.phoneNumber}
-                  color="white"
-                >
-                  <Text style={{ color: "#ff0000" }}></Text>
-                </Button>
-              </View>
-              <View style={styles.callButton}>
-                <Button
-                  title={navigation.state.params.phoneNumber}
-                  color="white"
-                ></Button>
-              </View>
+            <View style={styles.callButton}>
+              <Button
+                title={this.state.Phone2 ? this.state.Phone2.toString() : ""}
+                color="white"
+              >
+                <Text style={{ color: "#ff0000" }}></Text>
+              </Button>
             </View>
-          </View>
-          <View style={styles.subContainer3}>
-            <Text style={styles.Name}>{navigation.state.params.name}</Text>
-          </View>
-          <View style={styles.subContainer4}>
-            <Text style={styles.textLabel}>
-              {navigation.state.params.email}
-            </Text>
-            <Text style={styles.textLabel}>
-              {navigation.state.params.address}
-            </Text>
-            <Text style={styles.textLabel}>{navigation.state.params.city}</Text>
-            <Text style={styles.textLabel}>
-              {navigation.state.params.pinCode}
-            </Text>
-            <Text style={styles.textLabel}>
-              {navigation.state.params.state}
-            </Text>
-            <Text style={styles.textLabel}>
-              {navigation.state.params.country}
-            </Text>
-          </View>
-          <View style={styles.buttonContainer}>
-            <View style={styles.button}>
-              <Button title="Send Message" color="purple" />
-            </View>
-            <View style={styles.button}>
-              <Button title="Seek Help" color="purple" />
+            <View style={styles.callButton}>
+              <Button
+                title={this.state.Phone3 ? this.state.Phone3.toString() : ""}
+                color="white"
+              ></Button>
             </View>
           </View>
         </View>
-      </ScrollView>
+        <View style={styles.subContainer3}>
+          <Text style={styles.Name}>{"Name"}</Text>
+          <Text style={styles.Name}>{this.state.AuthorityName}</Text>
+        </View>
+        <View style={styles.subContainer4}>
+          <Text style={styles.textLabel}>{"Email : " + this.state.Email}</Text>
+          <Text style={styles.textLabel}>
+            {"Address : " +
+              this.state.HouseBuilding +
+              " " +
+              this.state.AddressLine1 +
+              " " +
+              this.state.AddressLine2}
+          </Text>
+          <Text style={styles.textLabel}>{"City : " + this.state.City}</Text>
+          <Text style={styles.textLabel}>
+            {"Pincode : " + this.state.PinCode}
+          </Text>
+          <Text style={styles.textLabel}>{"State : " + this.state.State}</Text>
+          <Text style={styles.textLabel}>
+            {"Country : " + this.state.Country}
+          </Text>
+        </View>
+        <View style={styles.buttonContainer}>
+          <View style={styles.button}>
+            <Button title="Send Message" color="purple" />
+          </View>
+          <View style={styles.button}>
+            <Button title="Seek Help" color="purple" />
+          </View>
+        </View>
+      </View>
     );
+
+    return <ScrollView style={styles.parentContainer}>{NGO}</ScrollView>;
   }
 }
 
