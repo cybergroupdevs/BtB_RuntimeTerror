@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { View, TextInput, Button, Image, Text } from "react-native";
+import { View, TextInput, Button, Image, Text  } from "react-native";
 import styles from "./style";
 import AashrayLogo from "../../assets/images/AashrayLogo.png";
-// import {postAsync} from "../../services/callApi"
+import {baseURL, signin} from '../../constants/apiRoutes';
+import {storData} from '../utils/locaStorage';
 
 
 // export default function SigninScreen({navigation}) {
@@ -18,18 +19,29 @@ class SigninScreen extends Component {
 
   onLoginHandler = async() => {
     const authData = {
-      Email: "singhal@",
-      password: "abc"
+      Email: this.state.email,
+      password: this.state.password
     };
-    var data = await fetch("http://172.25.123.124:8000/api/login", {
+    const res = await fetch(baseURL+signin,{
       method: "POST",
-      headers: {'Content-Type': "application/json"}
-      // body: JSON.stringify(authData)
-    });
-    // let responseJson = await data.json();
-    console.log(await data.json())
-    // this.props.onLogin(authData);
+      headers: {
+        'Content-Type': "application/json"
+      },
+      body: JSON.stringify(authData)
+    })
+   const apiRes = await res.json()
+   
+   if(apiRes.errorMessage){console.log(apiRes)
+     alert("NO account with that email")
+   } 
+   else{
+     storData('token',apiRes.data.Token);
+     this.props.navigation.navigate("Main");
+   }
   };
+
+
+  
   render() {
     return (
       <View style={styles.Container}>

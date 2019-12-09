@@ -85,8 +85,8 @@ HelpStack.path = "";
 
 const ProfileStack = createStackNavigator(
   {
-    Login : LoginScreen,
-    Signup : SignupScreen,
+    // Login : LoginScreen,
+    // Signup : SignupScreen,
     Profile : ProfileScreen
   },
   config
@@ -103,6 +103,28 @@ ProfileStack.navigationOptions = {
 };
 
 ProfileStack.path = "";
+
+// const LoginStack = createStackNavigator(
+//   {
+//     // Login : LoginScreen,
+//     // Signup : SignupScreen,
+//     Profile : ProfileScreen
+//   },
+//   config
+// );
+
+// // ProfileStack.navigationOptions = {
+// //   tabBarIcon: ({ focused }) => (
+// //     <TabBarIcon
+// //       focused={focused}
+// //       name={Platform.OS === "ios" ? "ios-contact" : "md-contact"}
+// //     />
+// //   )
+// // };
+
+// LoginStack.path = "";
+
+
 
 
 const tabNavigator = createBottomTabNavigator(
