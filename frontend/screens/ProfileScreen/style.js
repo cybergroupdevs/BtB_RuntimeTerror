@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
     marginLeft: "3%"
   },
   fieldsTextStyle: {
-    fontSize: 17
+    fontSize: 17,
+    paddingLeft:3
   },
   content: {
     padding: 10,

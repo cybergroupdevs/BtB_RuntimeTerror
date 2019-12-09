@@ -6,11 +6,13 @@ import {
   Picker,
   Text,
   Image,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from "react-native";
 import DatePicker from "react-native-datepicker";
 import AashrayLogo from "../../assets/images/AashrayLogo.png";
 import styles from "./style";
+import  {baseURL, signupUser, signupNGO} from '../../constants/apiRoutes'; 
 
 class SignupScreen extends Component {
   static navigationOptions = {
@@ -39,36 +41,64 @@ class SignupScreen extends Component {
     phone3: ""
   };
 
-  onSignupHandler = () => {
-    if (this.state.usertype == "User") {
-      const signupdata = {
-        usertype: this.state.usertype,
-        firstname: this.state.firstname,
-        middlename: this.state.middlename,
-        lastname: this.state.lastname,
-        dob: this.state.dob,
-        email: this.state.email,
-        password: this.state.password,
-        retypepass: this.state.retypepass,
-        phone: this.state.phone
+  apiCall = async(url,data)=>{
+    const res = await fetch(url,{
+      method: "POST",
+      headers: {
+        'Content-Type': "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+
+    return res.json();
+  }
+
+  onSignupHandler = async() => {
+   
+    if (this.state.usertype === "User") {
+     const signupdata  = {
+        UserName: this.state.firstname+'_'+this.state.lastname,
+        UserTypeId: 5,
+        FirstName: this.state.firstname,
+        MiddleName: this.state.middlename,
+        LastName: this.state.lastname,
+        DOB: this.state.dob,
+        Gender: this.state.gender,
+        Email: this.state.email,
+        Password: this.state.password,
+        Phone: this.state.phone
       };
-      //call the api
+      const apiRes = await this.apiCall(baseURL+signupUser,signupdata);
+      if(apiRes.errorMessage){
+        alert("something went wrong")
+      }
+      else{
+        alert("Registered Successfully");
+        this.props.navigation.navigate("Login");
+      }
     } else {
-      const signupdata = {
-        usertype: this.state.usertype,
-        authname: this.state.fullauthname,
-        authadd: this.state.fullauthadd,
-        email: this.state.email,
-        phone: this.state.phone,
-        password: this.state.password,
-        retypepass: this.state.retypepass,
-        phone2: this.state.phone2,
-        phone3: this.state.phone3
-      };
-      //call the api
+      const  signupdata = {
+        UserTypeId : 4,
+        AuthorityName : this.state.fullauthname,
+        AuthorityFullAddress : this.state.fullauthadd,
+        Email : this.state.email,
+        Phone1 : this.state.phone,
+        Phone2 : this.state.phone2,
+        Phone3 : this.state.phone3,
+        Password : this.state.password
+      }
+      const apiRes = await this.apiCall(baseURL+signupNGO,signupdata)
+      if(apiRes.errorMessage){
+        alert("something went wrong")
+      }
+      else{
+        alert("Registered Successfully");
+        this.props.navigation.navigate("Login");
+      }
     }
     //Alert.alert('your Request has been noticed, Help is on it\'s way');
   };
+
   render() {
     return (
       <ScrollView >
@@ -109,7 +139,7 @@ class SignupScreen extends Component {
                     style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Middle Name"
                     value={this.state.middlename.value}
-                    onChangeText={(value) => this.setState(middlename, value)}
+                    onChangeText={(value) => this.setState({middlename:value})}
                     returnKeyType={"next"}
                   />
                   <TextInput
@@ -118,7 +148,7 @@ class SignupScreen extends Component {
                     style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Last Name"
                     value={this.state.lastname.value}
-                    onChangeText={(value) => this.setState(lastname, value)}
+                    onChangeText={(value) => this.setState({lastname:value})}
                     returnKeyType={"next"}
                   />
                   <TextInput
@@ -128,7 +158,7 @@ class SignupScreen extends Component {
                     placeholder="Phone Number"
                     value={this.state.phone.value}
                     keyboardType={'phone-pad'}
-                    onChangeText={(value) => this.setState(phone, value)}
+                    onChangeText={(value) => this.setState({phone:value})}
                     returnKeyType={"next"}
                   />
                   <TextInput
@@ -136,7 +166,7 @@ class SignupScreen extends Component {
                     placeholder="Enter your Email"
                     style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     value={this.state.email.value}
-                    onChangeText={(value) => this.setState(email, value)}
+                    onChangeText={(value) => this.setState({email:value})}
                     returnKeyType={"next"}
                   />
                   <TextInput
@@ -145,7 +175,7 @@ class SignupScreen extends Component {
                     style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Enter your Password"
                     value={this.state.password.value}
-                    onChangeText={(value) => this.setState(password, value)}
+                    onChangeText={(value) => this.setState({password:value})}
                     returnKeyType={"next"}
                     secureTextEntry={true}
                   />
@@ -155,7 +185,7 @@ class SignupScreen extends Component {
                     style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Re-enter your Password"
                     value={this.state.retypepass.value}
-                    onChangeText={(value) => this.setState(retypepass, value)}
+                    onChangeText={(value) => this.setState({retypepass:value})}
                     returnKeyType={"next"}
                     secureTextEntry={true}
                   />
@@ -201,7 +231,7 @@ class SignupScreen extends Component {
                     style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Authority's Full Name"
                     value={this.state.fullauthname.value}
-                    onChangeText={(value) => this.setState(fullauthname, value)}
+                    onChangeText={(value) => this.setState({fullauthname: value})}
                     returnKeyType={"next"}
                   />
                   <TextInput
@@ -210,7 +240,7 @@ class SignupScreen extends Component {
                     style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Full Address"
                     value={this.state.fullauthadd.value}
-                    onChangeText={(value) => this.setState(fullauthadd, value)}
+                    onChangeText={(value) => this.setState({fullauthadd: value})}
                     returnKeyType={"next"}
                   />
                   <TextInput
@@ -219,7 +249,7 @@ class SignupScreen extends Component {
                     style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Authority's Official Email"
                     value={this.state.email.value}
-                    onChangeText={(value) => this.setState(email, value)}
+                    onChangeText={(value) => this.setState({email: value})}
                     returnKeyType={"next"}
                   />
                   <TextInput
@@ -228,7 +258,7 @@ class SignupScreen extends Component {
                     style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Enter your Password"
                     value={this.state.password.value}
-                    onChangeText={(value) => this.setState(password, value)}
+                    onChangeText={(value) => this.setState({password: value})}
                     returnKeyType={"next"}
                     secureTextEntry={true}
                   />
@@ -238,7 +268,7 @@ class SignupScreen extends Component {
                     style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13}}
                     placeholder="Re-enter your Password"
                     value={this.state.retypepass.value}
-                    onChangeText={(value) => this.setState(retypepass, value)}
+                    onChangeText={(value) => this.setState({retypepass: value})}
                     returnKeyType={"next"}
                     secureTextEntry={true}
                   />
@@ -249,7 +279,7 @@ class SignupScreen extends Component {
                     placeholder="Phone Number"
                     value={this.state.phone.value}
                     keyboardType={'phone-pad'}
-                    onChangeText={(value) => this.setState(phone, value)}
+                    onChangeText={(value) => this.setState({phone: value})}
                     returnKeyType={"next"}
                   />
                   <TextInput
@@ -259,7 +289,7 @@ class SignupScreen extends Component {
                     placeholder="Add Another Phone"
                     value={this.state.phone2.value}
                     keyboardType={'phone-pad'}
-                    onChangeText={(value) => this.setState(phone2, value)}
+                    onChangeText={(value) => this.setState({phone2: value})}
                     returnKeyType={"next"}
                   />
                   <TextInput
@@ -269,19 +299,21 @@ class SignupScreen extends Component {
                     placeholder="Add Another Phone"
                     value={this.state.phone3.value}
                     keyboardType={'phone-pad'}
-                    onChangeText={(value) => this.setState(phone3, value)}
+                    onChangeText={(value) => this.setState({phone3: value})}
                     returnKeyType={"next"}
                   />
                 </View>
               }
           </View>
-          <View style={styles.ButtonContainer}>
-            <Button
-              title="Sign Up"
-              color="#A52E84"
-              onPress={() => {this.props.navigation.navigate("Profile");}}
-            />
+         
+           <TouchableOpacity onPress = {()=>{this.onSignupHandler()}}>
+           <View style={[{alignItems:"center",borderRadius:10},styles.ButtonContainer]}>
+             <Text style = {{color:"white",fontSize:18,paddingBottom:10,paddingTop:8}}>sign up</Text>
+            
+             
+           
           </View>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     );
