@@ -26,9 +26,7 @@ exports.updateDetails = async (req, res) => {
   } else {
     let id = req.params.userid;
     let data = await runQuery(getNGOAddressAndVerificationIds(id));
-    if (data.recordset.length === 0)
-      Response.NotFound(res, "No Userid found to update");
-    else {
+    
       if (req.body.addressdetails) {
         addressTable = updateAddressDetails(
           req.body.addressdetails,
@@ -44,13 +42,18 @@ exports.updateDetails = async (req, res) => {
       if (req.body.userdetails) {
         userTable = updateNGODetails(req.body.userdetails, id);
       }
-      const query = userTable?userTable:""+addressTable?addressTable:""+verificationTable?verificationTable:"";
+      const query = userTable
+        ? userTable
+        : "" + addressTable
+        ? addressTable
+        : "" + verificationTable
+        ? verificationTable
+        : "";
       let result = await runQuery(query);
       if (result.error) Response.InternalServerError(res, result.error);
       else if (result.rowsAffected.length === 0)
         Response.NotFound(res, "No data Updated");
       else Response.Success(res);
-    }
   }
 };
 
@@ -81,8 +84,6 @@ exports.profileDetails = async (req, res) => {
   let id = req.params.userid;
   const userDetails = await runQuery(getNGODetails(id));
   if (userDetails.error) Response.InternalServerError(res, userDetails.error);
-  else if (userDetails.recordset.length === 0)
-    Response.NotFound(res, "No NGO Found");
   else {
     let addressId = userDetails.recordset[0].AddressDetailId;
     let verificationId = userDetails.recordset[0].VerificationDetailId;

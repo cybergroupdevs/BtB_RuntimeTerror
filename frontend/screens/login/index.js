@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { View, TextInput, Button, Image, Text } from "react-native";
 import styles from "./style";
 import AashrayLogo from "../../assets/images/AashrayLogo.png";
+// import {postAsync} from "../../services/callApi"
+
 
 // export default function SigninScreen({navigation}) {
 class SigninScreen extends Component {
@@ -14,13 +16,19 @@ class SigninScreen extends Component {
     password: ""
   };
 
-  onLoginHandler = () => {
+  onLoginHandler = async() => {
     const authData = {
-      email: this.state.email.value,
-      password: this.state.password.value
+      Email: "singhal@",
+      password: "abc"
     };
-    //this.props.onLogin(authData);
-    console.log(authData);
+    var data = await fetch("http://172.25.123.124:8000/api/login", {
+      method: "POST",
+      headers: {'Content-Type': "application/json"}
+      // body: JSON.stringify(authData)
+    });
+    // let responseJson = await data.json();
+    console.log(await data.json())
+    // this.props.onLogin(authData);
   };
   render() {
     return (

@@ -67,8 +67,6 @@ exports.offeringHelp = async (req, res) => {
   const checkUserIsVerified = await runQuery(getUserDetails(id));
   if (checkUserIsVerified.error)
     Response.InternalServerError(res, checkUserIsVerified.error);
-  else if (checkUserIsVerified.recordset.length === 0)
-    Response.NotFound(res, "User Not Found");
   else if (checkUserIsVerified.recordset[0].isVerifiedUser) {
     if (isEmpty(req.body)) Response.BadRequest(res, "No data to register help");
     else {
