@@ -38,7 +38,11 @@ exports.getNGOAddressAndVerificationIds = id => {
   return `select AddressDetailId, VerificationDetailId from authorities where id = ${id}`;
 };
 
-exports.listNGO = `select * from authorities where UserTypeId = 4 and isActive = 1`;
+exports.listNGO = `select a.id, a.UserTypeId, a.AuthorityName, a.Email, a.Phone1, a.Phone2, a.Phone3,
+                  a.isEmailVerified, a.isActive, a.isVerifiedUser, ad.HouseBuilding, ad.AddressLine1, 
+                  ad.AddressLine2, ad.City, ad.State , ad.Country , ad.PinCode
+                  from authorities as a inner join AddressDetails as ad on a.AddressDetailId = ad.Id
+                  where a.UserTypeId = 4 and a.isActive = 1`;
 
 exports.deleteAddressId = addressid => {
   return ` delete from addressdetails where Id=${addressid} `;
@@ -53,9 +57,13 @@ exports.getUserByEmail = email => {
           select id, UserTypeId, Password, Email, AddressDetailId, VerificationDetailId, isVerifiedUser from authorities where Email = '${email}'`;
 };
 
-exports.listPrivateProperties = `select * from helps where AccomodationType = 'Private'`;
+exports.listPrivateProperties = `select * from helps 
+                                inner join AddressDetails on helps.AddressDetailId = AddressDetails.Id 
+                                where helps.AccomodationType = 'Private'`;
 
-exports.listGovtShelters = `select * from helps where AccomodationType = 'Government_Shelters'`;
+exports.listGovtShelters = `select * from helps 
+                            inner join AddressDetails on helps.AddressDetailId = AddressDetails.Id 
+                            where helps.AccomodationType = 'Government_Shelters'`;
 
 exports.userOfferedHelps = id => {
   return `select * from helps where UserId = ${id} and AccomodationType = 'Private'`;
