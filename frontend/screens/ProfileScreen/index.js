@@ -47,8 +47,8 @@ class ProfileScreen extends React.Component {
       city: "",
       pincode: ""
     },
-    decodedID: '',
-    headerToken: ''
+    decodedID: "",
+    headerToken: ""
   };
 
   static navigationOptions = {
@@ -66,20 +66,110 @@ class ProfileScreen extends React.Component {
     return res.json();
   };
 
-  callUpdateAPI = async(url, token, data)=>{
-
+  callUpdateAPI = async (url, token, data) => {
     let response = await fetch(url, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
         Authorization: "Bearer " + token,
         "Content-Type": "application/json"
       },
       body: JSON.stringify(data)
-  });
-  return response.json();
-  }
+    });
+    return response.json();
+  };
 
   componentDidMount = async () => {
+    const token = await getData("token");
+    // console.log(token);
+    if (typeof token === "undefined") {
+      alert("Please sign in first");
+      this.props.navigation.navigate("Login");
+    } else {
+      const decodedtOken = getDecodedToken(token);
+      // console.log(decodedtOken);
+      this.setState({
+        userType: decodedtOken.UserTypeId === 4 ? "NGO" : "user",
+        decodedID: decodedtOken.id,
+        headerToken: token
+      });
+      if (this.state.userType === "NGO") {
+        const apiRes = await this.apiCallGet(
+          baseURL + ngoProfile + this.state.decodedID,
+          token
+        );
+        //  console.log("res",apiRes)
+        this.setState({
+          personalDetailNGO: {
+            AuthorityName: apiRes.data.userDetails.AuthorityName,
+            Phone1: apiRes.data.userDetails.Phone1,
+            Phone2: apiRes.data.userDetails.Phone2,
+            Phone3: apiRes.data.userDetails.Phone3
+          },
+          Email_ID: apiRes.data.userDetails.Email,
+          AddressDetails: {
+            houseNo_BuildingName:
+              apiRes.data.addressDetails.HouseBuilding === null
+                ? "NULL"
+                : apiRes.data.addressDetails.HouseBuilding,
+            FullAddress:
+              apiRes.data.addressDetails.AddressLine1 === null
+                ? "NULL"
+                : apiRes.data.addressDetails.AddressLine1 +
+                  apiRes.data.addressDetails.AddressLine2,
+            city:
+              apiRes.data.addressDetails.City === null
+                ? "NULL"
+                : apiRes.data.addressDetails.City,
+            pincode:
+              apiRes.data.addressDetails.PinCode === null
+                ? "NULL"
+                : apiRes.data.addressDetails.PinCode
+          }
+        });
+      } else {
+        const apiRes = await this.apiCallGet(
+          baseURL + userProfile + this.state.decodedID,
+          token
+        );
+        // console.log(apiRes);
+        this.setState({
+          personalDetailsUser: {
+            FullName:
+              apiRes.data.userDetails.FirstName +
+              " " +
+              apiRes.data.userDetails.MiddleName +
+              " " +
+              apiRes.data.userDetails.LastName,
+            Gender: apiRes.data.userDetails.Gender,
+            D_O_B: apiRes.data.userDetails.DOB.trim(10),
+            Phone: apiRes.data.userDetails.Phone
+          },
+          Email_ID: apiRes.data.userDetails.Email,
+          AddressDetails: {
+            houseNo_BuildingName:
+              apiRes.data.addressDetails.HouseBuilding === null
+                ? "NULL"
+                : apiRes.data.addressDetails.HouseBuilding,
+            FullAddress:
+              apiRes.data.addressDetails.AddressLine1 === null
+                ? "NULL"
+                : apiRes.data.addressDetails.AddressLine1 +
+                  apiRes.data.addressDetails.AddressLine2,
+            city:
+              apiRes.data.addressDetails.City === null
+                ? "NULL"
+                : apiRes.data.addressDetails.City,
+            pincode:
+              apiRes.data.addressDetails.PinCode === null
+                ? "NULL"
+                : apiRes.data.addressDetails.PinCode
+          }
+        });
+      }
+    }
+  };
+
+  onRefresh = async () => {
     const token = await getData("token");
     // console.log(token);
     if (typeof token === "undefined") {
@@ -176,21 +266,56 @@ class ProfileScreen extends React.Component {
     this.props.navigation.navigate("Main");
   };
 
-  updatePersonalDetail = async()=>{
-    console.log("Type = ",this.state.userType)
-    // if(this.state.userType === 'NGO'){
-    //   let dataToupdateNgo = {
-    //     AuthorityName: this.state.personalDetailNGO.AuthorityName,
-    //     Phone1: this.state.personalDetailNGO.Phone1,
-    //     Phone2: this.state.personalDetailNGO.Phone2,
-    //     Phone3: this.state.personalDetailNGO.Phone3,
-    //     Email_ID: this.state.Email_ID
-    //   }
-    //   console.log(dataToupdateNgo)
-    //     let apiUpdatedRes =  await this.callUpdateAPI(baseURL+updateNGO+this.state.decodedID, this.state.headerToken, dataToupdateNgo );
-    //     console.log("dede", apiUpdatedRes);
-    // }
-  }
+  updatePersonalDetail = async () => {
+    console.log("Type = ", this.state.userType);
+    if (this.state.userType === "NGO") {
+      let dataToupdateNgo = {
+        userdetails: {
+          AuthorityName: this.state.personalDetailNGO.AuthorityName,
+          Phone1: this.state.personalDetailNGO.Phone1,
+          Phone2: this.state.personalDetailNGO.Phone2,
+          Phone3: this.state.personalDetailNGO.Phone3,
+          Email: this.state.Email_ID
+        }
+      };
+      console.log(dataToupdateNgo);
+      let apiUpdatedRes = await this.callUpdateAPI(
+        baseURL + updateNGO + this.state.decodedID,
+        this.state.headerToken,
+        dataToupdateNgo
+      );
+      this.onRefresh();
+      this.setState({
+        isPersonalDetailEdit: false,
+        isEditButtonPersonlHide: false
+      });
+    }
+  };
+
+  updateAddressDetail = async () => {
+    console.log("address");
+    if (this.state.userType === "NGO") {
+      let dataToupdateAddress = {
+        addressdetails: {
+          housebuilding: this.state.AddressDetails.houseNo_BuildingName,
+          AddressLine1: this.state.AddressDetails.FullAddress,
+          city: this.state.AddressDetails.city,
+          pincode: this.state.AddressDetails.pincode
+      }
+      }
+      // console.log(dataToupdateNgo);
+      let apiUpdatedRes = await this.callUpdateAPI(
+        baseURL + updateNGO + this.state.decodedID,
+        this.state.headerToken,
+        dataToupdateAddress
+      );
+      this.onRefresh();
+      this.setState({
+        isAddressDeyalsEdit: false,
+        isEditButtonAddressHide: false
+      });
+    }
+  };
 
   render() {
     return (
@@ -207,10 +332,12 @@ class ProfileScreen extends React.Component {
             <Text style={styles.headerTextStyle}>Personal Details</Text>
             {this.state.isEditButtonPersonlHide ? null : (
               <TouchableOpacity
-                onPress={() => { this.setState({
-                  isPersonalDetailEdit: true,
-                  isEditButtonPersonlHide: true
-                })}}
+                onPress={() => {
+                  this.setState({
+                    isPersonalDetailEdit: true,
+                    isEditButtonPersonlHide: true
+                  });
+                }}
               >
                 <View style={styles.editButtonStyle}>
                   <Text style={styles.editButtonTextStyle}>Edit</Text>
@@ -411,7 +538,11 @@ class ProfileScreen extends React.Component {
                   <Text style={styles.cancelUpdateButtonText}>Cancel</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress = {()=>{this.updatePersonalDetail()}}>
+              <TouchableOpacity
+                onPress={() => {
+                  this.updatePersonalDetail();
+                }}
+              >
                 <View
                   style={[
                     { backgroundColor: "orange" },
@@ -540,7 +671,11 @@ class ProfileScreen extends React.Component {
                   <Text style={styles.cancelUpdateButtonText}>Cancel</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress = {()=>{this.updatePersonalDetail()}}>
+              <TouchableOpacity
+                onPress={() => {
+                  this.updateAddressDetail();
+                }}
+              >
                 <View
                   style={[
                     { backgroundColor: "orange" },
