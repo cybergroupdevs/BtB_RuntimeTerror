@@ -52,27 +52,30 @@ class ListScreen extends Component {
   };
 
   componentDidMount = async () => {
-    // var privateProperties="";
     const token = await getData("token");
-    console.log(token);
+    console.log("token", token);
     if (typeof token !== "undefined") {
-      const privateProperties = await this.apiCallGet(baseURL + listPrivateProperties, token);
-      const rescueRequest = await this.apiCallGet(baseURL + listRescueRequest, token);
-      if(!privateProperties.errorMessage){
-        this.setState({
-          listPrivateProperties: privateProperties,
-          listRescueRequest: rescueRequest
-        });
-      }
+      const privateProperties = await this.apiCallGet(
+        baseURL + listPrivateProperties,
+        token
+      );
+      const rescueRequests = await this.apiCallGet(
+        baseURL + rescueRequest,
+        token
+      );
+      this.setState({
+        listPrivateProperties: privateProperties.errorMessage
+          ? ""
+          : privateProperties,
+        listRescueRequest: rescueRequests.errorMessage ? "" : rescueRequests,
+        showUserDetail: true
+      });
     }
-    const decodedtOken = getDecodedToken(token);
     const NGO = await this.apiCallGet(baseURL + listNGOs);
     const govtShelters = await this.apiCallGet(baseURL + listGovtShelters);
-
     this.setState({
       listNGO: NGO.errorMessage ? "" : NGO,
       listGovtShelter: govtShelters.errorMessage ? "" : govtShelters
-      // listPrivateProperties: privateProperties
     });
   };
 
@@ -89,15 +92,64 @@ class ListScreen extends Component {
   };
 
   render() {
-    {
-      console.log("state =  " + this.state.listPrivateProperties);
-    }
-    {
-      console.log("check =  " + typeof this.state.listPrivateProperties);
-    }
+    privateProperties = (
+      <View style={[styles.parentContainer]}>
+        <Text style={styles.textContainer}> Private Properties </Text>
+        <View style={{ height: 130, marginTop: 20 }}>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            {typeof this.state.listPrivateProperties === "object" ? (
+              this.state.listPrivateProperties.data.map((item, index) => {
+                return (
+                  <List
+                    key={index}
+                    imageUri={this.state.NGOUri}
+                    category={"Private Properties"}
+                    name={item.AccomodationType}
+                    distance={item.Id}
+                    data={item}
+                    listDetail={this.navigateToDetailPage}
+                  />
+                );
+              })
+            ) : (
+              <Text style={styles.defaultText}>
+                No Private properties Found
+              </Text>
+            )}
+          </ScrollView>
+        </View>
+      </View>
+    );
+
+    rescue = (
+      <View style={[styles.parentContainer]}>
+        <Text style={styles.textContainer}> Rescue Requests </Text>
+        <View style={{ height: 130, marginTop: 20 }}>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            {typeof this.state.listRescueRequest === "object" ? (
+              this.state.listRescueRequest.data.map((item, index) => {
+                return (
+                  <List
+                    key={index}
+                    imageUri={this.state.NGOUri}
+                    category={"Rescue Request"}
+                    name={item.AccomodationType}
+                    distance={item.Id}
+                    data={item}
+                    listDetail={this.navigateToDetailPage}
+                  />
+                );
+              })
+            ) : (
+              <Text style={styles.defaultText}>No Rescue Request</Text>
+            )}
+          </ScrollView>
+        </View>
+      </View>
+    );
     return (
       <View>
-        <ScrollView>
+        <ScrollView style={{marginBottom: 25}}>
           <View style={styles.parentContainer}>
             <Text style={styles.textContainer}> NGO(s)</Text>
             <View style={{ height: 130, marginTop: 20 }}>
@@ -153,80 +205,9 @@ class ListScreen extends Component {
               </ScrollView>
             </View>
           </View>
+          {this.state.showUserDetail ? privateProperties : null}
 
-          <View
-            style={[
-              styles.parentContainer,
-              this.state.showUserDetail
-                ? { display: "block" }
-                : { display: "none" }
-            ]}
-          >
-            <Text style={styles.textContainer}> Private Properties </Text>
-            <View style={{ height: 130, marginTop: 20 }}>
-              <ScrollView
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-              >
-                {typeof this.state.listPrivateProperties === "object" ? (
-                  this.state.listPrivateProperties.data.map((item, index) => {
-                    return (
-                      <List
-                        key={index}
-                        imageUri={this.state.NGOUri}
-                        category={"Private Properties"}
-                        name={item.AccomodationType}
-                        distance={item.Id}
-                        data={item}
-                        listDetail={this.navigateToDetailPage}
-                      />
-                    );
-                  })
-                ) : (
-                  <Text style={styles.defaultText}>
-                    No Private properties Found
-                  </Text>
-                )}
-              </ScrollView>
-            </View>
-          </View>
-
-          <View
-            style={[
-              styles.parentContainer,
-              this.state.showUserDetail
-                ? { display: "block" }
-                : { display: "none" }
-            ]}
-          >
-            <Text style={styles.textContainer}> Rescue Requests </Text>
-            <View style={{ height: 130, marginTop: 20 }}>
-              <ScrollView
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-              >
-                {typeof this.state.listRescueRequest === "object" ? (
-                  this.state.listRescueRequest.data.map((item, index) => {
-                    return (
-                      <List
-                        key={index}
-                        imageUri={this.state.NGOUri}
-                        category={"Rescue Request"}
-                        name={item.AccomodationType}
-                        distance={item.Id}
-                        data={item}
-                        listDetail={this.navigateToDetailPage}
-                      />
-                    );
-                  })
-                ) : (
-                  <Text style={styles.defaultText}>
-                    No Rescue Request
-                  </Text>
-                )}
-              </ScrollView>
-            </View>
-          </View>
+          {this.state.showUserDetail ? rescue : null}
         </ScrollView>
         <View style={styles.button}>
           <TouchableOpacity onPress={() => {this.props.navigation.navigate("SeekHelp")}}

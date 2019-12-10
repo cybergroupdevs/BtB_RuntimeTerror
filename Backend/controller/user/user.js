@@ -38,13 +38,10 @@ exports.updateDetails = async (req, res) => {
     if (req.body.userdetails) {
       userTable = updateUserDetails(req.body.userdetails, id);
     }
-    const query = userTable
-      ? userTable
-      : "" + addressTable
-      ? addressTable
-      : "" + verificationTable
-      ? verificationTable
-      : "";
+    const query =
+      (userTable ? userTable : " ") +
+      (verificationTable ? verificationTable : " ") +
+      (addressTable ? addressTable : " ");
     let result = await runQuery(query);
     if (result.error) Response.InternalServerError(res, result.error);
     else if (result.rowsAffected.length === 0)

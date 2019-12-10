@@ -15,11 +15,11 @@ exports.login = async (req, res) => {
     const user = await runQuery(getUserByEmail(req.body.Email));
     // res.send(user)
     if (user.recordsets[1][0]) {
-      checkPassword(req.body.password, user.recordsets[1][0].Password)
+      checkPassword(req.body.Password, user.recordsets[1][0].Password)
         ? Response.Success(res, {"Token": getToken(user.recordsets[1][0])})
         : Response.AccessDenied(res, "Email password don't match");
     } else if (user.recordsets[0][0]) {
-      checkPassword(req.body.password, user.recordsets[0][0].Password)
+      checkPassword(req.body.Password, user.recordsets[0][0].Password)
         ? Response.Success(res, { Token: getToken(user.recordsets[0][0]) })
         : Response.AccessDenied(res, "Email password don't match");
     } else {

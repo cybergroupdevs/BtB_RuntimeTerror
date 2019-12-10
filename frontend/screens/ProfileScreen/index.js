@@ -6,29 +6,23 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  Button,AsyncStorage
+  Button,
+  AsyncStorage,
+  Alert
 } from "react-native";
 // import DocumentPicker from "react-native-document-picker";
 import styles from "./style";
 import {getData,getDecodedToken} from '../utils/locaStorage';
-import {baseURL,ngoProfile,userProfile} from '../../constants/apiRoutes';
+import {baseURL,ngoProfile,userProfile, updateNGO} from '../../constants/apiRoutes';
 
 
 
 class ProfileScreen extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerTitle: "Profile",
-      headerRight: (
-        <Button
-          title="+1"
-          color="#fff"
-        />
-      ),
-    };
+  static navigationOptions = {
+    title: "Profile"
   };
   state = {
-    userType: '',
+    userType: "",
     isVerified: false,
     isPersonalDetailEdit: false,
     isAddressDeyalsEdit: false,
@@ -52,101 +46,151 @@ class ProfileScreen extends React.Component {
       FullAddress: "",
       city: "",
       pincode: ""
-    }
+    },
+    decodedID: '',
+    headerToken: ''
   };
 
   static navigationOptions = {
-    title: 'Profile'
+    title: "Profile"
+  };
+
+  apiCallGet = async (url, token) => {
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json"
+      }
+    });
+    return res.json();
+  };
+
+  callUpdateAPI = async(url, token, data)=>{
+
+    let response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+  });
+  return response.json();
   }
 
-   apiCallGet = async(url,token)=>{
-    const res = await fetch(url, {
-      method: 'GET',
-      headers: {
-       'Authorization': "Bearer " + token,
-       'Content-Type': "application/json"
-      }
-   });
-   return res.json(); 
-   }
-  componentDidMount = async() => {
-    const token  = await getData('token');
-    console.log(token);
-    if(typeof token === 'undefined'){
-      alert("Please sign in first")
+  componentDidMount = async () => {
+    const token = await getData("token");
+    // console.log(token);
+    if (typeof token === "undefined") {
+      alert("Please sign in first");
       this.props.navigation.navigate("Login");
-    }
-    else{
+    } else {
       const decodedtOken = getDecodedToken(token);
-      this.setState({userType: (decodedtOken.UserTypeId === 4 ? 'NGO' : 'user')})
-      if(this.state.userType === 'NGO'){
-         const apiRes = await this.apiCallGet(baseURL+ngoProfile+decodedtOken.id,token);
+      // console.log(decodedtOken);
+      this.setState({
+        userType: decodedtOken.UserTypeId === 4 ? "NGO" : "user",
+        decodedID: decodedtOken.id,
+        headerToken: token
+      });
+      if (this.state.userType === "NGO") {
+        const apiRes = await this.apiCallGet(
+          baseURL + ngoProfile + this.state.decodedID,
+          token
+        );
         //  console.log("res",apiRes)
-         this.setState({
+        this.setState({
           personalDetailNGO: {
             AuthorityName: apiRes.data.userDetails.AuthorityName,
             Phone1: apiRes.data.userDetails.Phone1,
             Phone2: apiRes.data.userDetails.Phone2,
             Phone3: apiRes.data.userDetails.Phone3
-          }
-          ,
+          },
           Email_ID: apiRes.data.userDetails.Email,
           AddressDetails: {
-            houseNo_BuildingName: (apiRes.data.addressDetails.HouseBuilding === null ? 'NULL' : apiRes.data.addressDetails.HouseBuilding),
-            FullAddress: (apiRes.data.addressDetails.AddressLine1 === null ? 'NULL' : apiRes.data.addressDetails.AddressLine1 + apiRes.data.addressDetails.AddressLine2),
-            city: (apiRes.data.addressDetails.City === null ? 'NULL' : apiRes.data.addressDetails.City),
-            pincode: (apiRes.data.addressDetails.PinCode === null ? 'NULL' : apiRes.data.addressDetails.PinCode)
+            houseNo_BuildingName:
+              apiRes.data.addressDetails.HouseBuilding === null
+                ? "NULL"
+                : apiRes.data.addressDetails.HouseBuilding,
+            FullAddress:
+              apiRes.data.addressDetails.AddressLine1 === null
+                ? "NULL"
+                : apiRes.data.addressDetails.AddressLine1 +
+                  apiRes.data.addressDetails.AddressLine2,
+            city:
+              apiRes.data.addressDetails.City === null
+                ? "NULL"
+                : apiRes.data.addressDetails.City,
+            pincode:
+              apiRes.data.addressDetails.PinCode === null
+                ? "NULL"
+                : apiRes.data.addressDetails.PinCode
           }
-         })
-      }
-      else{
-        const apiRes = await this.apiCallGet(baseURL+userProfile+decodedtOken.id,token);
+        });
+      } else {
+        const apiRes = await this.apiCallGet(
+          baseURL + userProfile + this.state.decodedID,
+          token
+        );
         // console.log(apiRes);
         this.setState({
           personalDetailsUser: {
-            FullName: apiRes.data.userDetails.FirstName+' '+apiRes.data.userDetails.MiddleName+' '+apiRes.data.userDetails.LastName,
+            FullName:
+              apiRes.data.userDetails.FirstName +
+              " " +
+              apiRes.data.userDetails.MiddleName +
+              " " +
+              apiRes.data.userDetails.LastName,
             Gender: apiRes.data.userDetails.Gender,
-            D_O_B: (apiRes.data.userDetails.DOB).trim(10),
+            D_O_B: apiRes.data.userDetails.DOB.trim(10),
             Phone: apiRes.data.userDetails.Phone
           },
           Email_ID: apiRes.data.userDetails.Email,
           AddressDetails: {
-            houseNo_BuildingName: (apiRes.data.addressDetails.HouseBuilding === null ? 'NULL' : apiRes.data.addressDetails.HouseBuilding),
-            FullAddress: (apiRes.data.addressDetails.AddressLine1 === null ? 'NULL' : apiRes.data.addressDetails.AddressLine1 + apiRes.data.addressDetails.AddressLine2),
-            city: (apiRes.data.addressDetails.City === null ? 'NULL' : apiRes.data.addressDetails.City),
-            pincode: (apiRes.data.addressDetails.PinCode === null ? 'NULL' : apiRes.data.addressDetails.PinCode)
+            houseNo_BuildingName:
+              apiRes.data.addressDetails.HouseBuilding === null
+                ? "NULL"
+                : apiRes.data.addressDetails.HouseBuilding,
+            FullAddress:
+              apiRes.data.addressDetails.AddressLine1 === null
+                ? "NULL"
+                : apiRes.data.addressDetails.AddressLine1 +
+                  apiRes.data.addressDetails.AddressLine2,
+            city:
+              apiRes.data.addressDetails.City === null
+                ? "NULL"
+                : apiRes.data.addressDetails.City,
+            pincode:
+              apiRes.data.addressDetails.PinCode === null
+                ? "NULL"
+                : apiRes.data.addressDetails.PinCode
           }
-        
-      });
+        });
+      }
     }
-    
+  };
+
+  onSignOut = async () => {
+    await AsyncStorage.removeItem("token");
+    console.log("here reached");
+    this.props.navigation.navigate("Main");
+  };
+
+  updatePersonalDetail = async()=>{
+    console.log("Type = ",this.state.userType)
+    // if(this.state.userType === 'NGO'){
+    //   let dataToupdateNgo = {
+    //     AuthorityName: this.state.personalDetailNGO.AuthorityName,
+    //     Phone1: this.state.personalDetailNGO.Phone1,
+    //     Phone2: this.state.personalDetailNGO.Phone2,
+    //     Phone3: this.state.personalDetailNGO.Phone3,
+    //     Email_ID: this.state.Email_ID
+    //   }
+    //   console.log(dataToupdateNgo)
+    //     let apiUpdatedRes =  await this.callUpdateAPI(baseURL+updateNGO+this.state.decodedID, this.state.headerToken, dataToupdateNgo );
+    //     console.log("dede", apiUpdatedRes);
+    // }
   }
-}
-
-onSignOut = ()=>{
-  AsyncStorage.removeItem('token');
-  this.props.navigation.navigate("Main");
-}
-
-  // async selectFile() {
-  //   try {
-  //     const res = await DocumentPicker.pick({
-  //       type: [DocumentPicker.types.allFiles]
-  //     });
-  //     console.log("res : " + JSON.stringify(res));
-  //     console.log("URI : " + res.uri);
-  //     console.log("Type : " + res.type);
-  //     console.log("File Name : " + res.name);
-  //     console.log("File Size : " + res.size);
-  //   } catch (err) {
-  //     if (DocumentPicker.isCancel(err)) {
-  //       alert("Canceled  picker");
-  //     } else {
-  //       alert("Unknown Error: " + JSON.stringify(err));
-  //       throw err;
-  //     }
-  //   }
-  // }
 
   render() {
     return (
@@ -163,13 +207,10 @@ onSignOut = ()=>{
             <Text style={styles.headerTextStyle}>Personal Details</Text>
             {this.state.isEditButtonPersonlHide ? null : (
               <TouchableOpacity
-                onPress={() => {
-                  this.setState({
-                    isPersonalDetailEdit: true,
-                    isEditButtonPersonlHide: true
-                  });
-                  alert("ldknslnkl")
-                }}
+                onPress={() => { this.setState({
+                  isPersonalDetailEdit: true,
+                  isEditButtonPersonlHide: true
+                })}}
               >
                 <View style={styles.editButtonStyle}>
                   <Text style={styles.editButtonTextStyle}>Edit</Text>
@@ -370,7 +411,7 @@ onSignOut = ()=>{
                   <Text style={styles.cancelUpdateButtonText}>Cancel</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity onPress = {()=>{this.updatePersonalDetail()}}>
                 <View
                   style={[
                     { backgroundColor: "orange" },
@@ -499,7 +540,7 @@ onSignOut = ()=>{
                   <Text style={styles.cancelUpdateButtonText}>Cancel</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity onPress = {()=>{this.updatePersonalDetail()}}>
                 <View
                   style={[
                     { backgroundColor: "orange" },
@@ -560,11 +601,17 @@ onSignOut = ()=>{
           )}
         </View>
         {/* Verification Details section end */}
-        <TouchableOpacity onPress = {()=>{this.onSignOut()}}>
-                <View style={{alignItems:"center"}}>
-                  <Text style={{padding:10,fontSize:20,color:"red"}}>Sign Out</Text>
-                </View>
-              </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            this.onSignOut();
+          }}
+        >
+          <View style={{ alignItems: "center" }}>
+            <Text style={{ padding: 10, fontSize: 20, color: "red" }}>
+              Sign Out
+            </Text>
+          </View>
+        </TouchableOpacity>
       </ScrollView>
     );
   }
