@@ -52,7 +52,7 @@ class ListScreen extends Component {
 
   componentDidMount = async () => {
     const token = await getData("token");
-    console.log(token);
+    console.log("token",token);
     if (typeof token !== "undefined") {
       const privateProperties = await this.apiCallGet(
         baseURL + listPrivateProperties,
@@ -67,10 +67,8 @@ class ListScreen extends Component {
         });
       }
     }
-    const decodedtOken = getDecodedToken(token);
     const NGO = await this.apiCallGet(baseURL + listNGOs);
     const govtShelters = await this.apiCallGet(baseURL + listGovtShelters);
-
     this.setState({
       listNGO: NGO.errorMessage ? "" : NGO,
       listGovtShelter: govtShelters.errorMessage ? "" : govtShelters
@@ -210,10 +208,9 @@ class ListScreen extends Component {
               </ScrollView>
             </View>
           </View>
-
           {(this.state.showUserDetail) ? privateProperties : null}
 
-          {{(this.state.showUserDetail) ? rescue : null}}
+          {(this.state.showUserDetail) ? rescue : null}
         </ScrollView>
       </View>
     );

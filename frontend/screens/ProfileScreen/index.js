@@ -13,7 +13,7 @@ import {
 // import DocumentPicker from "react-native-document-picker";
 import styles from "./style";
 import {getData,getDecodedToken} from '../utils/locaStorage';
-import {baseURL,ngoProfile,userProfile} from '../../constants/apiRoutes';
+import {baseURL,ngoProfile,userProfile, updateNGO} from '../../constants/apiRoutes';
 
 
 
@@ -46,7 +46,9 @@ class ProfileScreen extends React.Component {
       FullAddress: "",
       city: "",
       pincode: ""
-    }
+    },
+    decodedID: '',
+    headerToken: ''
   };
 
   static navigationOptions = {
@@ -63,6 +65,18 @@ class ProfileScreen extends React.Component {
     });
     return res.json();
   };
+
+  callUpdateAPI = async(url, token, data)=>{
+    let response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+  });
+  return response.json();
+  }
   componentDidMount = async () => {
     const token = await getData("token");
     console.log(token);
@@ -71,12 +85,15 @@ class ProfileScreen extends React.Component {
       this.props.navigation.navigate("Login");
     } else {
       const decodedtOken = getDecodedToken(token);
+      console.log(decodedtOken);
       this.setState({
-        userType: decodedtOken.UserTypeId === 4 ? "NGO" : "user"
+        userType: decodedtOken.UserTypeId === 4 ? "NGO" : "user",
+        decodedID: decodedtOken.id,
+        headerToken: token
       });
       if (this.state.userType === "NGO") {
         const apiRes = await this.apiCallGet(
-          baseURL + ngoProfile + decodedtOken.id,
+          baseURL + ngoProfile + this.state.decodedID,
           token
         );
         //  console.log("res",apiRes)
@@ -110,7 +127,7 @@ class ProfileScreen extends React.Component {
         });
       } else {
         const apiRes = await this.apiCallGet(
-          baseURL + userProfile + decodedtOken.id,
+          baseURL + userProfile + this.state.decodedID,
           token
         );
         // console.log(apiRes);
@@ -157,25 +174,23 @@ class ProfileScreen extends React.Component {
     this.props.navigation.navigate("Main");
   };
 
-  // async selectFile() {
-  //   try {
-  //     const res = await DocumentPicker.pick({
-  //       type: [DocumentPicker.types.allFiles]
-  //     });
-  //     console.log("res : " + JSON.stringify(res));
-  //     console.log("URI : " + res.uri);
-  //     console.log("Type : " + res.type);
-  //     console.log("File Name : " + res.name);
-  //     console.log("File Size : " + res.size);
-  //   } catch (err) {
-  //     if (DocumentPicker.isCancel(err)) {
-  //       alert("Canceled  picker");
-  //     } else {
-  //       alert("Unknown Error: " + JSON.stringify(err));
-  //       throw err;
-  //     }
-  //   }
-  // }
+ 
+
+  updatePersonalDetail = async()=>{
+    
+    if(this.state.userType === 'NGO'){
+      let dataToupdateNgo = {
+        AuthorityName: this.state.personalDetailNGO.AuthorityName,
+        Phone1: this.state.personalDetailNGO.Phone1,
+        Phone2: this.state.personalDetailNGO.Phone2,
+        Phone3: this.state.personalDetailNGO.Phone3,
+        Email_ID: this.state.Email_ID
+      } 
+        let apiUpdatedRes =  await this.callUpdateAPI(baseURL+updateNGO+this.state.decodedID, this.state.headerToken, dataToupdateNgo );
+        console.log("dede", apiUpdatedRes);
+    }
+
+  }
 
   render() {
     return (
@@ -192,13 +207,10 @@ class ProfileScreen extends React.Component {
             <Text style={styles.headerTextStyle}>Personal Details</Text>
             {this.state.isEditButtonPersonlHide ? null : (
               <TouchableOpacity
-                onPress={() => {
-                  this.setState({
-                    isPersonalDetailEdit: true,
-                    isEditButtonPersonlHide: true
-                  });
-                  alert("ldknslnkl");
-                }}
+                onPress={() => { this.setState({
+                  isPersonalDetailEdit: true,
+                  isEditButtonPersonlHide: true
+                })}}
               >
                 <View style={styles.editButtonStyle}>
                   <Text style={styles.editButtonTextStyle}>Edit</Text>
@@ -399,7 +411,7 @@ class ProfileScreen extends React.Component {
                   <Text style={styles.cancelUpdateButtonText}>Cancel</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity onPress = {()=>{this.updatePersonalDetail()}}>
                 <View
                   style={[
                     { backgroundColor: "orange" },

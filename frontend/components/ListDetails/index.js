@@ -60,7 +60,7 @@ export default class ListDetails extends Component {
             <View style={styles.callButton}>
               <Button
                 title={this.state.Phone2 ? this.state.Phone2.toString() : ""}
-                color="white"
+                color="blue"
               >
                 <Text style={{ color: "#ff0000" }}></Text>
               </Button>
@@ -264,7 +264,9 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     fontSize: 17
   },
-  callButton: {},
+  callButton: {
+    
+  },
   Name: {
     paddingLeft: 25,
     paddingTop: 10,
