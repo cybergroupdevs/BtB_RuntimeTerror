@@ -15,7 +15,7 @@ describe("Sign-up Unit Tests", () => {
       UserName: "USER_TEST",
       FirstName: "USER_TEST",
       Email: "USER@TEST.COM",
-      password: "TEST"
+      Password: "TEST"
     };
     // calling Sign-up api
     chai
@@ -38,7 +38,7 @@ describe("Sign-up Unit Tests", () => {
       AuthorityName: "NGO_TEST",
       Email: "NGO@TEST.COM",
       Phone1: "999999",
-      password: "TEST"
+      Password: "TEST"
     };
     // calling sign-up api
     chai
@@ -136,7 +136,7 @@ describe("Login Unit Tests", () => {
   it("Should Return Success (User) with Token", done => {
     let data = {
       Email: "USER@TEST.COM",
-      password: "TEST"
+      Password: "TEST"
     };
     // calling Login api
     chai
@@ -159,7 +159,7 @@ describe("Login Unit Tests", () => {
   it("Should Return message Email password don't match (User)", done => {
     let data = {
       Email: "USER@TEST.COM",
-      password: "wrong_password"
+      Password: "wrong_password"
     };
     // calling Login api
     chai
@@ -180,7 +180,7 @@ describe("Login Unit Tests", () => {
   it("Should Return Success (NGO) with Token", done => {
     let data = {
       Email: "NGO@TEST.COM",
-      password: "TEST"
+      Password: "TEST"
     };
     // calling Login api
     chai
@@ -203,7 +203,7 @@ describe("Login Unit Tests", () => {
   it("Should Return message Email password don't match (NGO)", done => {
     let data = {
       Email: "NGO@TEST.COM",
-      password: "wrong_password"
+      Password: "wrong_password"
     };
     // calling Login api
     chai

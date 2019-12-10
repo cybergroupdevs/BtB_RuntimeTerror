@@ -18,7 +18,7 @@ describe("Login Unit Tests NGO", () => {
   it("Should Return Success (NGO) with Token", done => {
     let data = {
       Email: "singhal@",
-      password: "abc"
+      Password: "abc"
     };
     // calling Login api
     chai
@@ -41,7 +41,7 @@ describe("Login Unit Tests NGO", () => {
   it("Should Return message Email password don't match (NGO)", done => {
     let data = {
       Email: "singhal@",
-      password: "wrong_password"
+      Password: "wrong_password"
     };
     // calling Login api
     chai
@@ -62,7 +62,7 @@ describe("Login Unit Tests NGO", () => {
   it("Should Return NOT  Found", done => {
     let data = {
       Email: "wrong_email",
-      password: "wrong_password"
+      Password: "wrong_password"
     };
     // calling Login api
     chai
