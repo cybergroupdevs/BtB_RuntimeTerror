@@ -326,7 +326,6 @@ describe("Register Government shelters ", () => {
       .request(app)
       .put("/api/ngo/government/shelters/" + userData.unauthorizedNGO)
       .end((err, res) => {
-        console.log(res);
         // HTTP status should be 401
         res.status.should.equal(401);
         // Error key should be false.

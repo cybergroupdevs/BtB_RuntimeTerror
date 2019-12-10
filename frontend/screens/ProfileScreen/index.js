@@ -5,14 +5,24 @@ import {
   Text,
   Image,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  Button,
+  AsyncStorage,
+  Alert
 } from "react-native";
 // import DocumentPicker from "react-native-document-picker";
 import styles from "./style";
+import {getData,getDecodedToken} from '../utils/locaStorage';
+import {baseURL,ngoProfile,userProfile} from '../../constants/apiRoutes';
+
+
 
 class ProfileScreen extends React.Component {
+  static navigationOptions = {
+    title: "Profile"
+  };
   state = {
-    userType: "NGO",
+    userType: "",
     isVerified: false,
     isPersonalDetailEdit: false,
     isAddressDeyalsEdit: false,
@@ -40,32 +50,111 @@ class ProfileScreen extends React.Component {
   };
 
   static navigationOptions = {
-    title: 'Profile'
-  }
+    title: "Profile"
+  };
 
-  componentDidMount = () => {
-    this.setState({
-      Email_ID: "keshavbansal19960506@gmail.com",
-      personalDetailsUser: {
-        FullName: "Deepak kumar bansal",
-        Gender: "Male",
-        D_O_B: "21 December 2019",
-        Phone: "9634349532"
-      },
-      personalDetailNGO: {
-        AuthorityName: "Cyber Group India Private Limited",
-        Phone1: "9634349532",
-        Phone2: "9634349532",
-        Phone3: "9634349532"
-      },
-      AddressDetails: {
-        houseNo_BuildingName: "B-9, Pinnacle Buisness Park",
-        FullAddress:
-          "2nd Floor, Pinnacle Park / Block B, Sector 3/ Noida, Uttar Pradesh / India",
-        city: "VishakaPatnam",
-        pincode: "250002"
+  apiCallGet = async (url, token) => {
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json"
       }
     });
+    return res.json();
+  };
+  componentDidMount = async () => {
+    const token = await getData("token");
+    console.log(token);
+    if (typeof token === "undefined") {
+      alert("Please sign in first");
+      this.props.navigation.navigate("Login");
+    } else {
+      const decodedtOken = getDecodedToken(token);
+      this.setState({
+        userType: decodedtOken.UserTypeId === 4 ? "NGO" : "user"
+      });
+      if (this.state.userType === "NGO") {
+        const apiRes = await this.apiCallGet(
+          baseURL + ngoProfile + decodedtOken.id,
+          token
+        );
+        //  console.log("res",apiRes)
+        this.setState({
+          personalDetailNGO: {
+            AuthorityName: apiRes.data.userDetails.AuthorityName,
+            Phone1: apiRes.data.userDetails.Phone1,
+            Phone2: apiRes.data.userDetails.Phone2,
+            Phone3: apiRes.data.userDetails.Phone3
+          },
+          Email_ID: apiRes.data.userDetails.Email,
+          AddressDetails: {
+            houseNo_BuildingName:
+              apiRes.data.addressDetails.HouseBuilding === null
+                ? "NULL"
+                : apiRes.data.addressDetails.HouseBuilding,
+            FullAddress:
+              apiRes.data.addressDetails.AddressLine1 === null
+                ? "NULL"
+                : apiRes.data.addressDetails.AddressLine1 +
+                  apiRes.data.addressDetails.AddressLine2,
+            city:
+              apiRes.data.addressDetails.City === null
+                ? "NULL"
+                : apiRes.data.addressDetails.City,
+            pincode:
+              apiRes.data.addressDetails.PinCode === null
+                ? "NULL"
+                : apiRes.data.addressDetails.PinCode
+          }
+        });
+      } else {
+        const apiRes = await this.apiCallGet(
+          baseURL + userProfile + decodedtOken.id,
+          token
+        );
+        // console.log(apiRes);
+        this.setState({
+          personalDetailsUser: {
+            FullName:
+              apiRes.data.userDetails.FirstName +
+              " " +
+              apiRes.data.userDetails.MiddleName +
+              " " +
+              apiRes.data.userDetails.LastName,
+            Gender: apiRes.data.userDetails.Gender,
+            D_O_B: apiRes.data.userDetails.DOB.trim(10),
+            Phone: apiRes.data.userDetails.Phone
+          },
+          Email_ID: apiRes.data.userDetails.Email,
+          AddressDetails: {
+            houseNo_BuildingName:
+              apiRes.data.addressDetails.HouseBuilding === null
+                ? "NULL"
+                : apiRes.data.addressDetails.HouseBuilding,
+            FullAddress:
+              apiRes.data.addressDetails.AddressLine1 === null
+                ? "NULL"
+                : apiRes.data.addressDetails.AddressLine1 +
+                  apiRes.data.addressDetails.AddressLine2,
+            city:
+              apiRes.data.addressDetails.City === null
+                ? "NULL"
+                : apiRes.data.addressDetails.City,
+            pincode:
+              apiRes.data.addressDetails.PinCode === null
+                ? "NULL"
+                : apiRes.data.addressDetails.PinCode
+          }
+        });
+      }
+    }
+  };
+
+  onSignOut = async () => {
+    await AsyncStorage.removeItem("token");
+    console.log("here reached");
+    this.props.navigation.navigate("Main");
   };
 
   // async selectFile() {
@@ -89,7 +178,6 @@ class ProfileScreen extends React.Component {
   // }
 
   render() {
-    console.log(this.state.personalDetailNGO.AuthorityName);
     return (
       <ScrollView style={styles.container}>
         <View style={styles.logoContainer}>
@@ -109,6 +197,7 @@ class ProfileScreen extends React.Component {
                     isPersonalDetailEdit: true,
                     isEditButtonPersonlHide: true
                   });
+                  alert("ldknslnkl");
                 }}
               >
                 <View style={styles.editButtonStyle}>
@@ -500,6 +589,17 @@ class ProfileScreen extends React.Component {
           )}
         </View>
         {/* Verification Details section end */}
+        <TouchableOpacity
+          onPress={() => {
+            this.onSignOut();
+          }}
+        >
+          <View style={{ alignItems: "center" }}>
+            <Text style={{ padding: 10, fontSize: 20, color: "red" }}>
+              Sign Out
+            </Text>
+          </View>
+        </TouchableOpacity>
       </ScrollView>
     );
   }

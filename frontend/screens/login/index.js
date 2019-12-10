@@ -1,7 +1,10 @@
 import React, { Component } from "react";
-import { View, TextInput, Button, Image, Text } from "react-native";
+import { View, TextInput, Button, Image, Text  } from "react-native";
 import styles from "./style";
 import AashrayLogo from "../../assets/images/AashrayLogo.png";
+import {baseURL, signin} from '../../constants/apiRoutes';
+import {storData} from '../utils/locaStorage';
+
 
 // export default function SigninScreen({navigation}) {
 class SigninScreen extends Component {
@@ -14,14 +17,31 @@ class SigninScreen extends Component {
     password: ""
   };
 
-  onLoginHandler = () => {
+  onLoginHandler = async() => {
     const authData = {
-      email: this.state.email.value,
-      password: this.state.password.value
+      Email: this.state.email,
+      password: this.state.password
     };
-    //this.props.onLogin(authData);
-    console.log(authData);
+    const res = await fetch(baseURL+signin,{
+      method: "POST",
+      headers: {
+        'Content-Type': "application/json"
+      },
+      body: JSON.stringify(authData)
+    })
+   const apiRes = await res.json()
+   
+   if(apiRes.errorMessage){console.log(apiRes)
+     alert("NO account with that email")
+   } 
+   else{
+     storData('token',apiRes.data.Token);
+     this.props.navigation.navigate("Main");
+   }
   };
+
+
+  
   render() {
     return (
       <View style={styles.Container}>

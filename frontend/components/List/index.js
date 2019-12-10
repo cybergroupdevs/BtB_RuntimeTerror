@@ -58,8 +58,10 @@ class List extends Component {
           borderColor: "#dddddd"
         }}
         onPress={() => {
+          this.props.data.category = this.props.category
+          this.props.data.imageUri = this.props.imageUri
           console.log("working");
-          this.props.listDetail(this.data)
+          this.props.listDetail(this.props.data)
         }}
       >
         <View style={{ flex: 2 }}>
@@ -72,9 +74,9 @@ class List extends Component {
           <Text style={{ paddingLeft: 25, paddingTop: 10 }}>
             {this.props.name}
           </Text>
-          <Text style={{ paddingLeft: 25, paddingBottom: 10 }}>
+          {/* <Text style={{ paddingLeft: 25, paddingBottom: 10 }}>
             {this.props.distance}
-          </Text>
+          </Text> */}
         </View>
       </TouchableOpacity>
     );
