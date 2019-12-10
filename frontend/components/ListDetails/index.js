@@ -16,6 +16,9 @@ import {
 } from "react-native";
 
 export default class ListDetails extends Component {
+  static navigationOptions = {
+      'title': 'Details'
+    };
   // state = {
   //   categoryName: "Category",
   //   imageUri: require("../../assets/images/home.jpg"),
@@ -36,7 +39,6 @@ export default class ListDetails extends Component {
       console.log(this.props.navigation.state.params);
     }
     const { navigation } = this.props;
-
     NGO = (
       <View style={styles.mainContainer}>
         <View style={styles.subContainer1}>
