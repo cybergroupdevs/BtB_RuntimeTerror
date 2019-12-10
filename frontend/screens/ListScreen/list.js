@@ -119,6 +119,33 @@ class ListScreen extends Component {
       </View>
     </View>
   );
+
+  rescue = (
+    <View style={[styles.parentContainer]}>
+      <Text style={styles.textContainer}> Rescue Requests </Text>
+      <View style={{ height: 130, marginTop: 20 }}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          {typeof this.state.listRescueRequest === "object" ? (
+            this.state.listRescueRequest.data.map((item, index) => {
+              return (
+                <List
+                  key={index}
+                  imageUri={this.state.NGOUri}
+                  category={"Rescue Request"}
+                  name={item.AccomodationType}
+                  distance={item.Id}
+                  data={item}
+                  listDetail={this.navigateToDetailPage}
+                />
+              );
+            })
+          ) : (
+            <Text style={styles.defaultText}>No Rescue Request</Text>
+          )}
+        </ScrollView>
+      </View>
+    </View>
+  );
     {
       console.log("state =  " + this.state.listPrivateProperties);
     }
@@ -186,40 +213,7 @@ class ListScreen extends Component {
 
           {(this.state.showUserDetail) ? privateProperties : null}
 
-          {/* <View
-            style={[
-              styles.parentContainer,
-              this.state.showUserDetail
-                ? { display: "block" }
-                : { display: "none" }
-            ]}
-          >
-            <Text style={styles.textContainer}> Rescue Requests </Text>
-            <View style={{ height: 130, marginTop: 20 }}>
-              <ScrollView
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-              >
-                {typeof this.state.listRescueRequest === "object" ? (
-                  this.state.listRescueRequest.data.map((item, index) => {
-                    return (
-                      <List
-                        key={index}
-                        imageUri={this.state.NGOUri}
-                        category={"Rescue Request"}
-                        name={item.AccomodationType}
-                        distance={item.Id}
-                        data={item}
-                        listDetail={this.navigateToDetailPage}
-                      />
-                    );
-                  })
-                ) : (
-                  <Text style={styles.defaultText}>No Rescue Request</Text>
-                )}
-              </ScrollView>
-            </View>
-          </View> */}
+          {{(this.state.showUserDetail) ? rescue : null}}
         </ScrollView>
       </View>
     );
