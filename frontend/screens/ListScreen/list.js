@@ -18,7 +18,8 @@ import {
   baseURL,
   listNGOs,
   listGovtShelters,
-  listPrivateProperties
+  listPrivateProperties,
+  rescueRequest
 } from "../../constants/apiRoutes";
 import { getData, getDecodedToken } from "../utils/locaStorage";
 
@@ -34,7 +35,8 @@ class ListScreen extends Component {
     listNGO: "",
     listGovtShelter: "",
     listPrivateProperties: "",
-    showPrivateProperties: false
+    listRescueRequest: "",
+    showUserDetail: false
   };
 
   apiCallGet = async (url, token) => {
@@ -49,18 +51,18 @@ class ListScreen extends Component {
   };
 
   componentDidMount = async () => {
-    var privateProperties="";
+    // var privateProperties="";
     const token = await getData("token");
     console.log(token);
     if (typeof token !== "undefined") {
-      privateProperties = await this.apiCallGet(baseURL + listPrivateProperties, token);
+      const privateProperties = await this.apiCallGet(baseURL + listPrivateProperties, token);
+      const rescueRequest = await this.apiCallGet(baseURL + listRescueRequest, token);
       if(!privateProperties.errorMessage){
         this.setState({
-          listPrivateProperties: privateProperties
-        })
+          listPrivateProperties: privateProperties,
+          listRescueRequest: rescueRequest
+        });
       }
-    } else{
-      privateProperties = ""
     }
     const decodedtOken = getDecodedToken(token);
     const NGO = await this.apiCallGet(baseURL + listNGOs);
@@ -94,15 +96,6 @@ class ListScreen extends Component {
     }
     return (
       <View>
-        {/* <View>
-          <TextInput
-            underlineColorAndroid="transparent"
-            placeholder="Search"
-            placeholderTextColor="grey"
-            style={{ flex: 1, fontWeight: "700", backgroundColor: "white" }}
-          />
-        </View> */}
-
         <ScrollView>
           <View style={styles.parentContainer}>
             <Text style={styles.textContainer}> NGO(s)</Text>
@@ -131,6 +124,7 @@ class ListScreen extends Component {
               </ScrollView>
             </View>
           </View>
+
           <View style={styles.parentContainer}>
             <Text style={styles.textContainer}> Government Shelters </Text>
             <View style={{ height: 130, marginTop: 20 }}>
@@ -158,7 +152,15 @@ class ListScreen extends Component {
               </ScrollView>
             </View>
           </View>
-          <View style={[styles.parentContainer, (this.state.showPrivateProperties) ? {display: 'block'} : {display : 'none'}]}>
+
+          <View
+            style={[
+              styles.parentContainer,
+              this.state.showUserDetail
+                ? { display: "block" }
+                : { display: "none" }
+            ]}
+          >
             <Text style={styles.textContainer}> Private Properties </Text>
             <View style={{ height: 130, marginTop: 20 }}>
               <ScrollView
@@ -182,6 +184,43 @@ class ListScreen extends Component {
                 ) : (
                   <Text style={styles.defaultText}>
                     No Private properties Found
+                  </Text>
+                )}
+              </ScrollView>
+            </View>
+          </View>
+
+          <View
+            style={[
+              styles.parentContainer,
+              this.state.showUserDetail
+                ? { display: "block" }
+                : { display: "none" }
+            ]}
+          >
+            <Text style={styles.textContainer}> Rescue Requests </Text>
+            <View style={{ height: 130, marginTop: 20 }}>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                {typeof this.state.listRescueRequest === "object" ? (
+                  this.state.listRescueRequest.data.map((item, index) => {
+                    return (
+                      <List
+                        key={index}
+                        imageUri={this.state.NGOUri}
+                        category={"Rescue Request"}
+                        name={item.AccomodationType}
+                        distance={item.Id}
+                        data={item}
+                        listDetail={this.navigateToDetailPage}
+                      />
+                    );
+                  })
+                ) : (
+                  <Text style={styles.defaultText}>
+                    No Rescue Request
                   </Text>
                 )}
               </ScrollView>
