@@ -14,6 +14,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import List from "../../components/List/index";
+import addButtonLogo from "../../assets/images/add-circle.png"
 import {
   baseURL,
   listNGOs,
@@ -227,6 +228,12 @@ class ListScreen extends Component {
             </View>
           </View>
         </ScrollView>
+        <View style={styles.button}>
+          <TouchableOpacity onPress={() => {this.props.navigation.navigate("SeekHelp")}}
+           style={styles.addButton}>
+            <Image source={addButtonLogo} style={styles.addHelp}></Image>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }

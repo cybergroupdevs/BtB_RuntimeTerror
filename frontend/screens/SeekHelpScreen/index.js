@@ -1,28 +1,37 @@
 import React, { Component } from 'react';
 import { View, TextInput, Button, ScrollView, Image } from 'react-native';
-import Geolocation from '@react-native-community/geolocation';
+import * as Permissions from 'expo-permissions';
 import Textarea from 'react-native-textarea';
-import AashrayLogo from "../../assets/icons/AashrayLogo.png";
+import AashrayLogo from "../../assets/images/AashrayLogo.png";
 import styles from "./styles";
 
 class SeekHelpScreen extends Component {
-  static get options() {
-    return {
-      topBar: { visible: false, height: 0 }
-    };
-  }
+  static navigationOptions = {
+    title: "Seek Help"
+  };
   state = {
     name: "",
     phone: "",
     issueDescription: "",
     currentLongitude: "",
     currentLatitude: "",
-    latitude: "a",
-    longitude: "ss"
+    latitude: "",
+    longitude: ""
   };
 
+   getLocationAsync = () => {
+    const { status, permissions } =  Permissions.askAsync(Permissions.LOCATION);
+    if (status === 'granted') {
+      return Location.getCurrentPositionAsync({ enableHighAccuracy: true });
+    } else {
+      throw new Error('Location permission not granted');
+    }
+  }
+
   onSeekHelpHandler = () => {
-  alert(this.state.latitude+this.state.longitude);
+    const rescueRequestData = this.getLocationAsync;
+    console.log(rescueRequestData)
+    alert("done")
   };
 
   render() {
