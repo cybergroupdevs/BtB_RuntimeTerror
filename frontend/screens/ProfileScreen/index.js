@@ -67,6 +67,7 @@ class ProfileScreen extends React.Component {
   };
 
   callUpdateAPI = async(url, token, data)=>{
+
     let response = await fetch(url, {
       method: 'PUT',
       headers: {
@@ -77,15 +78,16 @@ class ProfileScreen extends React.Component {
   });
   return response.json();
   }
+
   componentDidMount = async () => {
     const token = await getData("token");
-    console.log(token);
+    // console.log(token);
     if (typeof token === "undefined") {
       alert("Please sign in first");
       this.props.navigation.navigate("Login");
     } else {
       const decodedtOken = getDecodedToken(token);
-      console.log(decodedtOken);
+      // console.log(decodedtOken);
       this.setState({
         userType: decodedtOken.UserTypeId === 4 ? "NGO" : "user",
         decodedID: decodedtOken.id,
@@ -174,22 +176,20 @@ class ProfileScreen extends React.Component {
     this.props.navigation.navigate("Main");
   };
 
- 
-
   updatePersonalDetail = async()=>{
-    
-    if(this.state.userType === 'NGO'){
-      let dataToupdateNgo = {
-        AuthorityName: this.state.personalDetailNGO.AuthorityName,
-        Phone1: this.state.personalDetailNGO.Phone1,
-        Phone2: this.state.personalDetailNGO.Phone2,
-        Phone3: this.state.personalDetailNGO.Phone3,
-        Email_ID: this.state.Email_ID
-      } 
-        let apiUpdatedRes =  await this.callUpdateAPI(baseURL+updateNGO+this.state.decodedID, this.state.headerToken, dataToupdateNgo );
-        console.log("dede", apiUpdatedRes);
-    }
-
+    console.log("Type = ",this.state.userType)
+    // if(this.state.userType === 'NGO'){
+    //   let dataToupdateNgo = {
+    //     AuthorityName: this.state.personalDetailNGO.AuthorityName,
+    //     Phone1: this.state.personalDetailNGO.Phone1,
+    //     Phone2: this.state.personalDetailNGO.Phone2,
+    //     Phone3: this.state.personalDetailNGO.Phone3,
+    //     Email_ID: this.state.Email_ID
+    //   }
+    //   console.log(dataToupdateNgo)
+    //     let apiUpdatedRes =  await this.callUpdateAPI(baseURL+updateNGO+this.state.decodedID, this.state.headerToken, dataToupdateNgo );
+    //     console.log("dede", apiUpdatedRes);
+    // }
   }
 
   render() {
@@ -540,7 +540,7 @@ class ProfileScreen extends React.Component {
                   <Text style={styles.cancelUpdateButtonText}>Cancel</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity onPress = {()=>{this.updatePersonalDetail()}}>
                 <View
                   style={[
                     { backgroundColor: "orange" },
