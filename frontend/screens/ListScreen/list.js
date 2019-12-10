@@ -19,7 +19,7 @@ import {
   listNGOs,
   listGovtShelters,
   listPrivateProperties,
-  rescueRequest
+  // rescueRequest
 } from "../../constants/apiRoutes";
 import { getData, getDecodedToken } from "../utils/locaStorage";
 
@@ -51,16 +51,19 @@ class ListScreen extends Component {
   };
 
   componentDidMount = async () => {
-    // var privateProperties="";
     const token = await getData("token");
     console.log(token);
     if (typeof token !== "undefined") {
-      const privateProperties = await this.apiCallGet(baseURL + listPrivateProperties, token);
-      const rescueRequest = await this.apiCallGet(baseURL + listRescueRequest, token);
-      if(!privateProperties.errorMessage){
+      const privateProperties = await this.apiCallGet(
+        baseURL + listPrivateProperties,
+        token
+      );
+      // const rescueRequest = await this.apiCallGet(baseURL + rescueRequest,token);
+      if (!privateProperties.errorMessage) {
         this.setState({
           listPrivateProperties: privateProperties,
-          listRescueRequest: rescueRequest
+          showUserDetail: true
+          // listRescueRequest: rescueRequest
         });
       }
     }
@@ -87,7 +90,35 @@ class ListScreen extends Component {
     this.props.navigation.navigate("ListDetail", data);
   };
 
+ 
+
   render() {
+     privateProperties = (
+    <View style={[styles.parentContainer]}>
+      <Text style={styles.textContainer}> Private Properties </Text>
+      <View style={{ height: 130, marginTop: 20 }}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          {typeof this.state.listPrivateProperties === "object" ? (
+            this.state.listPrivateProperties.data.map((item, index) => {
+              return (
+                <List
+                  key={index}
+                  imageUri={this.state.NGOUri}
+                  category={"Private Properties"}
+                  name={item.AccomodationType}
+                  distance={item.Id}
+                  data={item}
+                  listDetail={this.navigateToDetailPage}
+                />
+              );
+            })
+          ) : (
+            <Text style={styles.defaultText}>No Private properties Found</Text>
+          )}
+        </ScrollView>
+      </View>
+    </View>
+  );
     {
       console.log("state =  " + this.state.listPrivateProperties);
     }
@@ -153,44 +184,9 @@ class ListScreen extends Component {
             </View>
           </View>
 
-          <View
-            style={[
-              styles.parentContainer,
-              this.state.showUserDetail
-                ? { display: "block" }
-                : { display: "none" }
-            ]}
-          >
-            <Text style={styles.textContainer}> Private Properties </Text>
-            <View style={{ height: 130, marginTop: 20 }}>
-              <ScrollView
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-              >
-                {typeof this.state.listPrivateProperties === "object" ? (
-                  this.state.listPrivateProperties.data.map((item, index) => {
-                    return (
-                      <List
-                        key={index}
-                        imageUri={this.state.NGOUri}
-                        category={"Private Properties"}
-                        name={item.AccomodationType}
-                        distance={item.Id}
-                        data={item}
-                        listDetail={this.navigateToDetailPage}
-                      />
-                    );
-                  })
-                ) : (
-                  <Text style={styles.defaultText}>
-                    No Private properties Found
-                  </Text>
-                )}
-              </ScrollView>
-            </View>
-          </View>
+          {(this.state.showUserDetail) ? privateProperties : null}
 
-          <View
+          {/* <View
             style={[
               styles.parentContainer,
               this.state.showUserDetail
@@ -219,13 +215,11 @@ class ListScreen extends Component {
                     );
                   })
                 ) : (
-                  <Text style={styles.defaultText}>
-                    No Rescue Request
-                  </Text>
+                  <Text style={styles.defaultText}>No Rescue Request</Text>
                 )}
               </ScrollView>
             </View>
-          </View>
+          </View> */}
         </ScrollView>
       </View>
     );
