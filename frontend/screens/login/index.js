@@ -20,7 +20,7 @@ class SigninScreen extends Component {
   onLoginHandler = async() => {
     const authData = {
       Email: this.state.email,
-      password: this.state.password
+      Password: this.state.password
     };
     const res = await fetch(baseURL+signin,{
       method: "POST",
@@ -31,7 +31,7 @@ class SigninScreen extends Component {
     })
    const apiRes = await res.json()
    
-   if(apiRes.errorMessage){console.log(apiRes)
+   if(apiRes.errorMessage){console.log("jkgipyigy",apiRes)
      alert("NO account with that email")
    } 
    else{

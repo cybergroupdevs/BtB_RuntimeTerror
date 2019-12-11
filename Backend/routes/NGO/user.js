@@ -33,6 +33,6 @@ router.delete("/ngo/:email", currentNGO, deleteNGO);
 
 router.get("/unverifiedusers", authNGO, unVerifiedUsers);
 
-router.get("/rescue/requests", rescueRequestList)
+router.get("/rescue/requests", authNGO, rescueRequestList)
 
 module.exports = router;

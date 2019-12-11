@@ -21,7 +21,7 @@ describe("Login Unit Tests USER", () => {
   it("Should Return Success (User) with Token", done => {
     let data = {
       Email: "Admin",
-      password: "abc"
+      Password: "abc"
     };
     // calling Login api
     chai
@@ -44,7 +44,7 @@ describe("Login Unit Tests USER", () => {
   it("Should Return message Email password don't match (User)", done => {
     let data = {
       Email: "Admin",
-      password: "wrong_password"
+      Password: "wrong_password"
     };
     // calling Login api
     chai

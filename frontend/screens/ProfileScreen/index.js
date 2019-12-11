@@ -13,7 +13,7 @@ import {
 // import DocumentPicker from "react-native-document-picker";
 import styles from "./style";
 import {getData,getDecodedToken} from '../utils/locaStorage';
-import {baseURL,ngoProfile,userProfile} from '../../constants/apiRoutes';
+import {baseURL,ngoProfile,userProfile, updateNGO} from '../../constants/apiRoutes';
 
 
 
@@ -46,7 +46,9 @@ class ProfileScreen extends React.Component {
       FullAddress: "",
       city: "",
       pincode: ""
-    }
+    },
+    decodedID: "",
+    headerToken: ""
   };
 
   static navigationOptions = {
@@ -63,20 +65,36 @@ class ProfileScreen extends React.Component {
     });
     return res.json();
   };
+
+  callUpdateAPI = async (url, token, data) => {
+    let response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    return response.json();
+  };
+
   componentDidMount = async () => {
     const token = await getData("token");
-    console.log(token);
+    // console.log(token);
     if (typeof token === "undefined") {
       alert("Please sign in first");
       this.props.navigation.navigate("Login");
     } else {
       const decodedtOken = getDecodedToken(token);
+      // console.log(decodedtOken);
       this.setState({
-        userType: decodedtOken.UserTypeId === 4 ? "NGO" : "user"
+        userType: decodedtOken.UserTypeId === 4 ? "NGO" : "user",
+        decodedID: decodedtOken.id,
+        headerToken: token
       });
       if (this.state.userType === "NGO") {
         const apiRes = await this.apiCallGet(
-          baseURL + ngoProfile + decodedtOken.id,
+          baseURL + ngoProfile + this.state.decodedID,
           token
         );
         //  console.log("res",apiRes)
@@ -110,7 +128,98 @@ class ProfileScreen extends React.Component {
         });
       } else {
         const apiRes = await this.apiCallGet(
-          baseURL + userProfile + decodedtOken.id,
+          baseURL + userProfile + this.state.decodedID,
+          token
+        );
+        // console.log(apiRes);
+        this.setState({
+          personalDetailsUser: {
+            FullName:
+              apiRes.data.userDetails.FirstName +
+              " " +
+              apiRes.data.userDetails.MiddleName +
+              " " +
+              apiRes.data.userDetails.LastName,
+            Gender: apiRes.data.userDetails.Gender,
+            D_O_B: apiRes.data.userDetails.DOB.trim(10),
+            Phone: apiRes.data.userDetails.Phone
+          },
+          Email_ID: apiRes.data.userDetails.Email,
+          AddressDetails: {
+            houseNo_BuildingName:
+              apiRes.data.addressDetails.HouseBuilding === null
+                ? "NULL"
+                : apiRes.data.addressDetails.HouseBuilding,
+            FullAddress:
+              apiRes.data.addressDetails.AddressLine1 === null
+                ? "NULL"
+                : apiRes.data.addressDetails.AddressLine1 +
+                  apiRes.data.addressDetails.AddressLine2,
+            city:
+              apiRes.data.addressDetails.City === null
+                ? "NULL"
+                : apiRes.data.addressDetails.City,
+            pincode:
+              apiRes.data.addressDetails.PinCode === null
+                ? "NULL"
+                : apiRes.data.addressDetails.PinCode
+          }
+        });
+      }
+    }
+  };
+
+  onRefresh = async () => {
+    const token = await getData("token");
+    // console.log(token);
+    if (typeof token === "undefined") {
+      alert("Please sign in first");
+      this.props.navigation.navigate("Login");
+    } else {
+      const decodedtOken = getDecodedToken(token);
+      // console.log(decodedtOken);
+      this.setState({
+        userType: decodedtOken.UserTypeId === 4 ? "NGO" : "user",
+        decodedID: decodedtOken.id,
+        headerToken: token
+      });
+      if (this.state.userType === "NGO") {
+        const apiRes = await this.apiCallGet(
+          baseURL + ngoProfile + this.state.decodedID,
+          token
+        );
+        //  console.log("res",apiRes)
+        this.setState({
+          personalDetailNGO: {
+            AuthorityName: apiRes.data.userDetails.AuthorityName,
+            Phone1: apiRes.data.userDetails.Phone1,
+            Phone2: apiRes.data.userDetails.Phone2,
+            Phone3: apiRes.data.userDetails.Phone3
+          },
+          Email_ID: apiRes.data.userDetails.Email,
+          AddressDetails: {
+            houseNo_BuildingName:
+              apiRes.data.addressDetails.HouseBuilding === null
+                ? "NULL"
+                : apiRes.data.addressDetails.HouseBuilding,
+            FullAddress:
+              apiRes.data.addressDetails.AddressLine1 === null
+                ? "NULL"
+                : apiRes.data.addressDetails.AddressLine1 +
+                  apiRes.data.addressDetails.AddressLine2,
+            city:
+              apiRes.data.addressDetails.City === null
+                ? "NULL"
+                : apiRes.data.addressDetails.City,
+            pincode:
+              apiRes.data.addressDetails.PinCode === null
+                ? "NULL"
+                : apiRes.data.addressDetails.PinCode
+          }
+        });
+      } else {
+        const apiRes = await this.apiCallGet(
+          baseURL + userProfile + this.state.decodedID,
           token
         );
         // console.log(apiRes);
@@ -157,25 +266,56 @@ class ProfileScreen extends React.Component {
     this.props.navigation.navigate("Main");
   };
 
-  // async selectFile() {
-  //   try {
-  //     const res = await DocumentPicker.pick({
-  //       type: [DocumentPicker.types.allFiles]
-  //     });
-  //     console.log("res : " + JSON.stringify(res));
-  //     console.log("URI : " + res.uri);
-  //     console.log("Type : " + res.type);
-  //     console.log("File Name : " + res.name);
-  //     console.log("File Size : " + res.size);
-  //   } catch (err) {
-  //     if (DocumentPicker.isCancel(err)) {
-  //       alert("Canceled  picker");
-  //     } else {
-  //       alert("Unknown Error: " + JSON.stringify(err));
-  //       throw err;
-  //     }
-  //   }
-  // }
+  updatePersonalDetail = async () => {
+    console.log("Type = ", this.state.userType);
+    if (this.state.userType === "NGO") {
+      let dataToupdateNgo = {
+        userdetails: {
+          AuthorityName: this.state.personalDetailNGO.AuthorityName,
+          Phone1: this.state.personalDetailNGO.Phone1,
+          Phone2: this.state.personalDetailNGO.Phone2,
+          Phone3: this.state.personalDetailNGO.Phone3,
+          Email: this.state.Email_ID
+        }
+      };
+      console.log(dataToupdateNgo);
+      let apiUpdatedRes = await this.callUpdateAPI(
+        baseURL + updateNGO + this.state.decodedID,
+        this.state.headerToken,
+        dataToupdateNgo
+      );
+      this.onRefresh();
+      this.setState({
+        isPersonalDetailEdit: false,
+        isEditButtonPersonlHide: false
+      });
+    }
+  };
+
+  updateAddressDetail = async () => {
+    console.log("address");
+    if (this.state.userType === "NGO") {
+      let dataToupdateAddress = {
+        addressdetails: {
+          housebuilding: this.state.AddressDetails.houseNo_BuildingName,
+          AddressLine1: this.state.AddressDetails.FullAddress,
+          city: this.state.AddressDetails.city,
+          pincode: this.state.AddressDetails.pincode
+      }
+      }
+      // console.log(dataToupdateNgo);
+      let apiUpdatedRes = await this.callUpdateAPI(
+        baseURL + updateNGO + this.state.decodedID,
+        this.state.headerToken,
+        dataToupdateAddress
+      );
+      this.onRefresh();
+      this.setState({
+        isAddressDeyalsEdit: false,
+        isEditButtonAddressHide: false
+      });
+    }
+  };
 
   render() {
     return (
@@ -197,7 +337,6 @@ class ProfileScreen extends React.Component {
                     isPersonalDetailEdit: true,
                     isEditButtonPersonlHide: true
                   });
-                  alert("ldknslnkl");
                 }}
               >
                 <View style={styles.editButtonStyle}>
@@ -399,7 +538,11 @@ class ProfileScreen extends React.Component {
                   <Text style={styles.cancelUpdateButtonText}>Cancel</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  this.updatePersonalDetail();
+                }}
+              >
                 <View
                   style={[
                     { backgroundColor: "orange" },
@@ -528,7 +671,11 @@ class ProfileScreen extends React.Component {
                   <Text style={styles.cancelUpdateButtonText}>Cancel</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  this.updateAddressDetail();
+                }}
+              >
                 <View
                   style={[
                     { backgroundColor: "orange" },
