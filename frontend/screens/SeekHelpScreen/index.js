@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { View, TextInput, Button, ScrollView, Image } from 'react-native';
-import * as Permissions from 'expo-permissions';
+import { View, TextInput, Button, ScrollView, Image, Platform } from 'react-native';
+import Permissions from 'expo-permissions';
+import Location from 'expo-location'
+import Constants from 'expo-constants';
+import Geolocation from 'react-native-geolocation-service';
 import Textarea from 'react-native-textarea';
 import AashrayLogo from "../../assets/images/AashrayLogo.png";
 import styles from "./styles";
@@ -16,22 +19,42 @@ class SeekHelpScreen extends Component {
     currentLongitude: "",
     currentLatitude: "",
     latitude: "",
-    longitude: ""
+    longitude: "",
+    location: null
   };
 
-   getLocationAsync = () => {
-    const { status, permissions } =  Permissions.askAsync(Permissions.LOCATION);
-    if (status === 'granted') {
-      return Location.getCurrentPositionAsync({ enableHighAccuracy: true });
-    } else {
-      throw new Error('Location permission not granted');
+  componentDidMount() {
+    // Instead of navigator.geolocation, just use Geolocation.
+    //if (hasLocationPermission) {
+        Geolocation.getCurrentPosition(
+            (position) => {
+                console.log(position);
+            },
+            (error) => {
+                // See error code charts below.
+                console.log(error.code, error.message);
+            },
+            { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+        );
+    //}
+}
+  componentWillMount() {
+   // this._getLocation()
+  };
+
+  _getLocation = async () => {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      console.log('Permission to access location was denied')
     }
-  }
+    const Currentlocation = await Location.getCurrentPositionAsync();
+    this.setState({location:Currentlocation})
+  };
+  
 
   onSeekHelpHandler = () => {
-    const rescueRequestData = this.getLocationAsync;
-    console.log(rescueRequestData)
-    alert("done")
+    let location = this._getLocation()
+    console.log(this.state.location)
   };
 
   render() {
@@ -52,6 +75,7 @@ class SeekHelpScreen extends Component {
               value={this.state.name.value}
               onChangeText={(value) => this.setState({ name: value })}
               returnKeyType={"next"}
+              style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13 }}
             />
             <TextInput
               underlineColorAndroid="#6F2059"
@@ -60,9 +84,10 @@ class SeekHelpScreen extends Component {
               value={this.state.phone.value}
               onChangeText={(value) => this.setState(phone, value)}
               returnKeyType={"next"}
+              style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13 }}
             />
             <Textarea
-              style={styles.textareaContainer}
+              style={[styles.textareaContainer,{ fontSize: 18, paddingBottom: 8, paddingTop: 13 }]}
               underlineColorAndroid="#6F2059"
               selectionColor="#6F2059"
               maxLength={200}

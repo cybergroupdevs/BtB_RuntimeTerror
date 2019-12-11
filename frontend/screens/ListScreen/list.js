@@ -1,33 +1,15 @@
 import React, { Component } from "react";
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  Button,
-  StatusBar,
-  Icon,
-  Image,
-  TextInput,
-  render,
-  TouchableOpacity
-} from "react-native";
+import {  ScrollView,  View,  Text,  Image,  TouchableOpacity, StyleSheet} from "react-native";
 import List from "../../components/List/index";
 import addButtonLogo from "../../assets/images/add-circle.png"
-import {
-  baseURL,
-  listNGOs,
-  listGovtShelters,
-  listPrivateProperties,
-  rescueRequest
-} from "../../constants/apiRoutes";
+import {  baseURL,  listNGOs,  listGovtShelters,  listPrivateProperties,  rescueRequest} from "../../constants/apiRoutes";
 import { getData, getDecodedToken } from "../utils/locaStorage";
 
 class ListScreen extends Component {
   static navigationOptions = {
     title: "Helps Nearby"
   };
+  
   state = {
     NGOUri: require("../../assets/images/home.jpg"),
     RescueRequestsUri: require("../../assets/images/home.jpg"),
@@ -239,7 +221,20 @@ const styles = StyleSheet.create({
     color: "red",
     paddingTop: 20,
     paddingLeft: 50
-  }
+  },
+  button: {
+    position: 'absolute',
+    right: '10%',
+    top: '100%',
+    backgroundColor: 'white',
+    borderRadius: 50,
+
+  },
+  addHelp: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+  },
 });
 
 export default ListScreen;

@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
   },
   InputContainer: {
     minWidth: '80%',
-    maxWidth: '80%'
+    maxWidth: '80%',
   },
   textareaContainer: {
     height: 180,
@@ -16,14 +16,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF'
   },
   ButtonContainer: {
-    marginTop: '10%',
+    marginTop: '5%',
     marginBottom: '5%',
     minWidth: '30%',
     maxWidth: '30%'
   },
   LogoContainer: {
     width: "100%",
-    alignItems: "center"
+    alignItems: "center",
+    marginBottom:-50
   }
 });
 
