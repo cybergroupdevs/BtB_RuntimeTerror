@@ -5,13 +5,13 @@ import { createStackNavigator, createBottomTabNavigator } from "react-navigation
 //Importing Screens for Navigation
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import OfferHelp from "../screens/OfferHelp/OfferHelp";
+import OfferHelp from "../screens/OfferHelpScreen";
 import LoginScreen from "../screens/login/index";
 import SignupScreen from "../screens/sign-up/index";
 import ListScreen from "../screens/ListScreen/list";
 import ProfileScreen from "../screens/ProfileScreen/index";
 import ListDetail from "../components/ListDetails/index";
-import OfferedHelpsList from '../screens/OfferedHelpsList/index';
+import OfferedHelpsList from '../screens/OfferedHelpsScreen/index';
 import SeekHelp from '../screens/SeekHelpScreen/index';
 
 const config = Platform.select({
