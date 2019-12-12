@@ -9,7 +9,8 @@ import {storData} from '../utils/locaStorage';
 // export default function SigninScreen({navigation}) {
 class SigninScreen extends Component {
   static navigationOptions = {
-    title: "Login"
+    title: "Login",
+    header: null
   };
 
   state = {
@@ -36,7 +37,7 @@ class SigninScreen extends Component {
    } 
    else{
      storData('token',apiRes.data.Token);
-     this.props.navigation.navigate("Main");
+     this.props.navigation.navigate("Profile");
    }
   };
 

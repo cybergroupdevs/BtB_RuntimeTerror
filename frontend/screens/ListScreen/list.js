@@ -22,11 +22,13 @@ import {
   rescueRequest
 } from "../../constants/apiRoutes";
 import { getData, getDecodedToken } from "../utils/locaStorage";
+import { withNavigation } from "react-navigation";
 
 class ListScreen extends Component {
   static navigationOptions = {
     title: "Helps Nearby"
   };
+
   state = {
     NGOUri: require("../../assets/images/home.jpg"),
     RescueRequestsUri: require("../../assets/images/home.jpg"),
@@ -51,6 +53,12 @@ class ListScreen extends Component {
   };
 
   componentDidMount = async () => {
+    this.focusListener = this.props.navigation.addListener("didFocus", () => {
+      this.onRefresh();
+    });
+  };
+
+  onRefresh = async () => {
     const token = await getData("token");
     console.log("token", token);
     if (typeof token !== "undefined") {
@@ -76,15 +84,7 @@ class ListScreen extends Component {
       listNGO: NGO.errorMessage ? "" : NGO,
       listGovtShelter: govtShelters.errorMessage ? "" : govtShelters
     });
-  };
-
-  arr = [
-    { name: "NGO 1", distance: "--away" },
-    { name: "NGO 2", distance: "--away" },
-    { name: "NGO 3", distance: "--away" },
-    { name: "NGO 4", distance: "--away" },
-    { name: "NGO 5", distance: "--away" }
-  ];
+  }
 
   navigateToDetailPage = data => {
     this.props.navigation.navigate("ListDetail", data);
@@ -235,4 +235,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ListScreen;
+export default withNavigation(ListScreen);

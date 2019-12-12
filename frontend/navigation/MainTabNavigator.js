@@ -85,9 +85,9 @@ HelpStack.path = "";
 
 const ProfileStack = createStackNavigator(
   {
-    // Login : LoginScreen,
-    // Signup : SignupScreen,
-    Profile : ProfileScreen
+    Profile: ProfileScreen,
+    Login : LoginScreen,
+    Signup : SignupScreen
   },
   config
 );
