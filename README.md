@@ -1,20 +1,61 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Introduction
+In a country like India the provision and performance of gov. shelters and NGO camps in certain cases has been hindered by poorly located settings, camp-related social issues, expenses, overcrowding, poor services, delays, etc.
+We focus on bringing the victims, NGOs, Government Shelters, Rescue Teams and Private Property owners under one roof through AASHRAY.
+AASHRAY will provide a platform for housing to the victims all over India by giving them shelter, food and basic healthcare by linking various NGOs, Government Shelters, Rescue Teams and Volunteers who offer their property as shelter.
 
 # Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
 1.	Installation process
+  Cross-platform App
+  Android + IOS
+  Same code base
+
+Permissions to Install the app:
+  Location
+  Contacts
+  Camera
+  Microphone
+
 2.	Software dependencies
-3.	Latest releases
-4.	API references
+  Node JS Runtime Environment
+  Python SDK
+  Java SDK
+  Emulator
+  Android studio
+  NPM
+  Expo
 
 # Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+  * $npm -i
+  * $npm start
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+# Architecture
+Link : https://onedrive.live.com/?authkey=%21AILp3xW5Eu9h8DY&cid=F5197DDD802B9847&id=F5197DDD802B9847%2156492&parId=F5197DDD802B9847%2156491&o=OneUp
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+# Project Structure
+The following is a description of the folders in this project, and how they are used. Our Application Stack is React- Native, SQL Server and Node JS:
+
+Application Source: React-native, SQL Server and Node JS Files:
+  app_native :
+    assets: Application Assests
+    component:
+    res:
+    screens:Application screens
+    utils:
+
+  Backend:
+
+  DatabaseScripts: SQL scripts to setup database on local
+    AASHRAY Database Schema Script
+    UserTypes Insert Script
+
+  Documentation:
+    Test Strategy
+    AASHRAY_SRS
+
+## Authors
+
+* **Deepak Bansal**
+* **Pallavi Verma**
+* **Ravi Kant Sharma**
+* **Rishabh Singhal**
+* **Shruti Bhati**

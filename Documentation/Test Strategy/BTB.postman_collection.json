@@ -1,0 +1,1875 @@
+{
+	"info": {
+		"_postman_id": "066a5835-8935-4c97-80cd-e3e591742f0a",
+		"name": "BTB",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "NGO",
+			"item": [
+				{
+					"name": "Update Ngo Details",
+					"item": [
+						{
+							"name": "Update Ngo details - success - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e9979ad9-37d1-4656-bb76-362064a9d7d5",
+										"exec": [
+											"pm.test(\"Reponse status code is 200\", function() {",
+											"   pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Reponse should contains Message : Success\", function() {",
+											"   let json = pm.response.json();",
+											"   pm.expect(json).to.have.property('Message');",
+											"   pm.expect(json.Message).to.eql('Success');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiVXNlclR5cGVJZCI6NSwiUGFzc3dvcmQiOiIkMmEkMTAkS2o5TElpdUdwYW5jUnYxazBJOFA5ZS9kRy9rOHFnaHVaSy44My80dDdVNGNjenFabzZuSE8iLCJFbWFpbCI6InNpbmdoYWwiLCJBZGRyZXNzRGV0YWlsSWQiOjEyLCJWZXJpZmljYXRpb25EZXRhaWxJZCI6MTEsImlzVmVyaWZpZWRVc2VyIjp0cnVlLCJpYXQiOjE1NzU4ODg1MjV9.U8R-gYHLPo9VypbSXKMjC1HPb93yb5JJQvtyUr0euwA"
+									}
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"userdetails\" : {\n\t\t\"AuthorityName\" : \"user_\",\n\t\t\"Phone2\" : \"9987\"\n\t},\n\t\"addressdetails\" : {\n\t\t\"housebuilding\" : \"1000\",\n\t\t\"city\" : \"delhi\",\n\t\t\"state\" : \"delhi\"\n\t},\n\t\"verificationdetails\" : {\n\t\t\"isActive\" : 1\n\t}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/ngo/updatedetails/{{NGO_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Ngo details - Not Found - 404",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "cdfd73ca-dc41-49ff-a158-41f841599b97",
+										"exec": [
+											"pm.test(\"Reponse status code is 401\", function() {",
+											"   pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Reponse should contains Message : Not  Authorized\", function() {",
+											"   let json = pm.response.json();",
+											"   pm.expect(json).to.have.property('errorMessage');",
+											"   pm.expect(json.errorMessage).to.eql('Not  Authorized');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiVXNlclR5cGVJZCI6NSwiUGFzc3dvcmQiOiIkMmEkMTAkS2o5TElpdUdwYW5jUnYxazBJOFA5ZS9kRy9rOHFnaHVaSy44My80dDdVNGNjenFabzZuSE8iLCJFbWFpbCI6InNpbmdoYWwiLCJBZGRyZXNzRGV0YWlsSWQiOjEyLCJWZXJpZmljYXRpb25EZXRhaWxJZCI6MTEsImlzVmVyaWZpZWRVc2VyIjp0cnVlLCJpYXQiOjE1NzU4ODg1MjV9.U8R-gYHLPo9VypbSXKMjC1HPb93yb5JJQvtyUr0euwA"
+									}
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"userdetails\" : {\n\t\t\"AuthorityName\" : \"user_\",\n\t\t\"Phone2\" : \"9987\"\n\t},\n\t\"addressdetails\" : {\n\t\t\"housebuilding\" : \"1000\",\n\t\t\"city\" : \"delhi\",\n\t\t\"state\" : \"delhi\"\n\t},\n\t\"verificationdetails\" : {\n\t\t\"isActive\" : 1\n\t}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/ngo/updatedetails/{{INVALID_NGO_ID}}"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Sign-up",
+					"item": [
+						{
+							"name": "SIGNUP - Success - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9e0ba2c8-e356-42b7-ae21-209bfc0a85a4",
+										"exec": [
+											"pm.test(\"Reponse status code is 200\", function() {",
+											"   pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Reponse should contains Message : Success\", function() {",
+											"   let json = pm.response.json();",
+											"   pm.expect(json).to.have.property('Message');",
+											"   pm.expect(json.Message).to.eql('Success');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"UserTypeId\" : 4,\n\t\"AuthorityName\" : \"NGO_212\",\n\t\"Email\" : \"singhal@com\",\n\t\"Phone1\" : \"999999\",\n\t\"password\" : \"abc\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/ngo/signup"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Get NGOs",
+					"item": [
+						{
+							"name": "GetNGOs - success - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "504e06f7-07ea-44b0-a8d6-ecc3f236901d",
+										"exec": [
+											"pm.test(\"Reponse status code is 200\", function() {",
+											"   pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Reponse contains expected fields (Id, AuthorityName)\", function() {",
+											"   let json = pm.response.json();",
+											"   for(let i=0;i<json.length;i++){",
+											"    pm.expect(json[i]).to.have.property('Id');",
+											"    pm.expect(json[i]).to.have.property('AuthorityName');",
+											"   }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/ngo/list"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Get Government Shelters",
+					"item": [
+						{
+							"name": "GetGovernmentShelters - success - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9570403a-b44b-4409-97c1-90f9f3897078",
+										"exec": [
+											"pm.test(\"Reponse status code is 200\", function() {",
+											"   pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Reponse contains have AccomodationType 'Government_Shelters\", function() {",
+											"   let json = pm.response.json();",
+											"   for(let i=0;i<json.length;i++){",
+											"    pm.expect(json[i]).to.have.property('Id');",
+											"    pm.expect(json[i]).to.have.property('AccomodationType');",
+											"    pm.expect(json[i]).to.eql('Government_Shelters');",
+											"   }",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/government/shelters"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Get Profile Details",
+					"item": [
+						{
+							"name": "GetNgoDetails - Success - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5919e0f9-7a7a-4eb6-a5ed-cc9fa061ac08",
+										"exec": [
+											"pm.test(\"Reponse status code is 200\", function() {",
+											"   pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Reponse contains fields (userDetails, addressDetails, verificationDetails)\", function() {",
+											"   let json = pm.response.json();",
+											"    pm.expect(json.data).to.have.property('userDetails');",
+											"    pm.expect(json.data).to.have.property('addressDetails');",
+											"    pm.expect(json.data).to.have.property('verificationDetails');",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiVXNlclR5cGVJZCI6NSwiUGFzc3dvcmQiOiIkMmEkMTAkS2o5TElpdUdwYW5jUnYxazBJOFA5ZS9kRy9rOHFnaHVaSy44My80dDdVNGNjenFabzZuSE8iLCJFbWFpbCI6InNpbmdoYWwiLCJBZGRyZXNzRGV0YWlsSWQiOjEyLCJWZXJpZmljYXRpb25EZXRhaWxJZCI6MTEsImlzVmVyaWZpZWRVc2VyIjp0cnVlLCJpYXQiOjE1NzU4ODg1MjV9.U8R-gYHLPo9VypbSXKMjC1HPb93yb5JJQvtyUr0euwA"
+									}
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/ngo/profiledetails/{{NGO_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "GetNgoDetails - Not Found- 404",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f37d04cb-2333-4fbf-9f54-64ccd9088734",
+										"exec": [
+											"pm.test(\"Reponse status code is 401\", function() {",
+											"   pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Reponse contains Message 'Not  Authorized'\", function() {",
+											"   let json = pm.response.json();",
+											"    pm.expect(json).to.have.property('errorMessage');",
+											"    pm.expect(json.errorMessage).to.eql('Not  Authorized');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiVXNlclR5cGVJZCI6NSwiUGFzc3dvcmQiOiIkMmEkMTAkS2o5TElpdUdwYW5jUnYxazBJOFA5ZS9kRy9rOHFnaHVaSy44My80dDdVNGNjenFabzZuSE8iLCJFbWFpbCI6InNpbmdoYWwiLCJBZGRyZXNzRGV0YWlsSWQiOjEyLCJWZXJpZmljYXRpb25EZXRhaWxJZCI6MTEsImlzVmVyaWZpZWRVc2VyIjp0cnVlLCJpYXQiOjE1NzU4ODg1MjV9.U8R-gYHLPo9VypbSXKMjC1HPb93yb5JJQvtyUr0euwA"
+									}
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/ngo/profiledetails/{{INVALID_NGO_ID}}"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Get Private Properties",
+					"item": [
+						{
+							"name": "GetPrivateProperties - Success - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "732e36bb-143a-40f0-b1d1-973b52570d2d",
+										"exec": [
+											"pm.test(\"Reponse status code is 200\", function() {",
+											"   pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Reponse contains AccomodationType 'Private\", function() {",
+											"   let json = pm.response.json();",
+											"   for(let i=0;i<json.length;i++){",
+											"    pm.expect(json[i]).to.have.property('Id');",
+											"    pm.expect(json[i]).to.have.property('AccomodationType');",
+											"    pm.expect(json[i]).to.eql('Private');",
+											"   }",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiVXNlclR5cGVJZCI6NCwiUGFzc3dvcmQiOiIkMmEkMTAkS2o5TElpdUdwYW5jUnYxazBJOFA5ZS9kRy9rOHFnaHVaSy44My80dDdVNGNjenFabzZuSE8iLCJFbWFpbCI6InNpbmdoYWwiLCJBZGRyZXNzRGV0YWlsSWQiOjEyLCJWZXJpZmljYXRpb25EZXRhaWxJZCI6MTEsImlzVmVyaWZpZWRVc2VyIjp0cnVlLCJpYXQiOjE1NzU4ODkxMjV9.Jm6M_jwkzpQWUwRxEPJV62jf3UOttQgaTKRhZ7a-FlU"
+									}
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/private/properties"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Verify User",
+					"item": [
+						{
+							"name": "VerifyUser - Success - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a150e927-0a80-471e-b996-29dea3858804",
+										"exec": [
+											"pm.test(\"Reponse status code is 200\", function() {",
+											"   pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Reponse should contains Message : Success\", function() {",
+											"   let json = pm.response.json();",
+											"   pm.expect(json).to.have.property('Message');",
+											"   pm.expect(json.Message).to.eql('Success');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiVXNlclR5cGVJZCI6NCwiUGFzc3dvcmQiOiIkMmEkMTAkS2o5TElpdUdwYW5jUnYxazBJOFA5ZS9kRy9rOHFnaHVaSy44My80dDdVNGNjenFabzZuSE8iLCJFbWFpbCI6InNpbmdoYWwiLCJBZGRyZXNzRGV0YWlsSWQiOjEyLCJWZXJpZmljYXRpb25EZXRhaWxJZCI6MTEsImlzVmVyaWZpZWRVc2VyIjp0cnVlLCJpYXQiOjE1NzU4ODkxMjV9.Jm6M_jwkzpQWUwRxEPJV62jf3UOttQgaTKRhZ7a-FlU"
+									}
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/ngo/{{NGO_ID}}/verify/{{USER_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "VerifyUser - NGO not found- 404",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1a795ceb-3d64-4764-8831-0d59ea178870",
+										"exec": [
+											"pm.test(\"Reponse status code is 404\", function() {",
+											"   pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"Reponse should contains Message : No NGO Found\", function() {",
+											"   let json = pm.response.json();",
+											"   pm.expect(json).to.have.property('errorMessage');",
+											"   pm.expect(json.errorMessage).to.eql('No NGO Found');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiVXNlclR5cGVJZCI6NCwiUGFzc3dvcmQiOiIkMmEkMTAkS2o5TElpdUdwYW5jUnYxazBJOFA5ZS9kRy9rOHFnaHVaSy44My80dDdVNGNjenFabzZuSE8iLCJFbWFpbCI6InNpbmdoYWwiLCJBZGRyZXNzRGV0YWlsSWQiOjEyLCJWZXJpZmljYXRpb25EZXRhaWxJZCI6MTEsImlzVmVyaWZpZWRVc2VyIjp0cnVlLCJpYXQiOjE1NzU4ODkxMjV9.Jm6M_jwkzpQWUwRxEPJV62jf3UOttQgaTKRhZ7a-FlU"
+									}
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/ngo/{{INVALID_NGO_ID}}/verify/{{USER_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "VerifyUser - User not found- 404",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1a795ceb-3d64-4764-8831-0d59ea178870",
+										"exec": [
+											"pm.test(\"Reponse status code is 404\", function() {",
+											"   pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"Reponse should contains Message : No user found\", function() {",
+											"   let json = pm.response.json();",
+											"   pm.expect(json).to.have.property('errorMessage');",
+											"   pm.expect(json.errorMessage).to.eql('No user found');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiVXNlclR5cGVJZCI6NCwiUGFzc3dvcmQiOiIkMmEkMTAkS2o5TElpdUdwYW5jUnYxazBJOFA5ZS9kRy9rOHFnaHVaSy44My80dDdVNGNjenFabzZuSE8iLCJFbWFpbCI6InNpbmdoYWwiLCJBZGRyZXNzRGV0YWlsSWQiOjEyLCJWZXJpZmljYXRpb25EZXRhaWxJZCI6MTEsImlzVmVyaWZpZWRVc2VyIjp0cnVlLCJpYXQiOjE1NzU4ODkxMjV9.Jm6M_jwkzpQWUwRxEPJV62jf3UOttQgaTKRhZ7a-FlU"
+									}
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/ngo/{{NGO_ID}}/verify/{{INVALID_USER_ID}}"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Register Government Shelters",
+					"item": [
+						{
+							"name": "RegisterGovtShelters(Same address) - Success - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e8f4b44f-f1da-4b54-bbbb-be9689edccc1",
+										"exec": [
+											"pm.test(\"Reponse status code is 200\", function() {",
+											"   pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Reponse should contains Message : Success\", function() {",
+											"   let json = pm.response.json();",
+											"   pm.expect(json).to.have.property('Message');",
+											"   pm.expect(json.Message).to.eql('Success');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"AddressDetailId\" : 12\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/ngo/government/shelters/{{NGO_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "RegisterGovtShelters - NGO not found - 404",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "627e4638-de9a-4fc8-8860-eafad4c4037e",
+										"exec": [
+											"pm.test(\"Reponse status code is 404\", function() {",
+											"   pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"Reponse should contains Message : NGO Not Found\", function() {",
+											"   let json = pm.response.json();",
+											"   pm.expect(json).to.have.property('errorMessage');",
+											"   pm.expect(json.errorMessage).to.eql('NGO Not Found');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"isActive\" : 1,\n\t\"AddressDetailId\" : 87\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/ngo/government/shelters/{{INVALID_NGO_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "RegisterGovtShelters(different address) - Success - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e8f4b44f-f1da-4b54-bbbb-be9689edccc1",
+										"exec": [
+											"pm.test(\"Reponse status code is 200\", function() {",
+											"   pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Reponse should contains Message : Success with new Address\", function() {",
+											"   let json = pm.response.json();",
+											"   pm.expect(json).to.have.property('Message');",
+											"   pm.expect(json.Message).to.eql('Success with new Address');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"AddressDetail\" : {\n\t\t\"HouseBuilding\" : \"50-9\",\n\t\t\"city\" : \"delhi\"\n\t}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/ngo/government/shelters/{{NGO_ID}}"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Rescue Requests",
+					"item": [
+						{
+							"name": "Rescue Request - Success - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "86a5a572-c86e-4bc3-b8bf-bc71921ccd9d",
+										"exec": [
+											"pm.test(\"Reponse status code is 200\", function() {",
+											"   pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiVXNlclR5cGVJZCI6NCwiUGFzc3dvcmQiOiIkMmEkMTAkS2o5TElpdUdwYW5jUnYxazBJOFA5ZS9kRy9rOHFnaHVaSy44My80dDdVNGNjenFabzZuSE8iLCJFbWFpbCI6InNpbmdoYWwiLCJBZGRyZXNzRGV0YWlsSWQiOjEyLCJWZXJpZmljYXRpb25EZXRhaWxJZCI6MTEsImlzVmVyaWZpZWRVc2VyIjp0cnVlLCJpYXQiOjE1NzYxMzI2OTV9.X867sjMzuNLxBEO-aPeTi1U3deKPhe8_KgK4z4h9YT0"
+									}
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/rescue/requests"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "USER",
+			"item": [
+				{
+					"name": "Upadte User Details",
+					"item": [
+						{
+							"name": "Update user details - success - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "19714ebc-090a-499b-8374-6d449ad7f874",
+										"exec": [
+											"pm.test(\"Reponse status code is 200\", function() {",
+											"   pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Reponse should contains Message : Success\", function() {",
+											"   let json = pm.response.json();",
+											"   pm.expect(json).to.have.property('Message');",
+											"   pm.expect(json.Message).to.eql('Success');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiVXNlclR5cGVJZCI6NSwiUGFzc3dvcmQiOiIkMmEkMTAkbTkvUzIwdkF4dzNkYVVwb1FHL3k0dWxLLmxwWjAvbkUwUXhtMFFoZndJSW5jMEd2R0VKU2UiLCJFbWFpbCI6InJpc2hhYmhfIiwiQWRkcmVzc0RldGFpbElkIjo5LCJWZXJpZmljYXRpb25EZXRhaWxJZCI6OCwiaXNWZXJpZmllZFVzZXIiOmZhbHNlLCJpYXQiOjE1NzU4ODk2MDh9.6-JCRkOPVfJPnbLgGqeLe4fvXAD7j7uHVRzUYy9Stmo"
+									}
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"userdetails\" : {\n\t\t\"LastName\" : \"last\",\n\t\t\"MiddleName\" : \"middle\"\n\t},\n\t\"addressdetails\" : {\n\t\t\"housebuilding\" : \"1000\",\n\t\t\"city\" : \"delhi\",\n\t\t\"state\" : \"delhi\"\n\t},\n\t\"verificationdetails\" : {\n\t\t\"isActive\" : 1\n\t}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/user/updatedetails/{{USER_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Update user details - Not found - 404",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0f4ceeff-cc7f-4534-bb9c-1ebfa11f9854",
+										"exec": [
+											"pm.test(\"Reponse status code is 401\", function() {",
+											"   pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Reponse should contains Message : Not Authorized\", function() {",
+											"   let json = pm.response.json();",
+											"   pm.expect(json).to.have.property('errorMessage');",
+											"   pm.expect(json.errorMessage).to.eql('Not Authorized');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiVXNlclR5cGVJZCI6NSwiUGFzc3dvcmQiOiIkMmEkMTAkbTkvUzIwdkF4dzNkYVVwb1FHL3k0dWxLLmxwWjAvbkUwUXhtMFFoZndJSW5jMEd2R0VKU2UiLCJFbWFpbCI6InJpc2hhYmhfIiwiQWRkcmVzc0RldGFpbElkIjo5LCJWZXJpZmljYXRpb25EZXRhaWxJZCI6OCwiaXNWZXJpZmllZFVzZXIiOmZhbHNlLCJpYXQiOjE1NzU4ODk2MDh9.6-JCRkOPVfJPnbLgGqeLe4fvXAD7j7uHVRzUYy9Stmo"
+									}
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"userdetails\" : {\n\t\t\"LastName\" : \"last\",\n\t\t\"MiddleName\" : \"middle\"\n\t},\n\t\"addressdetails\" : {\n\t\t\"housebuilding\" : \"1000\",\n\t\t\"city\" : \"delhi\",\n\t\t\"state\" : \"delhi\"\n\t},\n\t\"verificationdetails\" : {\n\t\t\"isActive\" : 1\n\t}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/user/updatedetails/{{INVALID_USER_ID}}"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Sign-up",
+					"item": [
+						{
+							"name": "SIGNUP - success - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d3e62c08-763a-43c7-89a9-b64b8a91965a",
+										"exec": [
+											"pm.test(\"Reponse status code is 200\", function() {",
+											"   pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Reponse should contains Message : Success\", function() {",
+											"   let json = pm.response.json();",
+											"   pm.expect(json).to.have.property('Message');",
+											"   pm.expect(json.Message).to.eql('Success');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"UserTypeId\" : 5,\n\t\"UserName\" : \"USER_1\",\n\t\"FirstName\" : \"USER_1\",\n\t\"Email\" : \"rishabh@\",\n\t\"password\" : \"abc\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/user/signup"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Get Offered Helps",
+					"item": [
+						{
+							"name": "GetOfferedHelps - Success - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "86a5a572-c86e-4bc3-b8bf-bc71921ccd9d",
+										"exec": [
+											"pm.test(\"Reponse status code is 200\", function() {",
+											"   pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Reponse contains AccomodationType = Private\", function() {",
+											"   let json = pm.response.json();",
+											"   for(let i=0;i<json.length;i++){",
+											"    pm.expect(json.data[i]).to.have.property('Id');",
+											"    pm.expect(json.data[i]).to.have.property('AuthorityName');",
+											"    pm.expect(json.data[i]).to.eql('Private');",
+											"   }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiVXNlclR5cGVJZCI6MiwiUGFzc3dvcmQiOiIkMmEkMTAkNEYuZ0RUY2lWL3I3TTl3RERzaGxkLlJjbUtvakdqci9GYllzRGs1eVA5Q3JUOE9hWDcvLjIiLCJFbWFpbCI6IkFkbWluIiwiQWRkcmVzc0RldGFpbElkIjoxNCwiVmVyaWZpY2F0aW9uRGV0YWlsSWQiOjEzLCJpc1ZlcmlmaWVkVXNlciI6dHJ1ZSwiaWF0IjoxNTc1ODg5Nzk0fQ.SKjD2vl_JIEAjj5v_DZfE9MxI6hyS8Ebxp4xIVqVxes"
+									}
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/user/offeredhelp/{{ADMIN_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "GetOfferedHelps - Not Authorized- 401",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "86a5a572-c86e-4bc3-b8bf-bc71921ccd9d",
+										"exec": [
+											"pm.test(\"Reponse status code is 401\", function() {",
+											"   pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Reponse Returns Access Denied\", function() {",
+											"   let json = pm.response.json();",
+											"    pm.expect(json).to.have.property('errorMessage');",
+											"    pm.expect(json.errorMessage).to.eql('Not Authorized');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiVXNlclR5cGVJZCI6MiwiUGFzc3dvcmQiOiIkMmEkMTAkNEYuZ0RUY2lWL3I3TTl3RERzaGxkLlJjbUtvakdqci9GYllzRGs1eVA5Q3JUOE9hWDcvLjIiLCJFbWFpbCI6IkFkbWluIiwiQWRkcmVzc0RldGFpbElkIjoxNCwiVmVyaWZpY2F0aW9uRGV0YWlsSWQiOjEzLCJpc1ZlcmlmaWVkVXNlciI6dHJ1ZSwiaWF0IjoxNTc1ODg5Nzk0fQ.SKjD2vl_JIEAjj5v_DZfE9MxI6hyS8Ebxp4xIVqVxes"
+									}
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/user/offeredhelp/{{INVALID_USER_ID}}"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Register Help",
+					"item": [
+						{
+							"name": "RegisterHelp(Same address) - success - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "755bd78e-bf67-4ac0-b863-d729291172ef",
+										"exec": [
+											"pm.test(\"Reponse status code is 200\", function() {",
+											"   pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Reponse should contains Message : Success\", function() {",
+											"   let json = pm.response.json();",
+											"   pm.expect(json).to.have.property('Message');",
+											"   pm.expect(json.Message).to.eql('Success');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiVXNlclR5cGVJZCI6MiwiUGFzc3dvcmQiOiIkMmEkMTAkNEYuZ0RUY2lWL3I3TTl3RERzaGxkLlJjbUtvakdqci9GYllzRGs1eVA5Q3JUOE9hWDcvLjIiLCJFbWFpbCI6IkFkbWluIiwiQWRkcmVzc0RldGFpbElkIjoxNCwiVmVyaWZpY2F0aW9uRGV0YWlsSWQiOjEzLCJpc1ZlcmlmaWVkVXNlciI6dHJ1ZSwiaWF0IjoxNTc1ODg5Nzk0fQ.SKjD2vl_JIEAjj5v_DZfE9MxI6hyS8Ebxp4xIVqVxes"
+									}
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"AddressDetailId\" : 14\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/user/offeringhelp/{{ADMIN_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "RegisterHelp - User not found - 404",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "76db90bc-a4cc-4a1e-85b9-ebbae3aec51f",
+										"exec": [
+											"pm.test(\"Reponse status code is 401\", function() {",
+											"   pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Reponse should contains Message : Not Authorized\", function() {",
+											"   let json = pm.response.json();",
+											"   pm.expect(json).to.have.property('errorMessage');",
+											"   pm.expect(json.errorMessage).to.eql('Not Authorized');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiVXNlclR5cGVJZCI6MiwiUGFzc3dvcmQiOiIkMmEkMTAkNEYuZ0RUY2lWL3I3TTl3RERzaGxkLlJjbUtvakdqci9GYllzRGs1eVA5Q3JUOE9hWDcvLjIiLCJFbWFpbCI6IkFkbWluIiwiQWRkcmVzc0RldGFpbElkIjoxNCwiVmVyaWZpY2F0aW9uRGV0YWlsSWQiOjEzLCJpc1ZlcmlmaWVkVXNlciI6dHJ1ZSwiaWF0IjoxNTc1ODg5Nzk0fQ.SKjD2vl_JIEAjj5v_DZfE9MxI6hyS8Ebxp4xIVqVxes"
+									}
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"AddressDetail\" : {\n\t\t\"HouseBuilding\" : \"50-9\",\n\t\t\"city\" : \"delhi\"\n\t}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/user/offeringhelp/{{INVALID_USER_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "RegisterHelp(differentaddress) - success - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "755bd78e-bf67-4ac0-b863-d729291172ef",
+										"exec": [
+											"pm.test(\"Reponse status code is 200\", function() {",
+											"   pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Reponse should contains Message : Success with new Address\", function() {",
+											"   let json = pm.response.json();",
+											"   pm.expect(json).to.have.property('Message');",
+											"   pm.expect(json.Message).to.eql('Success with new Address');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiVXNlclR5cGVJZCI6MiwiUGFzc3dvcmQiOiIkMmEkMTAkNEYuZ0RUY2lWL3I3TTl3RERzaGxkLlJjbUtvakdqci9GYllzRGs1eVA5Q3JUOE9hWDcvLjIiLCJFbWFpbCI6IkFkbWluIiwiQWRkcmVzc0RldGFpbElkIjoxNCwiVmVyaWZpY2F0aW9uRGV0YWlsSWQiOjEzLCJpc1ZlcmlmaWVkVXNlciI6dHJ1ZSwiaWF0IjoxNTc1ODg5Nzk0fQ.SKjD2vl_JIEAjj5v_DZfE9MxI6hyS8Ebxp4xIVqVxes"
+									}
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"AddressDetail\" : {\n\t\t\"HouseBuilding\" : \"50-9\",\n\t\t\"city\" : \"delhi\"\n\t}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/user/offeringhelp/{{ADMIN_ID}}"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Get Profile Details",
+					"item": [
+						{
+							"name": "GetUserDetails - Success - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0a27d79f-80fe-4e97-9332-59ff372e4f82",
+										"exec": [
+											"pm.test(\"Reponse status code is 200\", function() {",
+											"   pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Reponse contains fields (userDetails, addressDetails, verificationDetails)\", function() {",
+											"   let json = pm.response.json();",
+											"    pm.expect(json.data).to.have.property('userDetails');",
+											"    pm.expect(json.data).to.have.property('addressDetails');",
+											"    pm.expect(json.data).to.have.property('verificationDetails');",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiVXNlclR5cGVJZCI6NSwiUGFzc3dvcmQiOiIkMmEkMTAkbTkvUzIwdkF4dzNkYVVwb1FHL3k0dWxLLmxwWjAvbkUwUXhtMFFoZndJSW5jMEd2R0VKU2UiLCJFbWFpbCI6InJpc2hhYmhfIiwiQWRkcmVzc0RldGFpbElkIjo5LCJWZXJpZmljYXRpb25EZXRhaWxJZCI6OCwiaXNWZXJpZmllZFVzZXIiOmZhbHNlLCJpYXQiOjE1NzU4OTAxOTR9.zRIvP3eloILLN17xbUyPR3xyVty88B0J-JJFBRsoXzQ"
+									}
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/user/profiledetails/{{USER_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "GetUserDetails - Not Found- 404",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "466b544e-9990-4e35-8542-1f183d908a79",
+										"exec": [
+											"pm.test(\"Reponse status code is 401\", function() {",
+											"   pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Reponse contains Message 'No User Found'\", function() {",
+											"   let json = pm.response.json();",
+											"    pm.expect(json).to.have.property('errorMessage');",
+											"    pm.expect(json.errorMessage).to.eql('Not Authorized');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiVXNlclR5cGVJZCI6NSwiUGFzc3dvcmQiOiIkMmEkMTAkbTkvUzIwdkF4dzNkYVVwb1FHL3k0dWxLLmxwWjAvbkUwUXhtMFFoZndJSW5jMEd2R0VKU2UiLCJFbWFpbCI6InJpc2hhYmhfIiwiQWRkcmVzc0RldGFpbElkIjo5LCJWZXJpZmljYXRpb25EZXRhaWxJZCI6OCwiaXNWZXJpZmllZFVzZXIiOmZhbHNlLCJpYXQiOjE1NzU4OTAxOTR9.zRIvP3eloILLN17xbUyPR3xyVty88B0J-JJFBRsoXzQ"
+									}
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/user/profiledetails/{{INVALID_USER_ID}}"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Verify NGO",
+					"item": [
+						{
+							"name": "VerifyNgo - success - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e4003496-ee38-49a0-8935-662e37e16743",
+										"exec": [
+											"pm.test(\"Reponse status code is 200\", function() {",
+											"   pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Reponse should contains Message : Success\", function() {",
+											"   let json = pm.response.json();",
+											"   pm.expect(json).to.have.property('Message');",
+											"   pm.expect(json.Message).to.eql('Success');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiVXNlclR5cGVJZCI6MiwiUGFzc3dvcmQiOiIkMmEkMTAkNEYuZ0RUY2lWL3I3TTl3RERzaGxkLlJjbUtvakdqci9GYllzRGs1eVA5Q3JUOE9hWDcvLjIiLCJFbWFpbCI6IkFkbWluIiwiQWRkcmVzc0RldGFpbElkIjoxNCwiVmVyaWZpY2F0aW9uRGV0YWlsSWQiOjEzLCJpc1ZlcmlmaWVkVXNlciI6dHJ1ZSwiaWF0IjoxNTc1ODg5Nzk0fQ.SKjD2vl_JIEAjj5v_DZfE9MxI6hyS8Ebxp4xIVqVxes"
+									}
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/user/{{ADMIN_ID}}/verify/{{NGO_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "VerifyNgo - User Not Found - 404",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e4003496-ee38-49a0-8935-662e37e16743",
+										"exec": [
+											"pm.test(\"Reponse status code is 404\", function() {",
+											"   pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"Reponse should contains Message : User Not Found\", function() {",
+											"   let json = pm.response.json();",
+											"   pm.expect(json).to.have.property('errorMessage');",
+											"   pm.expect(json.errorMessage).to.eql('User Not Found');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiVXNlclR5cGVJZCI6MiwiUGFzc3dvcmQiOiIkMmEkMTAkNEYuZ0RUY2lWL3I3TTl3RERzaGxkLlJjbUtvakdqci9GYllzRGs1eVA5Q3JUOE9hWDcvLjIiLCJFbWFpbCI6IkFkbWluIiwiQWRkcmVzc0RldGFpbElkIjoxNCwiVmVyaWZpY2F0aW9uRGV0YWlsSWQiOjEzLCJpc1ZlcmlmaWVkVXNlciI6dHJ1ZSwiaWF0IjoxNTc1ODg5Nzk0fQ.SKjD2vl_JIEAjj5v_DZfE9MxI6hyS8Ebxp4xIVqVxes"
+									}
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/user/{{INVALID_USER_ID}}/verify/{{NGO_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "VerifyNgo - NGO Not Found - 404",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e4003496-ee38-49a0-8935-662e37e16743",
+										"exec": [
+											"pm.test(\"Reponse status code is 404\", function() {",
+											"   pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"Reponse should contains Message : User Not Found\", function() {",
+											"   let json = pm.response.json();",
+											"   pm.expect(json).to.have.property('errorMessage');",
+											"   pm.expect(json.errorMessage).to.eql('No NGO found');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiVXNlclR5cGVJZCI6MiwiUGFzc3dvcmQiOiIkMmEkMTAkNEYuZ0RUY2lWL3I3TTl3RERzaGxkLlJjbUtvakdqci9GYllzRGs1eVA5Q3JUOE9hWDcvLjIiLCJFbWFpbCI6IkFkbWluIiwiQWRkcmVzc0RldGFpbElkIjoxNCwiVmVyaWZpY2F0aW9uRGV0YWlsSWQiOjEzLCJpc1ZlcmlmaWVkVXNlciI6dHJ1ZSwiaWF0IjoxNTc1ODg5Nzk0fQ.SKjD2vl_JIEAjj5v_DZfE9MxI6hyS8Ebxp4xIVqVxes"
+									}
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/user/{{ADMIN_ID}}/verify/{{INVALID_NGO_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "VerifyNgo - User Not Authorized - 401",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e4003496-ee38-49a0-8935-662e37e16743",
+										"exec": [
+											"pm.test(\"Reponse status code is 401\", function() {",
+											"   pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Reponse should contains Message : User Not Authorized to verify NGO\", function() {",
+											"   let json = pm.response.json();",
+											"   pm.expect(json).to.have.property('errorMessage');",
+											"   pm.expect(json.errorMessage).to.eql('User Not Authorized to verify NGO');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiVXNlclR5cGVJZCI6MiwiUGFzc3dvcmQiOiIkMmEkMTAkNEYuZ0RUY2lWL3I3TTl3RERzaGxkLlJjbUtvakdqci9GYllzRGs1eVA5Q3JUOE9hWDcvLjIiLCJFbWFpbCI6IkFkbWluIiwiQWRkcmVzc0RldGFpbElkIjoxNCwiVmVyaWZpY2F0aW9uRGV0YWlsSWQiOjEzLCJpc1ZlcmlmaWVkVXNlciI6dHJ1ZSwiaWF0IjoxNTc1ODg5Nzk0fQ.SKjD2vl_JIEAjj5v_DZfE9MxI6hyS8Ebxp4xIVqVxes"
+									}
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/user/{{UNAUTHORIZED_USER}}/verify/{{NGO_ID}}"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Raise Resque Request",
+					"item": [
+						{
+							"name": "Raise  Rescue Request - Success - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "86a5a572-c86e-4bc3-b8bf-bc71921ccd9d",
+										"exec": [
+											"pm.test(\"Reponse status code is 200\", function() {",
+											"   pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Reponse should contains Message : Success\", function() {",
+											"   let json = pm.response.json();",
+											"   pm.expect(json).to.have.property('Message');",
+											"   pm.expect(json.Message).to.eql('Success');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiVXNlclR5cGVJZCI6NSwiUGFzc3dvcmQiOiIkMmEkMTAkRkhBelg3ejY4RnJra0t4eHFZcVFGdWJJSGJ5YkdyM21VYlowWlNBdWxHa1Btakl1MFRHSGEiLCJFbWFpbCI6InJpc2hhYmhfQCIsIkFkZHJlc3NEZXRhaWxJZCI6MTcsIlZlcmlmaWNhdGlvbkRldGFpbElkIjoxNSwiaXNWZXJpZmllZFVzZXIiOmZhbHNlLCJpYXQiOjE1NzU3MjI0ODF9.pL91sJAUqCkA_D64O0SKAHayWttrqZ6wVRcZOBTHlms"
+									}
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"Latitude\" : \"2.8085\",\n\t\"Longitude\" : \"2.5637\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/api/rescue/request"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "LOGIN(NGO) - Success - 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4841c2f1-e1a6-430f-9d3c-6d38cda63e97",
+								"exec": [
+									"pm.test(\"Reponse status code is 200\", function() {",
+									"   pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Reponse should contains Token\", function() {",
+									"   let json = pm.response.json();",
+									"   pm.expect(json.data).to.have.property('Token');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Email\" : \"singhal\",\n\t\"Password\" : \"abc\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/api/login"
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN - Access Denied - 401",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4841c2f1-e1a6-430f-9d3c-6d38cda63e97",
+								"exec": [
+									"pm.test(\"Reponse status code is 401\", function() {",
+									"   pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"Reponse should contains message 'Email password don't match'\", function() {",
+									"   let json = pm.response.json();",
+									"   pm.expect(json).to.have.property('code');",
+									"   pm.expect(json.code).to.eql(401);",
+									"   pm.expect(json).to.have.property('errorMessage');",
+									"   pm.expect(json.errorMessage).to.eql('Email password don\\'t match');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Email\" : \"singhal\",\n\t\"Password\" : \"abcd\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/api/login"
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN(User Admin) - Success - 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4841c2f1-e1a6-430f-9d3c-6d38cda63e97",
+								"exec": [
+									"pm.test(\"Reponse status code is 200\", function() {",
+									"   pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Reponse should contains Token\", function() {",
+									"   let json = pm.response.json();",
+									"   pm.expect(json.data).to.have.property('Token');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Email\" : \"Admin\",\n\t\"Password\" : \"abc\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/api/login"
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN(User) - Success - 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4841c2f1-e1a6-430f-9d3c-6d38cda63e97",
+								"exec": [
+									"pm.test(\"Reponse status code is 200\", function() {",
+									"   pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Reponse should contains Token\", function() {",
+									"   let json = pm.response.json();",
+									"   pm.expect(json.data).to.have.property('Token');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Email\" : \"rishabh_\",\n\t\"Password\" : \"abc\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/api/login"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "5f6c629b-268a-437c-a42d-730785fd1128",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "362b06ba-ca62-4811-9d36-8c7205488497",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
