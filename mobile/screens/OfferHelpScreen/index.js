@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {  View,  TextInput,  Button,  Text,  Picker,  ScrollView } from "react-native";
+import { View, TextInput, Button, Text, Picker, ScrollView } from "react-native";
 import Textarea from "react-native-textarea";
 import RadioForm from "react-native-simple-radio-button";
 import DatePicker from "react-native-datepicker";
@@ -44,6 +44,11 @@ class OfferHelpScreen extends Component {
       { label: "Yes", value: 1 },
       { label: "No", value: 0 }
     ]
+  };
+
+  //Submits offer help data for NGO to see
+  onOfferHelpHandler = () => {
+    alert("Feel proud, You just helped someone")
   };
 
   render() {
@@ -234,8 +239,8 @@ class OfferHelpScreen extends Component {
                   }}
                 />
               </View>
-            ) 
-            : null}
+            )
+              : null}
             <View style={styles.RadioButtonContainer}>
               <Text style={styles.LabelText}>Includes Shelter? :</Text>
               <RadioForm //Radio Button for Shelter
@@ -323,7 +328,7 @@ class OfferHelpScreen extends Component {
             <Button
               title="Offer Help"
               color="#A52E84"
-            //onPress={this.onOfferHelpHandler()          }
+            onPress={this.onOfferHelpHandler()          }
             />
           </View>
         </View>

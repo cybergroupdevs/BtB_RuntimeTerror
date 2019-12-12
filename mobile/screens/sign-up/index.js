@@ -62,7 +62,7 @@ class SignupScreen extends Component {
         alert("something went wrong")
       }
       else{
-        alert("Registered Successfully");
+        alert("Registered Successfully, Please signin to continue");
         this.props.navigation.navigate("Login");
       }
     } else {
@@ -81,7 +81,7 @@ class SignupScreen extends Component {
         alert("something went wrong")
       }
       else{
-        alert("Registered Successfully");
+        alert("Registered Successfully, Please signin to continue");
         this.props.navigation.navigate("Login");
       }
     }

@@ -40,6 +40,7 @@ class SeekHelpScreen extends Component {
   onSeekHelpHandler = () => {
     let location = this._getLocation()
     //console.log(this.state.location)
+    alert("You're request has been raised, Help is on the way!")
   };
 
   //Returns the view to Raise a Rescue Request
