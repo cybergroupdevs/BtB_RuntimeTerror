@@ -1,9 +1,25 @@
 import React from "react";
-import { View, ScrollView, Text, Image, TextInput, TouchableOpacity, AsyncStorage } from "react-native";
+import {
+  View,
+  ScrollView,
+  Text,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  Button,
+  AsyncStorage,
+  Alert
+} from "react-native";
 // import DocumentPicker from "react-native-document-picker";
 import styles from "./style";
-import { getData, getDecodedToken } from '../utils/locaStorage';
-import { baseURL, ngoProfile, userProfile, updateNGO } from '../../constants/apiRoutes';
+import { getData, getDecodedToken } from "../utils/locaStorage";
+import {
+  baseURL,
+  ngoProfile,
+  userProfile,
+  updateNGO
+} from "../../constants/apiRoutes";
+import { withNavigation } from "react-navigation";
 
 class ProfileScreen extends React.Component {
   static navigationOptions = {
@@ -64,98 +80,20 @@ class ProfileScreen extends React.Component {
       body: JSON.stringify(data)
     });
     return response.json();
-  }
+  };
 
   componentDidMount = async () => {
-    const token = await getData("token");
-    if (typeof token === "undefined") {
-      alert("Please sign in first");
-      this.props.navigation.navigate("Login");
-    } else {
-      const decodedtOken = getDecodedToken(token);
-      this.setState({
-        userType: decodedtOken.UserTypeId === 4 ? "NGO" : "user",
-        decodedID: decodedtOken.id,
-        headerToken: token
-      });
-      if (this.state.userType === "NGO") {
-        const apiRes = await this.apiCallGet(
-          baseURL + ngoProfile + this.state.decodedID,
-          token
-        );
-        this.setState({
-          personalDetailNGO: {
-            AuthorityName: apiRes.data.userDetails.AuthorityName,
-            Phone1: apiRes.data.userDetails.Phone1,
-            Phone2: apiRes.data.userDetails.Phone2,
-            Phone3: apiRes.data.userDetails.Phone3
-          },
-          Email_ID: apiRes.data.userDetails.Email,
-          AddressDetails: {
-            houseNo_BuildingName:
-              apiRes.data.addressDetails.HouseBuilding === null
-                ? "NULL"
-                : apiRes.data.addressDetails.HouseBuilding,
-            FullAddress:
-              apiRes.data.addressDetails.AddressLine1 === null
-                ? "NULL"
-                : apiRes.data.addressDetails.AddressLine1 +
-                apiRes.data.addressDetails.AddressLine2,
-            city:
-              apiRes.data.addressDetails.City === null
-                ? "NULL"
-                : apiRes.data.addressDetails.City,
-            pincode:
-              apiRes.data.addressDetails.PinCode === null
-                ? "NULL"
-                : apiRes.data.addressDetails.PinCode
-          }
-        });
-      } else {
-        const apiRes = await this.apiCallGet(
-          baseURL + userProfile + this.state.decodedID,
-          token
-        );
-        this.setState({
-          personalDetailsUser: {
-            FullName:
-              apiRes.data.userDetails.FirstName +
-              " " +
-              apiRes.data.userDetails.MiddleName +
-              " " +
-              apiRes.data.userDetails.LastName,
-            Gender: apiRes.data.userDetails.Gender,
-            D_O_B: apiRes.data.userDetails.DOB.trim(10),
-            Phone: apiRes.data.userDetails.Phone
-          },
-          Email_ID: apiRes.data.userDetails.Email,
-          AddressDetails: {
-            houseNo_BuildingName:
-              apiRes.data.addressDetails.HouseBuilding === null
-                ? "NULL"
-                : apiRes.data.addressDetails.HouseBuilding,
-            FullAddress:
-              apiRes.data.addressDetails.AddressLine1 === null
-                ? "NULL"
-                : apiRes.data.addressDetails.AddressLine1 +
-                apiRes.data.addressDetails.AddressLine2,
-            city:
-              apiRes.data.addressDetails.City === null
-                ? "NULL"
-                : apiRes.data.addressDetails.City,
-            pincode:
-              apiRes.data.addressDetails.PinCode === null
-                ? "NULL"
-                : apiRes.data.addressDetails.PinCode
-          }
-        });
-      }
-    }
+    this.focusListener = this.props.navigation.addListener("didFocus", () => {
+      this.onRefresh();
+    });
+  };
+
+  componentWillUnmount = async () => {
+    await this.focusListener.remove();
   };
 
   onRefresh = async () => {
     const token = await getData("token");
-    // console.log(token);
     if (typeof token === "undefined") {
       alert("Please sign in first");
       this.props.navigation.navigate("Login");
@@ -246,20 +184,58 @@ class ProfileScreen extends React.Component {
 
   onSignOut = async () => {
     await AsyncStorage.removeItem("token");
-    this.props.navigation.navigate("Main");
+    this.props.navigation.navigate("Login");
   };
 
   updatePersonalDetail = async () => {
-    // if(this.state.userType === 'NGO'){
-    //   let dataToupdateNgo = {
-    //     AuthorityName: this.state.personalDetailNGO.AuthorityName,
-    //     Phone1: this.state.personalDetailNGO.Phone1,
-    //     Phone2: this.state.personalDetailNGO.Phone2,
-    //     Phone3: this.state.personalDetailNGO.Phone3,
-    //     Email_ID: this.state.Email_ID
-    //   }
-    //     let apiUpdatedRes =  await this.callUpdateAPI(baseURL+updateNGO+this.state.decodedID, this.state.headerToken, dataToupdateNgo );
-    // }
+    console.log("Type = ", this.state.userType);
+    if (this.state.userType === "NGO") {
+      let dataToupdateNgo = {
+        userdetails: {
+          AuthorityName: this.state.personalDetailNGO.AuthorityName,
+          Phone1: this.state.personalDetailNGO.Phone1,
+          Phone2: this.state.personalDetailNGO.Phone2,
+          Phone3: this.state.personalDetailNGO.Phone3,
+          Email: this.state.Email_ID
+        }
+      };
+      console.log(dataToupdateNgo);
+      let apiUpdatedRes = await this.callUpdateAPI(
+        baseURL + updateNGO + this.state.decodedID,
+        this.state.headerToken,
+        dataToupdateNgo
+      );
+      this.onRefresh();
+      this.setState({
+        isPersonalDetailEdit: false,
+        isEditButtonPersonlHide: false
+      });
+    }
+  };
+
+  updateAddressDetail = async () => {
+    console.log("address");
+    if (this.state.userType === "NGO") {
+      let dataToupdateAddress = {
+        addressdetails: {
+          housebuilding: this.state.AddressDetails.houseNo_BuildingName,
+          AddressLine1: this.state.AddressDetails.FullAddress,
+          city: this.state.AddressDetails.city,
+          pincode: this.state.AddressDetails.pincode
+        }
+      };
+      // console.log(dataToupdateNgo);
+      let apiUpdatedRes = await this.callUpdateAPI(
+        baseURL + updateNGO + this.state.decodedID,
+        this.state.headerToken,
+        dataToupdateAddress
+      );
+      this.onRefresh();
+      this.setState({
+        isAddressDeyalsEdit: false,
+        isEditButtonAddressHide: false
+      });
+    }
   };
 
   render() {
@@ -281,7 +257,7 @@ class ProfileScreen extends React.Component {
                   this.setState({
                     isPersonalDetailEdit: true,
                     isEditButtonPersonlHide: true
-                  })
+                  });
                 }}
               >
                 <View style={styles.editButtonStyle}>
@@ -307,10 +283,10 @@ class ProfileScreen extends React.Component {
                       }
                     />
                   ) : (
-                      <Text style={styles.fieldsTextStyle}>
-                        {this.state.personalDetailNGO.AuthorityName}
-                      </Text>
-                    )}
+                    <Text style={styles.fieldsTextStyle}>
+                      {this.state.personalDetailNGO.AuthorityName}
+                    </Text>
+                  )}
                 </View>
               </View>
               <View style={styles.content}>
@@ -327,10 +303,10 @@ class ProfileScreen extends React.Component {
                       }
                     />
                   ) : (
-                      <Text style={styles.fieldsTextStyle}>
-                        {this.state.personalDetailNGO.Phone1}
-                      </Text>
-                    )}
+                    <Text style={styles.fieldsTextStyle}>
+                      {this.state.personalDetailNGO.Phone1}
+                    </Text>
+                  )}
                 </View>
                 <View style={styles.subContent1}>
                   <Text style={styles.fieldsTextStyle}>Phone2 : </Text>
@@ -345,10 +321,10 @@ class ProfileScreen extends React.Component {
                       }
                     />
                   ) : (
-                      <Text style={styles.fieldsTextStyle}>
-                        {this.state.personalDetailNGO.Phone2}
-                      </Text>
-                    )}
+                    <Text style={styles.fieldsTextStyle}>
+                      {this.state.personalDetailNGO.Phone2}
+                    </Text>
+                  )}
                 </View>
                 <View style={styles.subContent2}>
                   <Text style={styles.fieldsTextStyle}>Phone3 : </Text>
@@ -363,92 +339,92 @@ class ProfileScreen extends React.Component {
                       }
                     />
                   ) : (
-                      <Text style={styles.fieldsTextStyle}>
-                        {this.state.personalDetailNGO.Phone3}
-                      </Text>
-                    )}
+                    <Text style={styles.fieldsTextStyle}>
+                      {this.state.personalDetailNGO.Phone3}
+                    </Text>
+                  )}
                 </View>
               </View>
             </View>
           ) : (
-              <View>
-                <View style={styles.content}>
-                  <View style={styles.subContent1}>
-                    <Text style={styles.fieldsTextStyle}>Full Name : </Text>
-                    {this.state.isPersonalDetailEdit ? (
-                      <TextInput
-                        underlineColorAndroid="transparent"
-                        defaultValue={this.state.personalDetailsUser.FullName}
-                        style={styles.editTextInputStyle}
-                        onChangeText={val =>
-                          this.setState({
-                            personalDetailsUser: { FullName: val }
-                          })
-                        }
-                      />
-                    ) : (
-                        <Text style={styles.fieldsTextStyle}>
-                          {this.state.personalDetailsUser.FullName}
-                        </Text>
-                      )}
-                  </View>
-                  <View style={[{ paddingRight: 31 }, styles.subContent2]}>
-                    <Text style={styles.fieldsTextStyle}>Gender : </Text>
-                    {this.state.isPersonalDetailEdit ? (
-                      <TextInput
-                        underlineColorAndroid="transparent"
-                        defaultValue={this.state.personalDetailsUser.Gender}
-                        style={styles.editTextInputStyle}
-                        onChangeText={val =>
-                          this.setState({ personalDetailsUser: { Gender: val } })
-                        }
-                      />
-                    ) : (
-                        <Text style={styles.fieldsTextStyle}>
-                          {this.state.personalDetailsUser.Gender}
-                        </Text>
-                      )}
-                  </View>
+            <View>
+              <View style={styles.content}>
+                <View style={styles.subContent1}>
+                  <Text style={styles.fieldsTextStyle}>Full Name : </Text>
+                  {this.state.isPersonalDetailEdit ? (
+                    <TextInput
+                      underlineColorAndroid="transparent"
+                      defaultValue={this.state.personalDetailsUser.FullName}
+                      style={styles.editTextInputStyle}
+                      onChangeText={val =>
+                        this.setState({
+                          personalDetailsUser: { FullName: val }
+                        })
+                      }
+                    />
+                  ) : (
+                    <Text style={styles.fieldsTextStyle}>
+                      {this.state.personalDetailsUser.FullName}
+                    </Text>
+                  )}
                 </View>
-                <View style={styles.content}>
-                  <View style={styles.subContent1}>
-                    <Text style={styles.fieldsTextStyle}>D.O.B : </Text>
-                    {this.state.isPersonalDetailEdit ? (
-                      <TextInput
-                        underlineColorAndroid="transparent"
-                        defaultValue={this.state.personalDetailsUser.D_O_B}
-                        style={styles.editTextInputStyle}
-                        onChangeText={val =>
-                          this.setState({ personalDetailsUser: { D_O_B: val } })
-                        }
-                      />
-                    ) : (
-                        <Text style={styles.fieldsTextStyle}>
-                          {this.state.personalDetailsUser.D_O_B}
-                        </Text>
-                      )}
-                  </View>
-                  <View style={styles.subContent2}>
-                    <Text style={styles.fieldsTextStyle}>Phone : </Text>
-                    {this.state.isPersonalDetailEdit ? (
-                      <TextInput
-                        underlineColorAndroid="transparent"
-                        defaultValue={this.state.personalDetailsUser.Phone}
-                        style={styles.editTextInputStyle}
-                        keyboardType="number-pad"
-                        onChangeText={val =>
-                          this.setState({ personalDetailsUser: { Phone: val } })
-                        }
-                      />
-                    ) : (
-                        <Text style={styles.fieldsTextStyle}>
-                          {this.state.personalDetailsUser.Phone}
-                        </Text>
-                      )}
-                  </View>
+                <View style={[{ paddingRight: 31 }, styles.subContent2]}>
+                  <Text style={styles.fieldsTextStyle}>Gender : </Text>
+                  {this.state.isPersonalDetailEdit ? (
+                    <TextInput
+                      underlineColorAndroid="transparent"
+                      defaultValue={this.state.personalDetailsUser.Gender}
+                      style={styles.editTextInputStyle}
+                      onChangeText={val =>
+                        this.setState({ personalDetailsUser: { Gender: val } })
+                      }
+                    />
+                  ) : (
+                    <Text style={styles.fieldsTextStyle}>
+                      {this.state.personalDetailsUser.Gender}
+                    </Text>
+                  )}
                 </View>
               </View>
-            )}
+              <View style={styles.content}>
+                <View style={styles.subContent1}>
+                  <Text style={styles.fieldsTextStyle}>D.O.B : </Text>
+                  {this.state.isPersonalDetailEdit ? (
+                    <TextInput
+                      underlineColorAndroid="transparent"
+                      defaultValue={this.state.personalDetailsUser.D_O_B}
+                      style={styles.editTextInputStyle}
+                      onChangeText={val =>
+                        this.setState({ personalDetailsUser: { D_O_B: val } })
+                      }
+                    />
+                  ) : (
+                    <Text style={styles.fieldsTextStyle}>
+                      {this.state.personalDetailsUser.D_O_B}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.subContent2}>
+                  <Text style={styles.fieldsTextStyle}>Phone : </Text>
+                  {this.state.isPersonalDetailEdit ? (
+                    <TextInput
+                      underlineColorAndroid="transparent"
+                      defaultValue={this.state.personalDetailsUser.Phone}
+                      style={styles.editTextInputStyle}
+                      keyboardType="number-pad"
+                      onChangeText={val =>
+                        this.setState({ personalDetailsUser: { Phone: val } })
+                      }
+                    />
+                  ) : (
+                    <Text style={styles.fieldsTextStyle}>
+                      {this.state.personalDetailsUser.Phone}
+                    </Text>
+                  )}
+                </View>
+              </View>
+            </View>
+          )}
 
           <View style={styles.singleFiledContent}>
             <Text style={styles.fieldsTextStyle}>Email ID : </Text>
@@ -461,8 +437,8 @@ class ProfileScreen extends React.Component {
                 onChangeText={val => this.setState({ Email_ID: val })}
               />
             ) : (
-                <Text style={styles.fieldsTextStyle}>{this.state.Email_ID}</Text>
-              )}
+              <Text style={styles.fieldsTextStyle}>{this.state.Email_ID}</Text>
+            )}
           </View>
           {this.state.isPersonalDetailEdit ? (
             <View style={styles.content}>
@@ -483,7 +459,11 @@ class ProfileScreen extends React.Component {
                   <Text style={styles.cancelUpdateButtonText}>Cancel</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.updatePersonalDetail() }}>
+              <TouchableOpacity
+                onPress={() => {
+                  this.updatePersonalDetail();
+                }}
+              >
                 <View
                   style={[
                     { backgroundColor: "orange" },
@@ -533,10 +513,10 @@ class ProfileScreen extends React.Component {
                 }
               />
             ) : (
-                <Text style={styles.fieldsTextStyle}>
-                  {this.state.AddressDetails.houseNo_BuildingName}
-                </Text>
-              )}
+              <Text style={styles.fieldsTextStyle}>
+                {this.state.AddressDetails.houseNo_BuildingName}
+              </Text>
+            )}
           </View>
           <View style={styles.singleFiledContent}>
             <Text style={styles.fieldsTextStyle}>Full Address : </Text>
@@ -551,10 +531,10 @@ class ProfileScreen extends React.Component {
                 }
               />
             ) : (
-                <Text style={styles.fieldsTextStyle}>
-                  {this.state.AddressDetails.FullAddress}
-                </Text>
-              )}
+              <Text style={styles.fieldsTextStyle}>
+                {this.state.AddressDetails.FullAddress}
+              </Text>
+            )}
           </View>
           <View style={styles.content}>
             <View style={styles.subContent1}>
@@ -569,10 +549,10 @@ class ProfileScreen extends React.Component {
                   }
                 />
               ) : (
-                  <Text style={styles.fieldsTextStyle}>
-                    {this.state.AddressDetails.city}
-                  </Text>
-                )}
+                <Text style={styles.fieldsTextStyle}>
+                  {this.state.AddressDetails.city}
+                </Text>
+              )}
             </View>
             <View style={styles.subContent2}>
               <Text style={styles.fieldsTextStyle}>Pincode : </Text>
@@ -587,10 +567,10 @@ class ProfileScreen extends React.Component {
                   }
                 />
               ) : (
-                  <Text style={styles.fieldsTextStyle}>
-                    {this.state.AddressDetails.pincode}
-                  </Text>
-                )}
+                <Text style={styles.fieldsTextStyle}>
+                  {this.state.AddressDetails.pincode}
+                </Text>
+              )}
             </View>
           </View>
           {this.state.isEditButtonAddressHide ? (
@@ -612,7 +592,11 @@ class ProfileScreen extends React.Component {
                   <Text style={styles.cancelUpdateButtonText}>Cancel</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.updatePersonalDetail() }}>
+              <TouchableOpacity
+                onPress={() => {
+                  this.updateAddressDetail();
+                }}
+              >
                 <View
                   style={[
                     { backgroundColor: "orange" },
@@ -641,36 +625,36 @@ class ProfileScreen extends React.Component {
               <Text style={{ color: "green", fontSize: 25 }}>Verified </Text>
             </View>
           ) : (
-              <View>
-                <View style={({ alignItems: "center" }, [styles.content])}>
-                  <TouchableOpacity
-                    activeOpacity={0.5}
-                    style={styles.filePickerbuttonStyle}
+            <View>
+              <View style={({ alignItems: "center" }, [styles.content])}>
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  style={styles.filePickerbuttonStyle}
                   // onPress={this.selectFile.bind(this)}
-                  >
-                    {/*Single file selection button*/}
-                    <Text style={styles.fieldsTextStyle}>Click here to pick</Text>
-                  </TouchableOpacity>
-                  <Text style={styles.fieldsTextStyle}>Address Proof</Text>
-                </View>
-                <View style={({ alignItems: "center" }, [styles.content])}>
-                  <TouchableOpacity
-                    activeOpacity={0.5}
-                    style={styles.filePickerbuttonStyle}
-                  // onPress={this.selectFile.bind(this)}
-                  >
-                    {/*Single file selection button*/}
-                    <Text style={styles.fieldsTextStyle}>Click here to pick</Text>
-                  </TouchableOpacity>
-                  <Text style={styles.fieldsTextStyle}>ID Proof</Text>
-                </View>
-                <TouchableOpacity>
-                  <View style={styles.verifyButton}>
-                    <Text style={styles.verifyButtonText}>Verify</Text>
-                  </View>
+                >
+                  {/*Single file selection button*/}
+                  <Text style={styles.fieldsTextStyle}>Click here to pick</Text>
                 </TouchableOpacity>
+                <Text style={styles.fieldsTextStyle}>Address Proof</Text>
               </View>
-            )}
+              <View style={({ alignItems: "center" }, [styles.content])}>
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  style={styles.filePickerbuttonStyle}
+                  // onPress={this.selectFile.bind(this)}
+                >
+                  {/*Single file selection button*/}
+                  <Text style={styles.fieldsTextStyle}>Click here to pick</Text>
+                </TouchableOpacity>
+                <Text style={styles.fieldsTextStyle}>ID Proof</Text>
+              </View>
+              <TouchableOpacity>
+                <View style={styles.verifyButton}>
+                  <Text style={styles.verifyButtonText}>Verify</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
         {/* Verification Details section end */}
         <TouchableOpacity
@@ -687,6 +671,6 @@ class ProfileScreen extends React.Component {
       </ScrollView>
     );
   }
-};
+}
 
-export default ProfileScreen;
+export default withNavigation(ProfileScreen);

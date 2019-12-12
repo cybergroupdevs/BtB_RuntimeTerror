@@ -80,9 +80,9 @@ HelpStack.path = "";
 //Setting Navigation for Profile Tab
 const ProfileStack = createStackNavigator(
   {
-    // Login : LoginScreen,
-    // Signup : SignupScreen,
-    Profile: ProfileScreen
+    Profile: ProfileScreen,
+    Login: LoginScreen,
+    Signup: SignupScreen
   },
   config
 );

@@ -431,6 +431,7 @@ describe("Get List of Rescue Requests", () => {
     chai
       .request(app)
       .get("/api/rescue/requests")
+      .set({ Authorization: userToken })
       .end((err, res) => {
         // HTTP status should be 200
         res.status.should.equal(200);
