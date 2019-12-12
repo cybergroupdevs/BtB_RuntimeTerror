@@ -3,6 +3,15 @@ import { View,Text, ScrollView, StyleSheet,TouchableOpacity} from "react-native"
 import styles from './styles'
 
  const Help =() =>{
+   state = {
+     startdate: "abc",
+     enddate: "abd",
+     typeOfHelp: "dds",
+     address: "dss",
+     contact: "543",
+     Description: "smbah",
+     }
+   };
     return (
       <View style={styles.card} >
         <View style={styles.cardViewStyle}>
