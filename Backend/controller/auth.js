@@ -9,11 +9,13 @@ const {
   getUserByEmail
 } = require("../common/queries");
 
+// returns token if successfully login, error if none
 exports.login = async (req, res) => {
   if (isEmpty(req.body)) Response.BadRequest(res, "No data found in body");
   else {
+
+    // executing query to get user details
     const user = await runQuery(getUserByEmail(req.body.Email));
-    // res.send(user)
     if (user.recordsets[1][0]) {
       checkPassword(req.body.Password, user.recordsets[1][0].Password)
         ? Response.Success(res, {"Token": getToken(user.recordsets[1][0])})
@@ -28,13 +30,17 @@ exports.login = async (req, res) => {
   }
 };
 
+// register helping authority (NGO)
 exports.signupNGO = async (req, res) => {
   if (isEmpty(req.body)) {
     Response.BadRequest(res);
   } else {
+    // executing Stored procedure to register new address and verification entry and get those id's
     const result = await runSP("get_NewAddressid_Verificationid");
     req.body.AddressDetailId = result.recordset[0].addressid;
     req.body.VerificationDetailId = result.recordset[0].verificationid;
+
+    // executing query to register helping authority (NGO)
     const data = await runQuery(NGOSignup(req.body));
     if (!data.error) Response.Success(res);
     else {
@@ -54,13 +60,17 @@ exports.signupNGO = async (req, res) => {
   }
 };
 
+// register User
 exports.signupUser = async (req, res) => {
   if (isEmpty(req.body)) {
     Response.BadRequest(res, "No data to post");
   } else {
+    // executing Stored procedure to register new address and verification entry and get those id's
     const result = await runSP("get_NewAddressid_Verificationid");
     req.body.AddressDetailId = result.recordset[0].addressid;
     req.body.VerificationDetailId = result.recordset[0].verificationid;
+
+    // executing query to register User
     const data = await runQuery(userSignup(req.body));
     if (!data.error) Response.Success(res);
     else {
