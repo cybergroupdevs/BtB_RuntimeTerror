@@ -1,56 +1,64 @@
 # Introduction
-In a country like India the provision and performance of gov. shelters and NGO camps in certain cases has been hindered by poorly located settings, camp-related social issues, expenses, overcrowding, poor services, delays, etc.
-We focus on bringing the victims, NGOs, Government Shelters, Rescue Teams and Private Property owners under one roof through AASHRAY.
+In a country like India the provision and performance of gov. shelters and NGO camps in certain cases has been hindered by poorly located settings, camp-related social issues, expenses, overcrowding, poor services, delays, etc. <br />
+We focus on bringing the victims, NGOs, Government Shelters, Rescue Teams and Private Property owners under one roof through AASHRAY.<br />
 AASHRAY will provide a platform for housing to the victims all over India by giving them shelter, food and basic healthcare by linking various NGOs, Government Shelters, Rescue Teams and Volunteers who offer their property as shelter.
 
 # Getting Started
-1.	Installation process
-  Cross-platform App
-  Android + IOS
-  Same code base
+1.	Installation process <br />
+  Cross-platform App <br />
+  Android + IOS <br />
+  Same code base <br />
 
-Permissions to Install the app:
-  Location
-  Contacts
-  Camera
-  Microphone
+2.  Permissions to Install the app: <br />
+  Location <br />
+  Contacts <br />
+  Camera <br />
+  Microphone <br />
 
-2.	Software dependencies
-  Node JS Runtime Environment
-  Python SDK
-  Java SDK
-  Emulator
-  Android studio
-  NPM
-  Expo
+3.	Software dependencies <br />
+  Node JS Runtime Environment <br />
+  Python SDK <br />
+  Java SDK <br />
+  Emulator <br />
+  Android studio <br />
+  NPM <br />
+  Expo <br />
 
 # Build and Test
-  * $npm -i
-  * $npm start
+  $npm -i <br />
+  $npm start
 
 # Architecture
 Link : https://onedrive.live.com/?authkey=%21AILp3xW5Eu9h8DY&cid=F5197DDD802B9847&id=F5197DDD802B9847%2156492&parId=F5197DDD802B9847%2156491&o=OneUp
 
 # Project Structure
-The following is a description of the folders in this project, and how they are used. Our Application Stack is React- Native, SQL Server and Node JS:
+The following is a description of the folders in this project, and how they are used. <br /> 
+Our Application Stack is React- Native, SQL Server and Node JS:
 
 Application Source: React-native, SQL Server and Node JS Files:
-  app_native :
-    assets: Application Assests
-    component:
-    res:
-    screens:Application screens
-    utils:
+  * app_native : <br />
+  assets: Application Assests <br />
+  component : <br />
+  res: <br />
+  screens : Application screens <br />
+  utils: <br />
 
-  Backend:
+  * Backend: <br />
+  common : <br />
+  config : <br />
+  controller : <br />
+  middleware : <br />
+  routes : <br />
+  test : <br />
+  app.json : <br />
 
-  DatabaseScripts: SQL scripts to setup database on local
-    AASHRAY Database Schema Script
-    UserTypes Insert Script
+  * DatabaseScripts: SQL scripts to setup database on local <br />
+  AASHRAY Database Schema Script <br />
+  UserTypes Insert Script
 
-  Documentation:
-    Test Strategy
-    AASHRAY_SRS
+  * Documentation:
+  Test Strategy <br />
+  AASHRAY_SRS
 
 ## Authors
 
