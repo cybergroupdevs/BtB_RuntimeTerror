@@ -25,13 +25,13 @@ Permissions to Install the app:
   Expo
 
 # Build and Test
-  $npm -i
-  $npm start
+  * $npm -i
+  * $npm start
 
-#Architecture
+# Architecture
 Link : https://onedrive.live.com/?authkey=%21AILp3xW5Eu9h8DY&cid=F5197DDD802B9847&id=F5197DDD802B9847%2156492&parId=F5197DDD802B9847%2156491&o=OneUp
 
-#Project Structure
+# Project Structure
 The following is a description of the folders in this project, and how they are used. Our Application Stack is React- Native, SQL Server and Node JS:
 
 Application Source: React-native, SQL Server and Node JS Files:
