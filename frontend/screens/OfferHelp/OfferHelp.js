@@ -1,17 +1,9 @@
 import React, { Component } from "react";
-import {
-  View,
-  TextInput,
-  Button,
-  Text,
-  Picker,
-  ScrollView
-} from "react-native";
-
-import styles from "./styles";
+import {  View,  TextInput,  Button,  Text,  Picker,  ScrollView } from "react-native";
 import Textarea from "react-native-textarea";
 import RadioForm from "react-native-simple-radio-button";
 import DatePicker from "react-native-datepicker";
+import styles from "./styles";
 
 class OfferHelpScreen extends Component {
   static navigationOptions = {
@@ -51,11 +43,8 @@ class OfferHelpScreen extends Component {
     radio_props: [
       { label: "Yes", value: 1 },
       { label: "No", value: 0 }
-    ],
-    radiobuttoncolor: "#50C900"
+    ]
   };
-
-  onOfferHelpHandler = () => {};
 
   render() {
     return (
@@ -154,7 +143,7 @@ class OfferHelpScreen extends Component {
             {this.state.isVolunteer == 1 ? (
               <View style={styles.RadioButtonContainer}>
                 <Text style={styles.LabelText}>Volunteering Type :</Text>
-                <Picker
+                <Picker //Picker to choose the type of Volunteer
                   selectedValue={this.state.volunteerType}
                   style={{ width: 150 }}
                   onValueChange={value =>
@@ -194,7 +183,7 @@ class OfferHelpScreen extends Component {
             </View>
             {this.state.isTimeBounded == 1 ? (
               <View style={styles.DatePickerContainer}>
-                <DatePicker
+                <DatePicker //Date Picker Offer Help Start Date
                   style={{ width: 150, paddingBottom: 10, paddingTop: 5 }}
                   date={this.state.dob}
                   mode="date"
@@ -219,7 +208,7 @@ class OfferHelpScreen extends Component {
                     this.setState({ openAfterDate: date });
                   }}
                 />
-                <DatePicker
+                <DatePicker //Date Picker Offer Help Close Date
                   style={{ width: 150, paddingBottom: 10, paddingTop: 5 }}
                   date={this.state.dob}
                   mode="date"
@@ -245,10 +234,11 @@ class OfferHelpScreen extends Component {
                   }}
                 />
               </View>
-            ) : null}
+            ) 
+            : null}
             <View style={styles.RadioButtonContainer}>
               <Text style={styles.LabelText}>Includes Shelter? :</Text>
-              <RadioForm //Radio Button for Address
+              <RadioForm //Radio Button for Shelter
                 radio_props={this.state.radio_props}
                 initial={1}
                 formHorizontal={true}
@@ -259,7 +249,8 @@ class OfferHelpScreen extends Component {
               />
             </View>
           </View>
-          {this.state.isShelter == 1 ? ( // show hide address block
+          {this.state.isShelter == 1 ? (
+            // Address Block Starts Here
             <View style={styles.SubContainer3}>
               <TextInput
                 underlineColorAndroid="#6F2059"
@@ -326,17 +317,19 @@ class OfferHelpScreen extends Component {
                 returnKeyType={"next"}
               />
             </View>
-          ) : null}
+          ) //Address block Ends here
+            : null}
           <View style={styles.ButtonContainer}>
             <Button
               title="Offer Help"
               color="#A52E84"
-              //onPress={this.onRequestRescueHandler()          }
+            //onPress={this.onOfferHelpHandler()          }
             />
           </View>
         </View>
       </ScrollView>
     );
   }
-}
+};
+
 export default OfferHelpScreen;

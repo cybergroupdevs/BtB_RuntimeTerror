@@ -1,13 +1,8 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import {
-  createStackNavigator,
-  createBottomTabNavigator,
-  createDrawerNavigator,
-  createSwitchNavigator
-} from "react-navigation";
-import { Ionicons } from "@expo/vector-icons";
+import { createStackNavigator, createBottomTabNavigator } from "react-navigation";
 
+//Importing Screens for Navigation
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import OfferHelp from "../screens/OfferHelp/OfferHelp";
@@ -17,19 +12,20 @@ import ListScreen from "../screens/ListScreen/list";
 import ProfileScreen from "../screens/ProfileScreen/index";
 import ListDetail from "../components/ListDetails/index";
 import OfferedHelpsList from '../screens/OfferedHelpsList/index';
+import SeekHelp from '../screens/SeekHelpScreen/index';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
   default: {},
 });
 
+//Setting Navigation for HomeScreen Tab
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
   },
   config
 );
-
 HomeStack.navigationOptions = {
   tabBarLabel: "Home",
   tabBarIcon: ({ focused }) => (
@@ -43,34 +39,33 @@ HomeStack.navigationOptions = {
     />
   )
 };
-
 HomeStack.path = '';
 
+//Setting Navigation for SeekHelp Tab
 const ListStack = createStackNavigator(
   {
     List: ListScreen,
-    ListDetail: ListDetail
+    ListDetail: ListDetail,
+    SeekHelp: SeekHelp
   },
   config
 );
-
 ListStack.navigationOptions = {
   tabBarLabel: 'List',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-list' : 'md-list'} />
   ),
 };
-
 ListStack.path = "";
 
+//Setting Navigation for OfferHelp Tab
 const HelpStack = createStackNavigator(
   {
     OfferedHelpsList: OfferedHelpsList,
-    OfferHelp: OfferHelp 
+    OfferHelp: OfferHelp
   },
   config
 );
-
 HelpStack.navigationOptions = {
   tabBarLabel: "Offer Help",
   tabBarIcon: ({ focused }) => (
@@ -80,18 +75,17 @@ HelpStack.navigationOptions = {
     />
   )
 };
-
 HelpStack.path = "";
 
+//Setting Navigation for Profile Tab
 const ProfileStack = createStackNavigator(
   {
     // Login : LoginScreen,
     // Signup : SignupScreen,
-    Profile : ProfileScreen
+    Profile: ProfileScreen
   },
   config
 );
-
 ProfileStack.navigationOptions = {
   tabBarLabel: "Profile",
   tabBarIcon: ({ focused }) => (
@@ -101,32 +95,9 @@ ProfileStack.navigationOptions = {
     />
   )
 };
-
 ProfileStack.path = "";
 
-// const LoginStack = createStackNavigator(
-//   {
-//     // Login : LoginScreen,
-//     // Signup : SignupScreen,
-//     Profile : ProfileScreen
-//   },
-//   config
-// );
-
-// // ProfileStack.navigationOptions = {
-// //   tabBarIcon: ({ focused }) => (
-// //     <TabBarIcon
-// //       focused={focused}
-// //       name={Platform.OS === "ios" ? "ios-contact" : "md-contact"}
-// //     />
-// //   )
-// // };
-
-// LoginStack.path = "";
-
-
-
-
+//Creating Separate Tabs to support App Functionality
 const tabNavigator = createBottomTabNavigator(
   {
     HomeStack,
@@ -152,8 +123,6 @@ const tabNavigator = createBottomTabNavigator(
     }
   }
 );
-
 tabNavigator.path = '';
 
 export default tabNavigator;
-

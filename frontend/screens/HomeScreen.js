@@ -2,7 +2,7 @@ import * as WebBrowser from "expo-web-browser";
 import React from "react";
 import { Image, ScrollView, StyleSheet, Dimensions, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
+//import styles from './styles'
 const { width, height } = Dimensions.get("window");
 
 export default function HomeScreen({ navigation }) {

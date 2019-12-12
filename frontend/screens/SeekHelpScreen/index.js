@@ -1,30 +1,48 @@
 import React, { Component } from 'react';
-import { View, TextInput, Button, ScrollView, Image } from 'react-native';
-import Geolocation from '@react-native-community/geolocation';
+import { View, TextInput, Button, ScrollView, Image, Platform } from 'react-native';
+import Permissions from 'expo-permissions';
+import Location from 'expo-location'
+import Constants from 'expo-constants';
 import Textarea from 'react-native-textarea';
-import AashrayLogo from "../../assets/icons/AashrayLogo.png";
+import AashrayLogo from "../../assets/images/AashrayLogo.png";
 import styles from "./styles";
 
 class SeekHelpScreen extends Component {
-  static get options() {
-    return {
-      topBar: { visible: false, height: 0 }
-    };
-  }
+  static navigationOptions = {
+    title: "Seek Help"
+  };
   state = {
     name: "",
     phone: "",
     issueDescription: "",
     currentLongitude: "",
     currentLatitude: "",
-    latitude: "a",
-    longitude: "ss"
+    latitude: "",
+    longitude: "",
+    location: null
   };
 
+  componentWillMount() {
+   // this._getLocation()
+  };
+
+  //Getting the Location of the User
+  _getLocation = async () => {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      console.log('Permission to access location was denied')
+    }
+    const Currentlocation = await Location.getCurrentPositionAsync();
+    this.setState({location:Currentlocation})
+  };
+  
+  //Submit the rescue request with info and UserLocation
   onSeekHelpHandler = () => {
-  alert(this.state.latitude+this.state.longitude);
+    let location = this._getLocation()
+    //console.log(this.state.location)
   };
 
+  //Returns the view to Raise a Rescue Request
   render() {
     return (
       <ScrollView >
@@ -43,6 +61,7 @@ class SeekHelpScreen extends Component {
               value={this.state.name.value}
               onChangeText={(value) => this.setState({ name: value })}
               returnKeyType={"next"}
+              style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13 }}
             />
             <TextInput
               underlineColorAndroid="#6F2059"
@@ -51,9 +70,10 @@ class SeekHelpScreen extends Component {
               value={this.state.phone.value}
               onChangeText={(value) => this.setState(phone, value)}
               returnKeyType={"next"}
+              style={{ fontSize: 18, paddingBottom: 8, paddingTop: 13 }}
             />
             <Textarea
-              style={styles.textareaContainer}
+              style={[styles.textareaContainer,{ fontSize: 18, paddingBottom: 8, paddingTop: 13 }]}
               underlineColorAndroid="#6F2059"
               selectionColor="#6F2059"
               maxLength={200}
@@ -75,4 +95,5 @@ class SeekHelpScreen extends Component {
     );
   }
 };
+
 export default (SeekHelpScreen);

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import {} from "react-native";
 
-import OfferedHelpsList from "./app/screens/OfferedHelpsList";
+import SeekHelpScreen from "./app/screens/SeekHelpScreen";
 
 class AppScreen extends React.Component { 
   render() {
     return (
-      <OfferedHelpsList/>
+      <SeekHelpScreen/>
     );
   }
 };
