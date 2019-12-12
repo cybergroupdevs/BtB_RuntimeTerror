@@ -36,7 +36,7 @@ class ListScreen extends Component {
     listGovtShelter: "",
     listPrivateProperties: "",
     listRescueRequest: "",
-    showUserDetail: false
+    showUserDetail: false,
   };
 
   apiCallGet = async (url, token) => {
@@ -67,7 +67,7 @@ class ListScreen extends Component {
           ? ""
           : privateProperties,
         listRescueRequest: rescueRequests.errorMessage ? "" : rescueRequests,
-        showUserDetail: true
+        showUserDetail: privateProperties.errorMessage ? false : true
       });
     }
     const NGO = await this.apiCallGet(baseURL + listNGOs);
