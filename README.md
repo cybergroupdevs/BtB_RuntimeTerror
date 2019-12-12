@@ -36,23 +36,23 @@ The following is a description of the folders in this project, and how they are 
 Our Application Stack is React- Native, SQL Server and Node JS:
 
 Application Source: React-native, SQL Server and Node JS Files:
-  * app_native : <br />
+  * app_native : Contains frontend code <br />
   assets: Application Assests <br />
-  component : <br />
-  res: <br />
+  component : Reusable components <br />
+  res <br />
   screens : Application screens <br />
-  utils: <br />
+  utils <br />
 
-  * Backend: <br />
-  common : <br />
-  config : <br />
-  controller : <br />
-  middleware : <br />
-  routes : <br />
-  test : <br />
-  app.json : <br />
+  * Backend: Contains backend code <br />
+  common <br />
+  config <br />
+  controller <br />
+  middleware <br />
+  routes <br />
+  test <br />
+  app.json <br />
 
-  * DatabaseScripts: SQL scripts to setup database on local <br />
+  * DatabaseScripts: SQL scripts to setup database <br />
   AASHRAY Database Schema Script <br />
   UserTypes Insert Script
 
