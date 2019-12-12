@@ -1,4 +1,5 @@
 class Response{
+    // Returns Success to user 
     static Success(res, message, data) {
         res.statusCode = 200;
         const response = {
@@ -9,6 +10,7 @@ class Response{
         return res.send(response);
     };
 
+    // Returns Bad Request to user 
     static BadRequest(res, message) {
         res.statusCode = 400;
         const response = {
@@ -18,6 +20,7 @@ class Response{
         return res.send(response);
     };
 
+    // Returns Not found to user 
     static NotFound(res, message) {
         res.statusCode = 404
         const response = {
@@ -27,6 +30,7 @@ class Response{
         return res.send(response);
     };
 
+    // Returns Access Denied to user 
     static AccessDenied(res, message) {
         res.statusCode = 401
         const response = {
@@ -36,6 +40,7 @@ class Response{
         return res.send(response);
     };
 
+    // Returns Internal server error to user 
     static InternalServerError(res, errorMessage, message) {
         res.statusCode = 500
         const response = {

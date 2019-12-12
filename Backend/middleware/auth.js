@@ -1,6 +1,7 @@
 const { verifyToken } = require("../common/function");
 const Response = require("../common/response");
 
+// middle-ware to check user is NGO or not
 exports.authNGO = async (req, res, next) => {
   if (!req.header("Authorization"))
     Response.AccessDenied(res, "No Token Found");
@@ -13,6 +14,7 @@ exports.authNGO = async (req, res, next) => {
   }
 };
 
+// middle-ware to check user is admin or not
 exports.authAdmin = async (req, res, next) => {
   if (!req.header("Authorization"))
     Response.AccessDenied(res, "No Token Found");
@@ -25,6 +27,7 @@ exports.authAdmin = async (req, res, next) => {
   }
 };
 
+// middle-ware to check user is valid
 exports.currentNGO = async (req, res, next) => {
   if (!req.header("Authorization"))
     Response.AccessDenied(res, "No Token Found");
@@ -43,6 +46,7 @@ exports.currentNGO = async (req, res, next) => {
   }
 };
 
+// middle-ware to check NGo is valid
 exports.currentUser = async (req, res, next) => {
   if (!req.header("Authorization"))
     Response.AccessDenied(res, "No Token Found");

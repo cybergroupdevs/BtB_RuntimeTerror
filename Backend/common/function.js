@@ -5,6 +5,7 @@ const keys = require("config");
 const { config } = require("../config/config");
 const tokenKey = keys.get("tokenKey");
 
+// returns result of query executed, error if query is wrong
 exports.runQuery = async query => {
   try {
     let pool = await sql.connect(config);
@@ -28,6 +29,7 @@ exports.runQuery = async query => {
   }
 };
 
+// returns result of the Stored Procedure
 exports.runSP = async sp_name => {
     try {
       let pool = await sql.connect(config);
@@ -51,6 +53,7 @@ exports.runSP = async sp_name => {
     }
 }
 
+// returns the columns and values for the insert query
 exports.getColumnsAndValues = data => {
     var columns = "",
     Values = "",
@@ -87,6 +90,7 @@ exports.getColumnsAndValues = data => {
   };
 };
 
+// returns the set conditions for the update query
 exports.getSetCondition = (data) => {
   var condition = "",count=0;
   for(key in data){
@@ -103,20 +107,24 @@ exports.getSetCondition = (data) => {
   return condition;
 }
 
+// returns hashed password 
 const hashedPassword = password => {
   var salt = bcrypt.genSaltSync(10);
   var hash = bcrypt.hashSync(password, salt);
   return hash;
 };
 
+// compares the hash password and entered password
 exports.checkPassword = (password, hash) => {
   return bcrypt.compareSync(password, hash);
 }
 
+// returns the JWT token
 exports.getToken = (data) => {
   return (token = jwt.sign(data, tokenKey));
 }
 
+// verifies token and returns data, error if token is invalid
 exports.verifyToken = (token) => {
   try{
     var result = jwt.verify(token, tokenKey)
