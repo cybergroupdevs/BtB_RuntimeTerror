@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 
+//Styling for OfferedHelpsList
 export default StyleSheet.create({
   container: {
     flex: 1,
@@ -25,7 +26,6 @@ export default StyleSheet.create({
     top: '80%',
     backgroundColor: 'white',
     borderRadius: 50,
-
   },
   addHelp: {
     width: 50,
@@ -85,15 +85,5 @@ export default StyleSheet.create({
     color: '#000',
     textAlign: 'left',
     padding: '1.5%',
-  },
-  expand: {
-    position: 'absolute',
-    right: '2%',
-    top: '60%',
-    padding: '1%',
-  },
-  expandView: {
-    fontSize: 20,
   }
-
 });

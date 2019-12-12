@@ -1,17 +1,8 @@
 import React, { Component } from "react";
-import {
-  View,
-  TextInput,
-  Button,
-  Picker,
-  Text,
-  Image,
-  ScrollView,
-  TouchableOpacity
-} from "react-native";
+import {  View,  TextInput,  Picker,  Text,  Image,  ScrollView,  TouchableOpacity} from "react-native";
 import DatePicker from "react-native-datepicker";
 import AashrayLogo from "../../assets/images/AashrayLogo.png";
-import styles from "./style";
+import styles from "./styles";
 import  {baseURL, signupUser, signupNGO} from '../../constants/apiRoutes'; 
 
 class SignupScreen extends Component {
@@ -49,12 +40,10 @@ class SignupScreen extends Component {
       },
       body: JSON.stringify(data)
     })
-
     return res.json();
-  }
+  };
 
   onSignupHandler = async() => {
-   
     if (this.state.usertype === "User") {
      const signupdata  = {
         UserName: this.state.firstname+'_'+this.state.lastname,
@@ -96,7 +85,6 @@ class SignupScreen extends Component {
         this.props.navigation.navigate("Login");
       }
     }
-    //Alert.alert('your Request has been noticed, Help is on it\'s way');
   };
 
   render() {

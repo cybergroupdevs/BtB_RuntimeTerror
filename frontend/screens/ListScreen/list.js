@@ -1,15 +1,16 @@
 import React, { Component } from "react";
-import {  ScrollView,  View,  Text,  Image,  TouchableOpacity, StyleSheet} from "react-native";
+import { ScrollView, View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import List from "../../components/List/index";
+//import styles from './styles'
 import addButtonLogo from "../../assets/images/add-circle.png"
-import {  baseURL,  listNGOs,  listGovtShelters,  listPrivateProperties,  rescueRequest} from "../../constants/apiRoutes";
+import { baseURL, listNGOs, listGovtShelters, listPrivateProperties, rescueRequest } from "../../constants/apiRoutes";
 import { getData, getDecodedToken } from "../utils/locaStorage";
 
 class ListScreen extends Component {
   static navigationOptions = {
     title: "Helps Nearby"
   };
-  
+
   state = {
     NGOUri: require("../../assets/images/home.jpg"),
     RescueRequestsUri: require("../../assets/images/home.jpg"),
@@ -22,6 +23,14 @@ class ListScreen extends Component {
     showUserDetail: false
   };
 
+  arr = [
+    { name: "NGO 1", distance: "--away" },
+    { name: "NGO 2", distance: "--away" },
+    { name: "NGO 3", distance: "--away" },
+    { name: "NGO 4", distance: "--away" },
+    { name: "NGO 5", distance: "--away" }
+  ];
+
   apiCallGet = async (url, token) => {
     const res = await fetch(url, {
       method: "GET",
@@ -31,6 +40,10 @@ class ListScreen extends Component {
       }
     });
     return res.json();
+  };
+
+  navigateToDetailPage = data => {
+    this.props.navigation.navigate("ListDetail", data);
   };
 
   componentDidMount = async () => {
@@ -61,18 +74,6 @@ class ListScreen extends Component {
     });
   };
 
-  arr = [
-    { name: "NGO 1", distance: "--away" },
-    { name: "NGO 2", distance: "--away" },
-    { name: "NGO 3", distance: "--away" },
-    { name: "NGO 4", distance: "--away" },
-    { name: "NGO 5", distance: "--away" }
-  ];
-
-  navigateToDetailPage = data => {
-    this.props.navigation.navigate("ListDetail", data);
-  };
-
   render() {
     privateProperties = (
       <View style={[styles.parentContainer]}>
@@ -94,10 +95,10 @@ class ListScreen extends Component {
                 );
               })
             ) : (
-              <Text style={styles.defaultText}>
-                No Private properties Found
+                <Text style={styles.defaultText}>
+                  No Private properties Found
               </Text>
-            )}
+              )}
           </ScrollView>
         </View>
       </View>
@@ -123,22 +124,21 @@ class ListScreen extends Component {
                 );
               })
             ) : (
-              <Text style={styles.defaultText}>No Rescue Request</Text>
-            )}
+                <Text style={styles.defaultText}>No Rescue Request</Text>
+              )}
           </ScrollView>
         </View>
       </View>
     );
     return (
       <View>
-        <ScrollView style={{marginBottom: 25}}>
+        <ScrollView style={{ marginBottom: 25 }}>
           <View style={styles.parentContainer}>
             <Text style={styles.textContainer}> NGO(s)</Text>
             <View style={{ height: 130, marginTop: 20 }}>
               <ScrollView
                 horizontal={true}
-                showsHorizontalScrollIndicator={false}
-              >
+                showsHorizontalScrollIndicator={false} >
                 {typeof this.state.listNGO === "object" ? (
                   this.state.listNGO.data.map((item, index) => {
                     return (
@@ -154,8 +154,8 @@ class ListScreen extends Component {
                     );
                   })
                 ) : (
-                  <Text style={styles.defaultText}> No NGOs Found </Text>
-                )}
+                    <Text style={styles.defaultText}> No NGOs Found </Text>
+                  )}
               </ScrollView>
             </View>
           </View>
@@ -182,8 +182,8 @@ class ListScreen extends Component {
                     );
                   })
                 ) : (
-                  <Text style={styles.defaultText}>No Shelters Found</Text>
-                )}
+                    <Text style={styles.defaultText}>No Shelters Found</Text>
+                  )}
               </ScrollView>
             </View>
           </View>
@@ -192,8 +192,8 @@ class ListScreen extends Component {
           {this.state.showUserDetail ? rescue : null}
         </ScrollView>
         <View style={styles.button}>
-          <TouchableOpacity onPress={() => {this.props.navigation.navigate("SeekHelp")}}
-           style={styles.addButton}>
+          <TouchableOpacity onPress={() => { this.props.navigation.navigate("SeekHelp") }}
+            style={styles.addButton}>
             <Image source={addButtonLogo} style={styles.addHelp}></Image>
           </TouchableOpacity>
         </View>

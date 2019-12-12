@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 
+//Styling for the signin screen
 const styles = StyleSheet.create({
   Container: {
     width: "100%",

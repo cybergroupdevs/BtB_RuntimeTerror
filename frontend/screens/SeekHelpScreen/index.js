@@ -3,7 +3,6 @@ import { View, TextInput, Button, ScrollView, Image, Platform } from 'react-nati
 import Permissions from 'expo-permissions';
 import Location from 'expo-location'
 import Constants from 'expo-constants';
-import Geolocation from 'react-native-geolocation-service';
 import Textarea from 'react-native-textarea';
 import AashrayLogo from "../../assets/images/AashrayLogo.png";
 import styles from "./styles";
@@ -23,25 +22,11 @@ class SeekHelpScreen extends Component {
     location: null
   };
 
-  componentDidMount() {
-    // Instead of navigator.geolocation, just use Geolocation.
-    //if (hasLocationPermission) {
-        Geolocation.getCurrentPosition(
-            (position) => {
-                console.log(position);
-            },
-            (error) => {
-                // See error code charts below.
-                console.log(error.code, error.message);
-            },
-            { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-        );
-    //}
-}
   componentWillMount() {
    // this._getLocation()
   };
 
+  //Getting the Location of the User
   _getLocation = async () => {
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
@@ -51,12 +36,13 @@ class SeekHelpScreen extends Component {
     this.setState({location:Currentlocation})
   };
   
-
+  //Submit the rescue request with info and UserLocation
   onSeekHelpHandler = () => {
     let location = this._getLocation()
-    console.log(this.state.location)
+    //console.log(this.state.location)
   };
 
+  //Returns the view to Raise a Rescue Request
   render() {
     return (
       <ScrollView >
@@ -109,4 +95,5 @@ class SeekHelpScreen extends Component {
     );
   }
 };
+
 export default (SeekHelpScreen);

@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 
+//Styling for request Rescue Screen
 const styles = StyleSheet.create({
   Container: {
     width: "100%",

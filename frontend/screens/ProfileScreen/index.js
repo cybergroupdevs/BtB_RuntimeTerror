@@ -1,21 +1,9 @@
 import React from "react";
-import {
-  View,
-  ScrollView,
-  Text,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  Button,
-  AsyncStorage,
-  Alert
-} from "react-native";
+import { View, ScrollView, Text, Image, TextInput, TouchableOpacity, AsyncStorage } from "react-native";
 // import DocumentPicker from "react-native-document-picker";
 import styles from "./style";
-import {getData,getDecodedToken} from '../utils/locaStorage';
-import {baseURL,ngoProfile,userProfile, updateNGO} from '../../constants/apiRoutes';
-
-
+import { getData, getDecodedToken } from '../utils/locaStorage';
+import { baseURL, ngoProfile, userProfile, updateNGO } from '../../constants/apiRoutes';
 
 class ProfileScreen extends React.Component {
   static navigationOptions = {
@@ -66,7 +54,7 @@ class ProfileScreen extends React.Component {
     return res.json();
   };
 
-  callUpdateAPI = async(url, token, data)=>{
+  callUpdateAPI = async (url, token, data) => {
 
     let response = await fetch(url, {
       method: 'PUT',
@@ -75,19 +63,17 @@ class ProfileScreen extends React.Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(data)
-  });
-  return response.json();
+    });
+    return response.json();
   }
 
   componentDidMount = async () => {
     const token = await getData("token");
-    // console.log(token);
     if (typeof token === "undefined") {
       alert("Please sign in first");
       this.props.navigation.navigate("Login");
     } else {
       const decodedtOken = getDecodedToken(token);
-      // console.log(decodedtOken);
       this.setState({
         userType: decodedtOken.UserTypeId === 4 ? "NGO" : "user",
         decodedID: decodedtOken.id,
@@ -98,7 +84,6 @@ class ProfileScreen extends React.Component {
           baseURL + ngoProfile + this.state.decodedID,
           token
         );
-        //  console.log("res",apiRes)
         this.setState({
           personalDetailNGO: {
             AuthorityName: apiRes.data.userDetails.AuthorityName,
@@ -116,7 +101,7 @@ class ProfileScreen extends React.Component {
               apiRes.data.addressDetails.AddressLine1 === null
                 ? "NULL"
                 : apiRes.data.addressDetails.AddressLine1 +
-                  apiRes.data.addressDetails.AddressLine2,
+                apiRes.data.addressDetails.AddressLine2,
             city:
               apiRes.data.addressDetails.City === null
                 ? "NULL"
@@ -132,7 +117,6 @@ class ProfileScreen extends React.Component {
           baseURL + userProfile + this.state.decodedID,
           token
         );
-        // console.log(apiRes);
         this.setState({
           personalDetailsUser: {
             FullName:
@@ -155,7 +139,7 @@ class ProfileScreen extends React.Component {
               apiRes.data.addressDetails.AddressLine1 === null
                 ? "NULL"
                 : apiRes.data.addressDetails.AddressLine1 +
-                  apiRes.data.addressDetails.AddressLine2,
+                apiRes.data.addressDetails.AddressLine2,
             city:
               apiRes.data.addressDetails.City === null
                 ? "NULL"
@@ -172,12 +156,10 @@ class ProfileScreen extends React.Component {
 
   onSignOut = async () => {
     await AsyncStorage.removeItem("token");
-    console.log("here reached");
     this.props.navigation.navigate("Main");
   };
 
-  updatePersonalDetail = async()=>{
-    console.log("Type = ",this.state.userType)
+  updatePersonalDetail = async () => {
     // if(this.state.userType === 'NGO'){
     //   let dataToupdateNgo = {
     //     AuthorityName: this.state.personalDetailNGO.AuthorityName,
@@ -186,9 +168,7 @@ class ProfileScreen extends React.Component {
     //     Phone3: this.state.personalDetailNGO.Phone3,
     //     Email_ID: this.state.Email_ID
     //   }
-    //   console.log(dataToupdateNgo)
     //     let apiUpdatedRes =  await this.callUpdateAPI(baseURL+updateNGO+this.state.decodedID, this.state.headerToken, dataToupdateNgo );
-    //     console.log("dede", apiUpdatedRes);
     // }
   }
 
@@ -207,10 +187,12 @@ class ProfileScreen extends React.Component {
             <Text style={styles.headerTextStyle}>Personal Details</Text>
             {this.state.isEditButtonPersonlHide ? null : (
               <TouchableOpacity
-                onPress={() => { this.setState({
-                  isPersonalDetailEdit: true,
-                  isEditButtonPersonlHide: true
-                })}}
+                onPress={() => {
+                  this.setState({
+                    isPersonalDetailEdit: true,
+                    isEditButtonPersonlHide: true
+                  })
+                }}
               >
                 <View style={styles.editButtonStyle}>
                   <Text style={styles.editButtonTextStyle}>Edit</Text>
@@ -235,10 +217,10 @@ class ProfileScreen extends React.Component {
                       }
                     />
                   ) : (
-                    <Text style={styles.fieldsTextStyle}>
-                      {this.state.personalDetailNGO.AuthorityName}
-                    </Text>
-                  )}
+                      <Text style={styles.fieldsTextStyle}>
+                        {this.state.personalDetailNGO.AuthorityName}
+                      </Text>
+                    )}
                 </View>
               </View>
               <View style={styles.content}>
@@ -255,10 +237,10 @@ class ProfileScreen extends React.Component {
                       }
                     />
                   ) : (
-                    <Text style={styles.fieldsTextStyle}>
-                      {this.state.personalDetailNGO.Phone1}
-                    </Text>
-                  )}
+                      <Text style={styles.fieldsTextStyle}>
+                        {this.state.personalDetailNGO.Phone1}
+                      </Text>
+                    )}
                 </View>
                 <View style={styles.subContent1}>
                   <Text style={styles.fieldsTextStyle}>Phone2 : </Text>
@@ -273,10 +255,10 @@ class ProfileScreen extends React.Component {
                       }
                     />
                   ) : (
-                    <Text style={styles.fieldsTextStyle}>
-                      {this.state.personalDetailNGO.Phone2}
-                    </Text>
-                  )}
+                      <Text style={styles.fieldsTextStyle}>
+                        {this.state.personalDetailNGO.Phone2}
+                      </Text>
+                    )}
                 </View>
                 <View style={styles.subContent2}>
                   <Text style={styles.fieldsTextStyle}>Phone3 : </Text>
@@ -291,92 +273,92 @@ class ProfileScreen extends React.Component {
                       }
                     />
                   ) : (
-                    <Text style={styles.fieldsTextStyle}>
-                      {this.state.personalDetailNGO.Phone3}
-                    </Text>
-                  )}
+                      <Text style={styles.fieldsTextStyle}>
+                        {this.state.personalDetailNGO.Phone3}
+                      </Text>
+                    )}
                 </View>
               </View>
             </View>
           ) : (
-            <View>
-              <View style={styles.content}>
-                <View style={styles.subContent1}>
-                  <Text style={styles.fieldsTextStyle}>Full Name : </Text>
-                  {this.state.isPersonalDetailEdit ? (
-                    <TextInput
-                      underlineColorAndroid="transparent"
-                      defaultValue={this.state.personalDetailsUser.FullName}
-                      style={styles.editTextInputStyle}
-                      onChangeText={val =>
-                        this.setState({
-                          personalDetailsUser: { FullName: val }
-                        })
-                      }
-                    />
-                  ) : (
-                    <Text style={styles.fieldsTextStyle}>
-                      {this.state.personalDetailsUser.FullName}
-                    </Text>
-                  )}
+              <View>
+                <View style={styles.content}>
+                  <View style={styles.subContent1}>
+                    <Text style={styles.fieldsTextStyle}>Full Name : </Text>
+                    {this.state.isPersonalDetailEdit ? (
+                      <TextInput
+                        underlineColorAndroid="transparent"
+                        defaultValue={this.state.personalDetailsUser.FullName}
+                        style={styles.editTextInputStyle}
+                        onChangeText={val =>
+                          this.setState({
+                            personalDetailsUser: { FullName: val }
+                          })
+                        }
+                      />
+                    ) : (
+                        <Text style={styles.fieldsTextStyle}>
+                          {this.state.personalDetailsUser.FullName}
+                        </Text>
+                      )}
+                  </View>
+                  <View style={[{ paddingRight: 31 }, styles.subContent2]}>
+                    <Text style={styles.fieldsTextStyle}>Gender : </Text>
+                    {this.state.isPersonalDetailEdit ? (
+                      <TextInput
+                        underlineColorAndroid="transparent"
+                        defaultValue={this.state.personalDetailsUser.Gender}
+                        style={styles.editTextInputStyle}
+                        onChangeText={val =>
+                          this.setState({ personalDetailsUser: { Gender: val } })
+                        }
+                      />
+                    ) : (
+                        <Text style={styles.fieldsTextStyle}>
+                          {this.state.personalDetailsUser.Gender}
+                        </Text>
+                      )}
+                  </View>
                 </View>
-                <View style={[{ paddingRight: 31 }, styles.subContent2]}>
-                  <Text style={styles.fieldsTextStyle}>Gender : </Text>
-                  {this.state.isPersonalDetailEdit ? (
-                    <TextInput
-                      underlineColorAndroid="transparent"
-                      defaultValue={this.state.personalDetailsUser.Gender}
-                      style={styles.editTextInputStyle}
-                      onChangeText={val =>
-                        this.setState({ personalDetailsUser: { Gender: val } })
-                      }
-                    />
-                  ) : (
-                    <Text style={styles.fieldsTextStyle}>
-                      {this.state.personalDetailsUser.Gender}
-                    </Text>
-                  )}
+                <View style={styles.content}>
+                  <View style={styles.subContent1}>
+                    <Text style={styles.fieldsTextStyle}>D.O.B : </Text>
+                    {this.state.isPersonalDetailEdit ? (
+                      <TextInput
+                        underlineColorAndroid="transparent"
+                        defaultValue={this.state.personalDetailsUser.D_O_B}
+                        style={styles.editTextInputStyle}
+                        onChangeText={val =>
+                          this.setState({ personalDetailsUser: { D_O_B: val } })
+                        }
+                      />
+                    ) : (
+                        <Text style={styles.fieldsTextStyle}>
+                          {this.state.personalDetailsUser.D_O_B}
+                        </Text>
+                      )}
+                  </View>
+                  <View style={styles.subContent2}>
+                    <Text style={styles.fieldsTextStyle}>Phone : </Text>
+                    {this.state.isPersonalDetailEdit ? (
+                      <TextInput
+                        underlineColorAndroid="transparent"
+                        defaultValue={this.state.personalDetailsUser.Phone}
+                        style={styles.editTextInputStyle}
+                        keyboardType="number-pad"
+                        onChangeText={val =>
+                          this.setState({ personalDetailsUser: { Phone: val } })
+                        }
+                      />
+                    ) : (
+                        <Text style={styles.fieldsTextStyle}>
+                          {this.state.personalDetailsUser.Phone}
+                        </Text>
+                      )}
+                  </View>
                 </View>
               </View>
-              <View style={styles.content}>
-                <View style={styles.subContent1}>
-                  <Text style={styles.fieldsTextStyle}>D.O.B : </Text>
-                  {this.state.isPersonalDetailEdit ? (
-                    <TextInput
-                      underlineColorAndroid="transparent"
-                      defaultValue={this.state.personalDetailsUser.D_O_B}
-                      style={styles.editTextInputStyle}
-                      onChangeText={val =>
-                        this.setState({ personalDetailsUser: { D_O_B: val } })
-                      }
-                    />
-                  ) : (
-                    <Text style={styles.fieldsTextStyle}>
-                      {this.state.personalDetailsUser.D_O_B}
-                    </Text>
-                  )}
-                </View>
-                <View style={styles.subContent2}>
-                  <Text style={styles.fieldsTextStyle}>Phone : </Text>
-                  {this.state.isPersonalDetailEdit ? (
-                    <TextInput
-                      underlineColorAndroid="transparent"
-                      defaultValue={this.state.personalDetailsUser.Phone}
-                      style={styles.editTextInputStyle}
-                      keyboardType="number-pad"
-                      onChangeText={val =>
-                        this.setState({ personalDetailsUser: { Phone: val } })
-                      }
-                    />
-                  ) : (
-                    <Text style={styles.fieldsTextStyle}>
-                      {this.state.personalDetailsUser.Phone}
-                    </Text>
-                  )}
-                </View>
-              </View>
-            </View>
-          )}
+            )}
 
           <View style={styles.singleFiledContent}>
             <Text style={styles.fieldsTextStyle}>Email ID : </Text>
@@ -389,8 +371,8 @@ class ProfileScreen extends React.Component {
                 onChangeText={val => this.setState({ Email_ID: val })}
               />
             ) : (
-              <Text style={styles.fieldsTextStyle}>{this.state.Email_ID}</Text>
-            )}
+                <Text style={styles.fieldsTextStyle}>{this.state.Email_ID}</Text>
+              )}
           </View>
           {this.state.isPersonalDetailEdit ? (
             <View style={styles.content}>
@@ -411,7 +393,7 @@ class ProfileScreen extends React.Component {
                   <Text style={styles.cancelUpdateButtonText}>Cancel</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress = {()=>{this.updatePersonalDetail()}}>
+              <TouchableOpacity onPress={() => { this.updatePersonalDetail() }}>
                 <View
                   style={[
                     { backgroundColor: "orange" },
@@ -461,10 +443,10 @@ class ProfileScreen extends React.Component {
                 }
               />
             ) : (
-              <Text style={styles.fieldsTextStyle}>
-                {this.state.AddressDetails.houseNo_BuildingName}
-              </Text>
-            )}
+                <Text style={styles.fieldsTextStyle}>
+                  {this.state.AddressDetails.houseNo_BuildingName}
+                </Text>
+              )}
           </View>
           <View style={styles.singleFiledContent}>
             <Text style={styles.fieldsTextStyle}>Full Address : </Text>
@@ -479,10 +461,10 @@ class ProfileScreen extends React.Component {
                 }
               />
             ) : (
-              <Text style={styles.fieldsTextStyle}>
-                {this.state.AddressDetails.FullAddress}
-              </Text>
-            )}
+                <Text style={styles.fieldsTextStyle}>
+                  {this.state.AddressDetails.FullAddress}
+                </Text>
+              )}
           </View>
           <View style={styles.content}>
             <View style={styles.subContent1}>
@@ -497,10 +479,10 @@ class ProfileScreen extends React.Component {
                   }
                 />
               ) : (
-                <Text style={styles.fieldsTextStyle}>
-                  {this.state.AddressDetails.city}
-                </Text>
-              )}
+                  <Text style={styles.fieldsTextStyle}>
+                    {this.state.AddressDetails.city}
+                  </Text>
+                )}
             </View>
             <View style={styles.subContent2}>
               <Text style={styles.fieldsTextStyle}>Pincode : </Text>
@@ -515,10 +497,10 @@ class ProfileScreen extends React.Component {
                   }
                 />
               ) : (
-                <Text style={styles.fieldsTextStyle}>
-                  {this.state.AddressDetails.pincode}
-                </Text>
-              )}
+                  <Text style={styles.fieldsTextStyle}>
+                    {this.state.AddressDetails.pincode}
+                  </Text>
+                )}
             </View>
           </View>
           {this.state.isEditButtonAddressHide ? (
@@ -540,7 +522,7 @@ class ProfileScreen extends React.Component {
                   <Text style={styles.cancelUpdateButtonText}>Cancel</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress = {()=>{this.updatePersonalDetail()}}>
+              <TouchableOpacity onPress={() => { this.updatePersonalDetail() }}>
                 <View
                   style={[
                     { backgroundColor: "orange" },
@@ -569,36 +551,36 @@ class ProfileScreen extends React.Component {
               <Text style={{ color: "green", fontSize: 25 }}>Verified </Text>
             </View>
           ) : (
-            <View>
-              <View style={({ alignItems: "center" }, [styles.content])}>
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  style={styles.filePickerbuttonStyle}
+              <View>
+                <View style={({ alignItems: "center" }, [styles.content])}>
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    style={styles.filePickerbuttonStyle}
                   // onPress={this.selectFile.bind(this)}
-                >
-                  {/*Single file selection button*/}
-                  <Text style={styles.fieldsTextStyle}>Click here to pick</Text>
-                </TouchableOpacity>
-                <Text style={styles.fieldsTextStyle}>Address Proof</Text>
-              </View>
-              <View style={({ alignItems: "center" }, [styles.content])}>
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  style={styles.filePickerbuttonStyle}
-                  // onPress={this.selectFile.bind(this)}
-                >
-                  {/*Single file selection button*/}
-                  <Text style={styles.fieldsTextStyle}>Click here to pick</Text>
-                </TouchableOpacity>
-                <Text style={styles.fieldsTextStyle}>ID Proof</Text>
-              </View>
-              <TouchableOpacity>
-                <View style={styles.verifyButton}>
-                  <Text style={styles.verifyButtonText}>Verify</Text>
+                  >
+                    {/*Single file selection button*/}
+                    <Text style={styles.fieldsTextStyle}>Click here to pick</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.fieldsTextStyle}>Address Proof</Text>
                 </View>
-              </TouchableOpacity>
-            </View>
-          )}
+                <View style={({ alignItems: "center" }, [styles.content])}>
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    style={styles.filePickerbuttonStyle}
+                  // onPress={this.selectFile.bind(this)}
+                  >
+                    {/*Single file selection button*/}
+                    <Text style={styles.fieldsTextStyle}>Click here to pick</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.fieldsTextStyle}>ID Proof</Text>
+                </View>
+                <TouchableOpacity>
+                  <View style={styles.verifyButton}>
+                    <Text style={styles.verifyButtonText}>Verify</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            )}
         </View>
         {/* Verification Details section end */}
         <TouchableOpacity
@@ -615,6 +597,6 @@ class ProfileScreen extends React.Component {
       </ScrollView>
     );
   }
-}
+};
 
 export default ProfileScreen;

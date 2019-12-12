@@ -17,20 +17,11 @@ import {
 
 export default class ListDetails extends Component {
   static navigationOptions = {
-      'title': 'Details'
-    };
-  // state = {
-  //   categoryName: "Category",
-  //   imageUri: require("../../assets/images/home.jpg"),
-  //   name: "NGO 1",
-  //   email: "abc@xyz",
-  //   phoneNumber: "9999999",
-  //   address: "address",
-  //   city: "city",
-  //   pinCode: "9998784",
-  //   state: "delhi",
-  //   country: "india"
-  // }
+    'title': 'Details'
+  };
+  state = {
+    state: ""
+  }
 
   state = this.props.navigation.state.params;
 
@@ -265,7 +256,7 @@ const styles = StyleSheet.create({
     fontSize: 17
   },
   callButton: {
-    
+
   },
   Name: {
     paddingLeft: 25,

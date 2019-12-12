@@ -1,8 +1,8 @@
 import { StyleSheet } from "react-native";
 
+//Styling for ProfileScreen
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: "#FEEBFA",  
     overflow: "visible"
   },
   logoContainer: {
@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10
   },
-
   cancelUpdateButtonText: {
     fontSize: 15,
     color: "white",

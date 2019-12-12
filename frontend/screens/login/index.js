@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { View, TextInput, Button, Image, Text  } from "react-native";
+import { View, TextInput, Button, Image, Text } from "react-native";
 import styles from "./style";
 import AashrayLogo from "../../assets/images/AashrayLogo.png";
-import {baseURL, signin} from '../../constants/apiRoutes';
-import {storData} from '../utils/locaStorage';
-
+import { baseURL, signin } from '../../constants/apiRoutes';
+import { storData } from '../utils/locaStorage';
 
 // export default function SigninScreen({navigation}) {
 class SigninScreen extends Component {
@@ -17,31 +16,31 @@ class SigninScreen extends Component {
     password: ""
   };
 
-  onLoginHandler = async() => {
+  //Making Login Request and Storing Token if Details Match
+  onLoginHandler = async () => {
     const authData = {
       Email: this.state.email,
       Password: this.state.password
     };
-    const res = await fetch(baseURL+signin,{
+    const res = await fetch(baseURL + signin, {
       method: "POST",
       headers: {
         'Content-Type': "application/json"
       },
       body: JSON.stringify(authData)
-    })
-   const apiRes = await res.json()
-   
-   if(apiRes.errorMessage){console.log("jkgipyigy",apiRes)
-     alert("NO account with that email")
-   } 
-   else{
-     storData('token',apiRes.data.Token);
-     this.props.navigation.navigate("Main");
-   }
+    });
+
+    const apiRes = await res.json()
+    if (apiRes.errorMessage) {
+      alert("UserName Password doesn't match")
+    }
+    else {
+      storData('token', apiRes.data.Token);
+      this.props.navigation.navigate("Main");
+    }
   };
 
-
-  
+  //Returns Siginin View
   render() {
     return (
       <View style={styles.Container}>
@@ -107,6 +106,6 @@ class SigninScreen extends Component {
       </View>
     );
   }
-}
+};
 
 export default SigninScreen;
