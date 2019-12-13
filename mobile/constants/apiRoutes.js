@@ -1,5 +1,5 @@
 // export const baseURL = 'http://172.25.120.127:8000/';
-export const baseURL = "http://192.168.100.4:8000/";
+export const baseURL = "http://172.25.123.195:8000/";
 // export const baseURL = "http://172.25.123.124:8000/";
 
 //API Route End Points for API Calls

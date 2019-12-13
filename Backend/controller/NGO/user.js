@@ -77,7 +77,7 @@ exports.privateProperties = async (req, res) => {
   const data = await runQuery(listPrivateProperties);
   if (data.error) Response.InternalServerError(res, data.error);
   else if (data.recordset.length === 0)
-    Response.NotFound(res, "No Private properties");
+    Response.NotFound(res, "No Private shelters Nearby");
   else Response.Success(res, data.recordset);
 };
 
@@ -88,7 +88,7 @@ exports.govtShelters = async (req, res) => {
   const data = await runQuery(listGovtShelters);
   if (data.error) Response.InternalServerError(res, data.error);
   else if (data.recordset.length === 0)
-    Response.NotFound(res, "No Private properties");
+    Response.NotFound(res, "No Govt Shelters Nearby");
   else Response.Success(res, data.recordset);
 };
 
